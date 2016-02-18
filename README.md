@@ -29,6 +29,7 @@ Las constantes literales, representadas en la gramática por el símbolo termina
 El formato de los comentarios de propósito general es: cualquier carácter que pueda aparecer en el código fuente, entre llaves: { contenido del comentario }, o entre las parejas de símbolos (* y *): (* contenido del comentario *). Lógicamente el contenido del comentario no puede tener los caracteres de finalización del mismo. Este tipo de comentarios pueden aparecer antes o después de cualquier elemento del leguaje, pero nunca dentro.
 
 Sintaxis general
+----------------
 
 Un programa está compuesto por dos partes: la zona de declaraciones y la zona de sentencias del programa.
 
