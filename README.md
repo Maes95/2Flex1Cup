@@ -1,6 +1,6 @@
 # Analizador Lexico-Sintactico Pascal
 
-Especificaciones léxicas 
+Especificaciones léxicas  
 
 Los elementos del lenguaje que aparecen entrecomillados en la gramática, deben aparecer tal cual (sin las dobles comillas) en cualquier programa correctamente escrito en este lenguaje, el resto de elementos se especifican a continuación.
 
