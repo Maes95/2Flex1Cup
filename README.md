@@ -11,18 +11,18 @@ Los identificadores son ristras de símbolos compuestas por letras, dígitos (de
 Las constantes numéricas pueden ser de dos tipos, representados en la gramática por los símbolos terminales numeric_integer_const y numeric_real_const, y se pueden especificar en dos bases distintas.
 
 * Bases posibles: decimal y hexadecimal.
-- Las constantes numéricas en base decimal (10), estarán compuestas por los dígitos decimales, del 0 al 9, además de los         símbolos necesarios en función del tipo al que pertenezcan (enteras o reales).
-- Las constantes numéricas en base hexadecimal (16), siempre comienzan con el símbolo "$" y estarán compuestas por los dígitos decimales, del 0 al 9 y las letras de la A a la F, además de los símbolos necesarios en función del tipo al que pertenezcan           (enteras o reales).
+	- Las constantes numéricas en base decimal (10), estarán compuestas por los dígitos decimales, del 0 al 9, además de los         símbolos necesarios en función del tipo al que pertenezcan (enteras o reales).
+	- Las constantes numéricas en base hexadecimal (16), siempre comienzan con el símbolo "$" y estarán compuestas por los dígitos decimales, del 0 al 9 y las letras de la A a la F, además de los símbolos necesarios en función del tipo al que pertenezcan           (enteras o reales).
 * Tipos posibles: enteros y reales.
-- Las constantes numéricas enteras son una ristra de dígitos, opcionalmente precedidas de un signo + o -.
-- Las constantes numéricas reales son dos ristras de dígitos, opcionalmente precedidas de un signo + o - y separadas por el punto decimal.
+	- Las constantes numéricas enteras son una ristra de dígitos, opcionalmente precedidas de un signo + o -.
+	- Las constantes numéricas reales son dos ristras de dígitos, opcionalmente precedidas de un signo + o - y separadas por el punto decimal.
 * Ejemplos de constantes correctamente escritas:
-- Enteras:
-  - Base decimal: +123 , -69 , 45
-  - Base hexadecimal: $+123 , $-A6F9 , $FFFF
-- Reales:
-  - Base decimal: +123.456 , -0.69 , 45.0
-  - Base hexadecimal: $+123.0 , $-E.A6F9 , $0.FFFF
+	- Enteras:
+	  - Base decimal: +123 , -69 , 45
+	  - Base hexadecimal: $+123 , $-A6F9 , $FFFF
+	- Reales:
+	  - Base decimal: +123.456 , -0.69 , 45.0
+	  - Base hexadecimal: $+123.0 , $-E.A6F9 , $0.FFFF
          
 Las constantes literales, representadas en la gramática por el símbolo terminal string_const, son ristras de símbolos entre comillas simples,'contenido de la constante literal'. El contenido de las constantes puede ser cualquier carácter que pueda aparecer en el programa fuente. Si se desea que aparezca la comilla simple como contenido, ésta debe duplicarse, por ejemplo: el contenido de la constante 'constante literal con ''contenido'' entrecomillado' sería: constante literal con 'contenido' entrecomillado
 
