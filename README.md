@@ -1,4 +1,4 @@
-Analizador Lexico-Sintactico Pascal 1.0.0
+![alt tag](http://simpleicon.com/wp-content/uploads/Code-Optimization-3.png) Analizador Lexico-Sintactico Pascal 1.0.0
 =========================================
 
 Especificaciones léxicas  
