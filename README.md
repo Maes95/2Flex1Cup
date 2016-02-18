@@ -76,9 +76,6 @@ La zona de sentencias es una lista de sentencias como asignaciones, sentencias d
    DCLLIST_BLQ ::= lambda | DCLLIST_BLQ ";" DCL_BLQ
    DCL_BLQ ::= DEFCTE | DEFTYPE | DEFVAR
 ```  
-Especificación de la traducción dirigida por la sintaxis
-
-   [...]
 
 Tipos de datos:
 
@@ -147,7 +144,3 @@ Sentencia CASE:
    CASELIST ::= EXP ":" SENT ";" | EXP ":" SENT ";" CASELIST
 ```
 Sólo pueden utilizarse expresiones de tipo entero. Las expresiones de los diferentes casos deben ser del mismo tipo que la expresión que gobierna el case.
-
-Especificación de la traducción dirigida por la sintaxis
-
-   [...]
