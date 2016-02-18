@@ -1,5 +1,8 @@
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png) Analizador Lexico-Sintactico Pascal 1.0.0
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png) Analizador Lexico-Sintactico Pascal  1.0.0 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/flag-spain-icon.png)
 =========================================
+Archivos  
+------------------------
+
 
 Especificaciones léxicas  
 ------------------------
@@ -116,7 +119,7 @@ No se permite realizar asignaciones entre variables de tipo registro. Los regist
 
 ##Sentencias de control de flujo
 
-####  ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-branch-icon.png)Sentencia IF
+#### ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-branch-icon.png) Sentencia IF
 ```
    SENT ::= ... | COND
    COND ::= "if" EXP "then" SENT ELSECOND
@@ -124,21 +127,21 @@ No se permite realizar asignaciones entre variables de tipo registro. Los regist
 ```
 Esta sentencia está gobernada por una expresión que debe ser de tipo booleano.
 
-#### Sentencia WHILE
+#### ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-refresh-icon.png) Sentencia WHILE
 ```
    SENT ::= ... | WLOOP
    WLOOP ::= "while" EXP "do" SENT 
 ```
 Esta sentencia está gobernada por una expresión que debe ser de tipo booleano.
 
-#### Sentencia FOR
+#### ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-refresh-icon.png) Sentencia FOR
 ```
    SENT ::= ... | FLOOP
    FLOOP ::= "for" identifier ":=" EXP "to" EXP "do" SENT
 ```
 Sólo puede utilizarse una variable de tipo entero como contador del bucle. Las expresiones que delimitan los índices inferior y superior deben ser de tipo entero.
 
-#### Sentencia CASE
+#### ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-divide-icon.png) Sentencia CASE
 ```
    SENT ::= ... | CASE
    CASE ::= "case" EXP "of" CASELIST "end"
@@ -149,10 +152,9 @@ Sólo pueden utilizarse expresiones de tipo entero. Las expresiones de los difer
 ICONS
 -----
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-branch-icon.png)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-divide-icon.png)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-refresh-icon.png)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-divide-icon.png)
+	![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-branch-icon.png)
+	![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-divide-icon.png)
+	![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-refresh-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/chart-organisation-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/cog-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/data-sort-icon.png)
@@ -160,10 +162,10 @@ ICONS
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/document-num-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/edit-diff-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-bat-icon.png)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-html-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-html-iconpng)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-jar-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-txt-icon.png)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/flag-spain-icon.png)
+	![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/flag-spain-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/flex-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/layer-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/legend-icon.png)
@@ -174,5 +176,4 @@ ICONS
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/text-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/tick-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/update-icon.png)
-
 
