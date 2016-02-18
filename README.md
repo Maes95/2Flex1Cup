@@ -32,14 +32,14 @@ Sintaxis general
 ----------------
 
 Un programa está compuesto por dos partes: la zona de declaraciones y la zona de sentencias del programa.
-	```
+   ```
    PRG ::= "program" identifier  ";" BLQ "."
    BLQ ::= DCLLIST "begin" SENTLIST "end"
    DCLLIST ::= lambda | DCLLIST ";" DCL
    SENTLIST ::= SENT | SENTLIST ";" SENT   
    ```
 La zona de declaraciones es una lista de declaraciones de constantes, tipos, variables, procedimientos y/o funciones.
-
+```
    DCL ::= DEFCTE | DEFVAR | DEFPROC | DEFFUN
    DEFCTE ::= "const" CTELIST
    CTELIST ::= identifier "=" SIMPVALUE ";"
@@ -56,9 +56,9 @@ La zona de declaraciones es una lista de declaraciones de constantes, tipos, var
    FORMAL_PARAM ::= VARLIST ":" TBAS 
                   | VARLIST ":" TBAS ";" FORMAL_PARAM
    TBAS ::= "INTEGER" | "REAL" | "CHARACTER"
-   
+   ```
 La zona de sentencias es una lista de sentencias como asignaciones, sentencias de flujo, llamadas a procedimientos y bloques de ejecución anónimos:
-
+```
    SENT ::= ASIG | PROC_CALL | EXEBLQ
    ASIG ::= ID ":=" EXP 
    ID := identifier
@@ -75,7 +75,7 @@ La zona de sentencias es una lista de sentencias como asignaciones, sentencias d
    EXEBLQ ::= DCLLIST_BLQ "begin" SENTLIST "end" 
    DCLLIST_BLQ ::= lambda | DCLLIST_BLQ ";" DCL_BLQ
    DCL_BLQ ::= DEFCTE | DEFTYPE | DEFVAR
-   
+```  
 Especificación de la traducción dirigida por la sintaxis
 
    [...]
@@ -83,7 +83,7 @@ Especificación de la traducción dirigida por la sintaxis
 Tipos de datos:
 
 Matrices:
-
+```
    DCL ::= ... | DEFTYPE
    DEFTYPE ::= "type" TYPELIST 
    TYPELIST ::= identifier "=" UDTYPE ";"
@@ -96,11 +96,11 @@ Matrices:
 
    ALLTYPES ::= TBAS | identifier
    Sustituir TBAS por ALLTYPES en los símbolos: DEFVARLIST, DEFFUN, FORMAL_PARAM
-   
+```   
 En las declaraciones, el tamaño de la matriz se define como un intervalo. Este intervalo debe definirse con números enteros y no debe ser vacío (el límite inferior debe ser estrictamente menor que el límite superior). Los índices de la matriz deben ser de tipo entero. No se permite la asignación directa de arrays, éstos deben ser copiados elemento a elemento.
 
 Registros:
-
+```
    DCL ::= ... | DEFTYPE
    DEFTYPE ::= "type" TYPELIST 
    TYPELIST ::= identifier "=" UDTYPE ";"
@@ -113,36 +113,39 @@ Registros:
 
    ALLTYPES ::= TBAS | identifier
    Sustituir TBAS por ALLTYPES en los símbolos: DEFVARLIST, DEFFUN, FORMAL_PARAM
-   
+```   
 No se permite realizar asignaciones entre variables de tipo registro. Los registros deben ser copiados campo a campo.
 
 Sentencias de control de flujo:
 
 Sentencia IF:
-
+```
    SENT ::= ... | COND
    COND ::= "if" EXP "then" SENT ELSECOND
    ELSECOND ::= lambda | "else" SENT
+```
 Esta sentencia está gobernada por una expresión que debe ser de tipo booleano.
 
 Sentencia WHILE:
-
+```
    SENT ::= ... | WLOOP
    WLOOP ::= "while" EXP "do" SENT 
-
+```
 Esta sentencia está gobernada por una expresión que debe ser de tipo booleano.
 
 Sentencia FOR:
-
+```
    SENT ::= ... | FLOOP
-   FLOOP ::= "for" identifier ":=" EXP "to" EXP "do" SENT 
+   FLOOP ::= "for" identifier ":=" EXP "to" EXP "do" SENT
+```
 Sólo puede utilizarse una variable de tipo entero como contador del bucle. Las expresiones que delimitan los índices inferior y superior deben ser de tipo entero.
 
 Sentencia CASE:
-
+```
    SENT ::= ... | CASE
    CASE ::= "case" EXP "of" CASELIST "end"
    CASELIST ::= EXP ":" SENT ";" | EXP ":" SENT ";" CASELIST
+```
 Sólo pueden utilizarse expresiones de tipo entero. Las expresiones de los diferentes casos deben ser del mismo tipo que la expresión que gobierna el case.
 
 Especificación de la traducción dirigida por la sintaxis
