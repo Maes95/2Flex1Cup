@@ -6,7 +6,8 @@ Especificaciones léxicas
 
 Los elementos del lenguaje que aparecen entrecomillados en la gramática, deben aparecer tal cual (sin las dobles comillas) en cualquier programa correctamente escrito en este lenguaje, el resto de elementos se especifican a continuación.
 
-Los identificadores son ristras de símbolos compuestas por letras, dígitos (de base decimal) y guiones bajos "_" (underscore). Empiezan obligatoriamente por una letra o un guión bajo. Ejemplos correctos: contador , contador1 , _acumulador_total_2
+Los identificadores son ristras de símbolos compuestas por letras, dígitos (de base decimal) y guiones bajos "_" (underscore). Empiezan obligatoriamente por una letra o un guión bajo. 
+> Ejemplos correctos: contador , contador1 , _acumulador_total_2
 
 Las constantes numéricas pueden ser de dos tipos, representados en la gramática por los símbolos terminales numeric_integer_const y numeric_real_const, y se pueden especificar en dos bases distintas.
 
