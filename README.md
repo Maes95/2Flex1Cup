@@ -149,7 +149,7 @@ Sólo pueden utilizarse expresiones de tipo entero. Las expresiones de los difer
 ICONS
 -----
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
-![alt tag](http://www.iconarchive.com/show/farm-fresh-icons-by-fatcow/arrow-branch-icon.html)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-branch-icon.png)
 ![alt tag](http://www.iconarchive.com/show/farm-fresh-icons-by-fatcow/arrow-divide-icon.html)
 ![alt tag](http://www.iconarchive.com/show/farm-fresh-icons-by-fatcow/arrow-refresh-icon.html)
 ![alt tag](http://www.iconarchive.com/show/farm-fresh-icons-by-fatcow/arrow-divide-icon.html)
@@ -174,5 +174,5 @@ ICONS
 ![alt tag](http://www.iconarchive.com/show/farm-fresh-icons-by-fatcow/text-icon.html)
 ![alt tag](http://www.iconarchive.com/show/farm-fresh-icons-by-fatcow/tick-icon.html)
 ![alt tag](http://www.iconarchive.com/show/farm-fresh-icons-by-fatcow/update-icon.html)
-![alt tag]()
+
 
