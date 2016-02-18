@@ -2,7 +2,10 @@
 =========================================
 Archivos  
 ------------------------
-
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-bat-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-html-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-jar-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-txt-icon.png)
 
 Especificaciones léxicas  
 ------------------------
@@ -161,11 +164,6 @@ ICONS
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/document-comments-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/document-num-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/edit-diff-icon.png)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-bat-icon.png)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-html-iconpng)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-jar-icon.png)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-txt-icon.png)
-	![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/flag-spain-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/flex-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/layer-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/legend-icon.png)
