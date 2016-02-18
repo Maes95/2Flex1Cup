@@ -145,3 +145,17 @@ Sólo puede utilizarse una variable de tipo entero como contador del bucle. Las 
    CASELIST ::= EXP ":" SENT ";" | EXP ":" SENT ";" CASELIST
 ```
 Sólo pueden utilizarse expresiones de tipo entero. Las expresiones de los diferentes casos deben ser del mismo tipo que la expresión que gobierna el case.
+
+ICONS
+-----
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
