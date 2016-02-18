@@ -2,11 +2,16 @@
 =========================================
 Archivos  
 ------------------------
-> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-bat-icon.png) Generador de secuencia de instrucciones para agilizar las pruebas
-> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-html-icon.png) Codigo PASCAL resultante con etiquetas HTML 
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-jar-icon.png) Generador de gramática JFLEX
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-txt-icon.png) Codigo PASCAL a analizar
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/flex-icon.png) Gramática 
+
+> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-bat-icon.png) Generador de secuencia de instrucciones para agilizar las pruebas
+
+> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-html-icon.png) Codigo PASCAL resultante con etiquetas HTML 
+
+> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-jar-icon.png) Generador de gramática JFLEX
+
+> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-txt-icon.png) Codigo PASCAL a analizar
+
 
 Especificaciones léxicas  
 ------------------------
