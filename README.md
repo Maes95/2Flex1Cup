@@ -1,4 +1,4 @@
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png) Analizador Lexico-Sintactico Pascal  1.0.0 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/flag-spain-icon.png)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png) Analizador Lexico-Sintactico Pascal  1.0.0 
 =========================================
 Archivos  
 ------------------------
@@ -88,7 +88,7 @@ La zona de sentencias es una lista de sentencias como asignaciones, sentencias d
 
 ## Tipos de datos
 
-#### Matrices
+#### ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/categories-icon.png) Matrices
 ```
    DCL ::= ... | DEFTYPE
    DEFTYPE ::= "type" TYPELIST 
@@ -105,7 +105,7 @@ La zona de sentencias es una lista de sentencias como asignaciones, sentencias d
 ```   
 En las declaraciones, el tamaño de la matriz se define como un intervalo. Este intervalo debe definirse con números enteros y no debe ser vacío (el límite inferior debe ser estrictamente menor que el límite superior). Los índices de la matriz deben ser de tipo entero. No se permite la asignación directa de arrays, éstos deben ser copiados elemento a elemento.
 
-#### Registros
+#### ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/category-icon.png) Registros
 ```
    DCL ::= ... | DEFTYPE
    DEFTYPE ::= "type" TYPELIST 
@@ -163,7 +163,7 @@ ICONS
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/document-num-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/edit-diff-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/flex-icon.png)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/layer-icon.png)
+
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/legend-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-code-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/scripts-icon.png)
