@@ -116,7 +116,7 @@ No se permite realizar asignaciones entre variables de tipo registro. Los regist
 
 ##Sentencias de control de flujo
 
-#### Sentencia IF
+####  ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-branch-icon.png)Sentencia IF
 ```
    SENT ::= ... | COND
    COND ::= "if" EXP "then" SENT ELSECOND
@@ -160,7 +160,7 @@ ICONS
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/document-num-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/edit-diff-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-bat-icon.png)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-html-iconpng)
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-html-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-jar-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-txt-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/flag-spain-icon.png)
