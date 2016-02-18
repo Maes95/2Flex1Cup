@@ -33,6 +33,8 @@ Las constantes numéricas pueden ser de dos tipos, representados en la gramátic
          
 Las constantes literales, representadas en la gramática por el símbolo terminal string_const, son ristras de símbolos entre comillas simples,'contenido de la constante literal'. El contenido de las constantes puede ser cualquier carácter que pueda aparecer en el programa fuente. Si se desea que aparezca la comilla simple como contenido, ésta debe duplicarse, por ejemplo: el contenido de la constante 'constante literal con ''contenido'' entrecomillado' sería: constante literal con 'contenido' entrecomillado
 
+#### Comentarios
+
 El formato de los comentarios de propósito general es: cualquier carácter que pueda aparecer en el código fuente, entre llaves: { contenido del comentario }, o entre las parejas de símbolos (* y *): (* contenido del comentario *). Lógicamente el contenido del comentario no puede tener los caracteres de finalización del mismo. Este tipo de comentarios pueden aparecer antes o después de cualquier elemento del leguaje, pero nunca dentro.
 
 Sintaxis general
@@ -154,10 +156,6 @@ Sólo pueden utilizarse expresiones de tipo entero. Las expresiones de los difer
 
 ICONS
 -----
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png)
-	![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-branch-icon.png)
-	![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-divide-icon.png)
-	![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/arrow-refresh-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/chart-organisation-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/cog-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/data-sort-icon.png)
@@ -173,5 +171,4 @@ ICONS
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/tag-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/text-icon.png)
 ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/tick-icon.png)
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/update-icon.png)
 
