@@ -1,5 +1,4 @@
-# Analizador Lexico-Sintactico Pascal 1.0.0
--------------------------------------------
+Analizador Lexico-Sintactico Pascal 1.0.0
 
 Especificaciones léxicas  
 ------------------------
