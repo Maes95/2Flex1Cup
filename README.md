@@ -20,6 +20,7 @@ Uso
 - Se crearan automaticamente los archivos "AnalizadorLexicoSintacticoPascal.java" y "AnalizadorLexicoSintacticoPascal.class"
 - Se generará una pagina HTML que mostrará el codigo Pascal procesado
 - Se abrirá una pestaña en el navegador por defecto la cual cargará el contenido del HTML para su visualización
+
 #### Análisis Sintáctico
 - (Proximamente)
 
