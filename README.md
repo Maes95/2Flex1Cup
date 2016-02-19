@@ -24,5 +24,27 @@ Uso
 #### Análisis Sintáctico
 - (Proximamente)
 
+<!-- Tabla -->
+<table cellspacing="0">
+  <tr  style="background-color: #E3E3E3;">
+    <td> <b>Nombre</b> </td>
+    <td> <b>Name</b> </td>
+    <td> <b>Nickname</b> </td>
+	<td> <b>Email</b> </td>
+  </tr>
+  <tr style="background-color: #FFFFFF;">
+    <td> <img width="64"src="http://imageshack.us/a/img209/6782/parrotav.png"/> </td>
+    <td> Daniel Herzog Cruz </td>
+    <td> <b>Wikiti</b> </td>
+	  <td> <a href="mailto:wikiti.doghound@gmail.com"> wikiti.doghound@gmail.com</a> </td>
+  </tr>
+</table>
+<!-- Fin tabla -->
 
++| Nombre  | Apellidos          | GitHub  | Email Universidad            |
++| ------- | ------------- | --------- | ------------------ |
++| Enrique | García |NULL|NULL |
++| Michel | Maes Bermejo | maes95 | m.maes@alumnos.urjc.es |
++| Pablo | Fuente Pérez |NULL |NULL |
++| Sergio | Pérez |NULL | NULL|
 
