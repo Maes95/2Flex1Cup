@@ -41,7 +41,7 @@ Uso
 </table>
 <!-- Fin tabla -->
 
-+| Nombre  | Apellidos          | GitHub  | Email Universidad            |
++| Nombre  | Apellidos     | GitHub    | Email Universidad  |
 +| ------- | ------------- | --------- | ------------------ |
 +| Enrique | García |NULL|NULL |
 +| Michel | Maes Bermejo | maes95 | m.maes@alumnos.urjc.es |
