@@ -5,6 +5,6 @@ del AnalizadorLexicoSintacticoPascal.class
 
 java -jar jflex-1.6.1.jar Gramatica.flex
 javac AnalizadorLexicoSintacticoPascal.java
-java AnalizadorLexicoSintacticoPascal EjAprobado.txt
+java AnalizadorLexicoSintacticoPascal ejercicio10.txt
 
 pause

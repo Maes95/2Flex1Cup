@@ -1,27 +1,47 @@
 // {Código de usuario}
 
 // IMPORTS
+import java.util.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.charset.Charset;
+import java.io.PrintWriter;
+import java.io.FileWriter;
 
 %% // {Opciones y declaraciones}
 %standalone
 
 // DECLATRACION DE CLASES
 %class AnalizadorLexicoSintacticoPascal
-// %{
-//
-// %}
+%{
 
-%eof{ // Fin del fichero
+%}
 
-%eof}
+%eofval{
+	return(0);
+%eofval}
 
 // Macros
+DecimalDigit = [0-9]
+HexadecimalDigit = [0-9A-F]
+OptionalSign = [\+-]?
+RealFloatPoint = e{OptionalSign}
+DecimalInit = {OptionalSign}
+HexadecimalInit = {OptionalSign}\$
+
 
 // Estados
 
-
 %% //{Reglas léxicas}
 
-<YYINITIAL> { // ESTADO INICIAL
 
-}
+(   ({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)? )
+			{
+				System.out.println("VALOR DECIMAL: " + yytext());
+			}
+					
+(   ({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)? )
+			{
+				System.out.println("VALOR HEXADECIMAL: " + yytext());
+			}
