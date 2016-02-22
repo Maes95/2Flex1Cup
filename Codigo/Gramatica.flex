@@ -23,6 +23,7 @@ import java.io.FileWriter;
 %eofval}
 
 // Macros
+Letter = [a-zA-Z]
 DecimalDigit = [0-9]
 HexadecimalDigit = [0-9A-F]
 OptionalSign = [\+-]?
@@ -36,12 +37,17 @@ HexadecimalInit = {OptionalSign}\$
 %% //{Reglas léxicas}
 
 
-(   ({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)? )
-			{
-				System.out.println("VALOR DECIMAL: " + yytext());
-			}
+(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
+	{
+		System.out.println("VALOR DECIMAL: " + yytext());
+	}
 					
-(   ({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)? )
-			{
-				System.out.println("VALOR HEXADECIMAL: " + yytext());
-			}
+(({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)?)
+	{
+		System.out.println("VALOR HEXADECIMAL: " + yytext());
+	}
+	
+({Letter}|_)\w*
+	{
+		System.out.println("IDENTIFICADOR: " + yytext());
+	}
