@@ -1,682 +1,142 @@
-match: --program--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: program
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --EjemploAprobado--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: EjemploAprobado
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+program
+ IDENTIFICADOR: EjemploAprobado
+;
 
-match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
 
-match: --function--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: function
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --areaCuadrado--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: areaCuadrado
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --(--
-action [2147483647] { System.out.print(yytext()); }
-(match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --lado--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: lado
-match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --REAL--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: REAL
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --)--
-action [2147483647] { System.out.print(yytext()); }
-)match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --REAL--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: REAL
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+function
+ IDENTIFICADOR: areaCuadrado
+ (
+ IDENTIFICADOR: lado
+:
+ REAL
+ )
+ :
+ REAL
+ ;
 
-match: --VAR--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: VAR
-match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+VAR
 
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --REAL--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: REAL
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --resultado--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: resultado
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	REAL
+ IDENTIFICADOR: resultado
+;
 
-match: --begin--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: begin
-match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+begin
 
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --resultado--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: resultado
-match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --REAL--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: REAL
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	IDENTIFICADOR: resultado
+:
+ REAL
+;
 
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --resultado--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: resultado
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: --=--
-action [2147483647] { System.out.print(yytext()); }
-=match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --+0.0--
-action [71] { System.out.println("VALOR DECIMAL: " + yytext()); }
-VALOR DECIMAL: +0.0
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	IDENTIFICADOR: resultado
+ :=
+ VALOR DECIMAL: +0.0
+;
 
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --resultado--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: resultado
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: --=--
-action [2147483647] { System.out.print(yytext()); }
-=match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --lado--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: lado
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --*--
-action [2147483647] { System.out.print(yytext()); }
-*match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --lado--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: lado
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	IDENTIFICADOR: resultado
+ :=
+ IDENTIFICADOR: lado
+ * IDENTIFICADOR: lado
+;
 
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --areaCuadrado--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: areaCuadrado
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: --=--
-action [2147483647] { System.out.print(yytext()); }
-=match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --resultado--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: resultado
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	IDENTIFICADOR: areaCuadrado
+ :=
+ IDENTIFICADOR: resultado
+;
+ 
+end
+;
 
-match: --end--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: end
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+ 
+procedure
+ IDENTIFICADOR: intercambio
+ (
+ IDENTIFICADOR: v1
+,
+ IDENTIFICADOR: v2
+:
+ INTEGER
+ )
+  ;
+ Otro comentario 9238rifhfi_kasfji8
+VAR
 
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	INTEGER
+ IDENTIFICADOR: aux
+;
 
-match: --procedure--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: procedure
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --intercambio--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: intercambio
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --(--
-action [2147483647] { System.out.print(yytext()); }
-(match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --v1--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: v1
-match: --,--
-action [2147483647] { System.out.print(yytext()); }
-,match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --v2--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: v2
-match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --INTEGER--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: INTEGER
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --)--
-action [2147483647] { System.out.print(yytext()); }
-)match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --com--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: com
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --Otro--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: Otro
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --ario--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: ario
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --9238--
-action [71] { System.out.println("VALOR DECIMAL: " + yytext()); }
-VALOR DECIMAL: 9238
-match: --rifhfi_kasfji8--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: rifhfi_kasfji8
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --com--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: com
-match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+begin
 
-match: --VAR--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: VAR
-match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	IDENTIFICADOR: aux
+ :=
+ VALOR DECIMAL: 0
+;
 
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --INTEGER--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: INTEGER
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --aux--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: aux
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	IDENTIFICADOR: aux
+ :=
+ IDENTIFICADOR: v1
+;
 
-match: --begin--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: begin
-match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	IDENTIFICADOR: v1
+ :=
+ IDENTIFICADOR: v2
+;
 
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --aux--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: aux
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: --=--
-action [2147483647] { System.out.print(yytext()); }
-=match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --0--
-action [71] { System.out.println("VALOR DECIMAL: " + yytext()); }
-VALOR DECIMAL: 0
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	IDENTIFICADOR: v2
+ :=
+ IDENTIFICADOR: aux
+;
 
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --aux--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: aux
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: --=--
-action [2147483647] { System.out.print(yytext()); }
-=match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --v1--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: v1
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+end
+;
 
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --v1--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: v1
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: --=--
-action [2147483647] { System.out.print(yytext()); }
-=match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --v2--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: v2
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
 
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --v2--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: v2
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: --=--
-action [2147483647] { System.out.print(yytext()); }
-=match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --aux--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: aux
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+Aqui empieza el programa
+VAR
 
-match: --end--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: end
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	IDENTIFICADOR: medida
+:
+ REAL
+;
 
-match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	IDENTIFICADOR: valor1
+,
+ IDENTIFICADOR: valor2
+:
+ INTEGER
+;
 
-match: --(*--
-action [66] { yybegin(COMMENT_BRACKET); }
-match: --A--
-action [2147483647] { System.out.print(yytext()); }
-Amatch: --q--
-action [2147483647] { System.out.print(yytext()); }
-qmatch: --u--
-action [2147483647] { System.out.print(yytext()); }
-umatch: --i--
-action [2147483647] { System.out.print(yytext()); }
-imatch: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --e--
-action [2147483647] { System.out.print(yytext()); }
-ematch: --m--
-action [2147483647] { System.out.print(yytext()); }
-mmatch: --p--
-action [2147483647] { System.out.print(yytext()); }
-pmatch: --i--
-action [2147483647] { System.out.print(yytext()); }
-imatch: --e--
-action [2147483647] { System.out.print(yytext()); }
-ematch: --z--
-action [2147483647] { System.out.print(yytext()); }
-zmatch: --a--
-action [2147483647] { System.out.print(yytext()); }
-amatch: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --e--
-action [2147483647] { System.out.print(yytext()); }
-ematch: --l--
-action [2147483647] { System.out.print(yytext()); }
-lmatch: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --p--
-action [2147483647] { System.out.print(yytext()); }
-pmatch: --r--
-action [2147483647] { System.out.print(yytext()); }
-rmatch: --o--
-action [2147483647] { System.out.print(yytext()); }
-omatch: --g--
-action [2147483647] { System.out.print(yytext()); }
-gmatch: --r--
-action [2147483647] { System.out.print(yytext()); }
-rmatch: --a--
-action [2147483647] { System.out.print(yytext()); }
-amatch: --m--
-action [2147483647] { System.out.print(yytext()); }
-mmatch: --a--
-action [2147483647] { System.out.print(yytext()); }
-amatch: --*)--
-action [94] { yybegin(YYINITIAL); }
-match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+begin
 
-match: --VAR--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: VAR
-match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	IDENTIFICADOR: medida
+ :=
+ VALOR HEXADECIMAL: $4.A
+;
 
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --medida--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: medida
-match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --REAL--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: REAL
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+	IDENTIFICADOR: valor1
+ :=
+ VALOR DECIMAL: -3
+;
 
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --valor1--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
+	IDENTIFICADOR: valor2
+ :=
+ VALOR HEXADECIMAL: $F6
+;
+
+	IDENTIFICADOR: medida
+ :=
+ IDENTIFICADOR: areaCuadrado
+(
+ IDENTIFICADOR: medida
+ )
+;
+
+	IDENTIFICADOR: intercambio
+(
 IDENTIFICADOR: valor1
-match: --,--
-action [2147483647] { System.out.print(yytext()); }
-,match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --valor2--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: valor2
-match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --INTEGER--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: INTEGER
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
+,
+ IDENTIFICADOR: valor2
+)
+;
 
-match: --begin--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: begin
-match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
-
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --medida--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: medida
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: --=--
-action [2147483647] { System.out.print(yytext()); }
-=match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --$4.A--
-action [76] { System.out.println("VALOR HEXADECIMAL: " + yytext()); }
-VALOR HEXADECIMAL: $4.A
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
-
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --valor1--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: valor1
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: --=--
-action [2147483647] { System.out.print(yytext()); }
-=match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: ---3--
-action [71] { System.out.println("VALOR DECIMAL: " + yytext()); }
-VALOR DECIMAL: -3
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
-
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --valor2--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: valor2
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: --=--
-action [2147483647] { System.out.print(yytext()); }
-=match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --$F6--
-action [76] { System.out.println("VALOR HEXADECIMAL: " + yytext()); }
-VALOR HEXADECIMAL: $F6
-match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
-
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --medida--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: medida
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --:--
-action [2147483647] { System.out.print(yytext()); }
-:match: --=--
-action [2147483647] { System.out.print(yytext()); }
-=match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --areaCuadrado--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: areaCuadrado
-match: --(--
-action [2147483647] { System.out.print(yytext()); }
-(match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --medida--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: medida
-match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --)--
-action [2147483647] { System.out.print(yytext()); }
-)match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
-
-match: --\u0009--
-action [2147483647] { System.out.print(yytext()); }
-	match: --intercambio--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: intercambio
-match: --(--
-action [2147483647] { System.out.print(yytext()); }
-(match: --valor1--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: valor1
-match: --,--
-action [2147483647] { System.out.print(yytext()); }
-,match: -- --
-action [2147483647] { System.out.print(yytext()); }
- match: --valor2--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: valor2
-match: --)--
-action [2147483647] { System.out.print(yytext()); }
-)match: --;--
-action [2147483647] { System.out.print(yytext()); }
-;match: --\u000D--
-action [2147483647] { System.out.print(yytext()); }
-match: --\u000A--
-action [2147483647] { System.out.print(yytext()); }
-
-match: --end--
-action [81] { System.out.println("IDENTIFICADOR: " + yytext()); }
-IDENTIFICADOR: end
-match: --.--
-action [2147483647] { System.out.print(yytext()); }
+end
 .

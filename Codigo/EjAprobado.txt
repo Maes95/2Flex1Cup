@@ -10,7 +10,7 @@ begin
 	areaCuadrado := resultado; 
 end;
  
-procedure intercambio ( v1, v2: INTEGER )  ; com Otro ario 9238rifhfi_kasfji8 com
+procedure intercambio ( v1, v2: INTEGER )  ; {Otro comentario 9238rifhfi_kasfji8}
 VAR
 	INTEGER aux;
 begin

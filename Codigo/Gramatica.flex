@@ -11,7 +11,6 @@ import java.io.FileWriter;
 
 %% // {Opciones y declaraciones}
 %standalone
-%debug
 
 // DECLARACION DE CLASES
 %class AnalizadorLexicoSintacticoPascal
@@ -40,23 +39,77 @@ HexadecimalInit = {OptionalSign}\$
 
 <YYINITIAL>	{
 	"program"
+		{
+			System.out.println(yytext());
+		}
 	"begin"
+		{
+			System.out.println(yytext());
+		}
 	"end"
+		{
+			System.out.println(yytext());
+		}
 	"while"
+		{
+			System.out.println(yytext());
+		}
 	"for"
+		{
+			System.out.println(yytext());
+		}
 	"do"
+		{
+			System.out.println(yytext());
+		}
 	"INTEGER"
+		{
+			System.out.println(yytext());
+		}
 	"REAL"
+		{
+			System.out.println(yytext());
+		}
 	"function"
+		{
+			System.out.println(yytext());
+		}
 	"procedure"
+		{
+			System.out.println(yytext());
+		}
 	"VAR"
+		{
+			System.out.println(yytext());
+		}
 	";"
+		{
+			System.out.println(yytext());
+		}
 	":"
+		{
+			System.out.println(yytext());
+		}
 	":="
+		{
+			System.out.println(yytext());
+		}
 	","
+		{
+			System.out.println(yytext());
+		}
 	"."
+		{
+			System.out.println(yytext());
+		}
 	"("
+		{
+			System.out.println(yytext());
+		}
 	")"
+		{
+			System.out.println(yytext());
+		}
 
 	"{"
 		{
