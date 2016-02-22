@@ -760,7 +760,7 @@ class AnalizadorLexicoSintacticoPascal {
             }
           case 11: break;
           case 4: 
-            { System.out.println(yytext());
+            { System.out.println("RESERVADA: " + yytext());
             }
           case 12: break;
           case 5: 

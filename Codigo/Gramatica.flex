@@ -40,75 +40,75 @@ HexadecimalInit = {OptionalSign}\$
 <YYINITIAL>	{
 	"program"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	"begin"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	"end"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	"while"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	"for"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	"do"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	"INTEGER"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	"REAL"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	"function"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	"procedure"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	"VAR"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	";"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	":"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	":="
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	","
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	"."
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	"("
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 	")"
 		{
-			System.out.println(yytext());
+			System.out.println("RESERVADA: " + yytext());
 		}
 
 	"{"
