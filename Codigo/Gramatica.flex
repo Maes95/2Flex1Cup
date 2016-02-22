@@ -11,8 +11,9 @@ import java.io.FileWriter;
 
 %% // {Opciones y declaraciones}
 %standalone
+%debug
 
-// DECLATRACION DE CLASES
+// DECLARACION DE CLASES
 %class AnalizadorLexicoSintacticoPascal
 %{
 
@@ -33,21 +34,64 @@ HexadecimalInit = {OptionalSign}\$
 
 
 // Estados
+%xstate COMMENT_KEY, COMMENT_BRACKET
 
 %% //{Reglas léxicas}
 
+<YYINITIAL>	{
+	"program"
+	"begin"
+	"end"
+	"while"
+	"for"
+	"do"
+	"INTEGER"
+	"REAL"
+	"function"
+	"procedure"
+	"VAR"
+	";"
+	":"
+	":="
+	","
+	"."
+	"("
+	")"
 
-(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
-	{
-		System.out.println("VALOR DECIMAL: " + yytext());
-	}
-					
-(({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)?)
-	{
-		System.out.println("VALOR HEXADECIMAL: " + yytext());
-	}
-	
-({Letter}|_)\w*
-	{
-		System.out.println("IDENTIFICADOR: " + yytext());
-	}
+	"{"
+		{
+			yybegin(COMMENT_KEY);
+		}
+		
+	"(*"
+		{
+			yybegin(COMMENT_BRACKET);
+		}
+
+	(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
+		{
+			System.out.println("VALOR DECIMAL: " + yytext());
+		}
+						
+	(({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)?)
+		{
+			System.out.println("VALOR HEXADECIMAL: " + yytext());
+		}
+		
+	({Letter}|_)\w*
+		{
+			System.out.println("IDENTIFICADOR: " + yytext());
+		}
+}
+
+<COMMENT_KEY> {
+	"}"	{
+			yybegin(YYINITIAL);
+		}
+}
+
+<COMMENT_BRACKET> {
+	"*)" {
+			yybegin(YYINITIAL);
+		 }
+}

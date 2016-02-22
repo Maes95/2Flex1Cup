@@ -1,4 +1,5 @@
-program EjemploAprobado; 
+program EjemploAprobado;
+
 function areaCuadrado ( lado: REAL ) : REAL ;
 VAR
 	REAL resultado;
@@ -7,8 +8,9 @@ begin
 	resultado := +0.0;
 	resultado := lado * lado;
 	areaCuadrado := resultado; 
-end; 
-procedure intercambio ( v1, v2: INTEGER )  ;
+end;
+ 
+procedure intercambio ( v1, v2: INTEGER )  ; com Otro ario 9238rifhfi_kasfji8 com
 VAR
 	INTEGER aux;
 begin
@@ -17,6 +19,8 @@ begin
 	v1 := v2;
 	v2 := aux;
 end;
+
+(*Aqui empieza el programa*)
 VAR
 	medida: REAL;
 	valor1, valor2: INTEGER;
