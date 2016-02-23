@@ -29,11 +29,14 @@ HexadecimalDigit = [0-9A-F]
 OptionalSign = [\+-]?
 RealFloatPoint = e{OptionalSign}
 DecimalInit = {OptionalSign}
-HexadecimalInit = {OptionalSign}\$
+HexadecimalInit = \${OptionalSign}
+ArithmeticOp = (\+|-|\*|div|mod)
+LogicalOp = (or|and|not)
+ComparatorOp = (>|<|=|>=|<=|<>)
 
 
 // Estados
-%xstate COMMENT_KEY, COMMENT_BRACKET
+%xstate COMMENT_KEY, COMMENT_BRACKET, LITERAL_CONST
 
 %% //{Reglas léxicas}
 
@@ -50,6 +53,22 @@ HexadecimalInit = {OptionalSign}\$
 		{
 			System.out.println("RESERVADA: " + yytext());
 		}
+	"var"
+		{
+			System.out.println("RESERVADA: " + yytext());
+		}
+	"const"
+		{
+			System.out.println("RESERVADA: " + yytext());
+		}
+	"if"
+		{
+			System.out.println("RESERVADA: " + yytext());
+		}
+	"then"
+		{
+			System.out.println("RESERVADA: " + yytext());
+		}
 	"while"
 		{
 			System.out.println("RESERVADA: " + yytext());
@@ -58,15 +77,19 @@ HexadecimalInit = {OptionalSign}\$
 		{
 			System.out.println("RESERVADA: " + yytext());
 		}
+	"to"
+		{
+			System.out.println("RESERVADA: " + yytext());
+		}
 	"do"
 		{
 			System.out.println("RESERVADA: " + yytext());
 		}
-	"INTEGER"
+	"case"
 		{
 			System.out.println("RESERVADA: " + yytext());
 		}
-	"REAL"
+	"of"
 		{
 			System.out.println("RESERVADA: " + yytext());
 		}
@@ -78,9 +101,21 @@ HexadecimalInit = {OptionalSign}\$
 		{
 			System.out.println("RESERVADA: " + yytext());
 		}
-	"VAR"
+	"type"
 		{
 			System.out.println("RESERVADA: " + yytext());
+		}
+	"INTEGER"
+		{
+			System.out.println("TBAS: " + yytext());
+		}
+	"REAL"
+		{
+			System.out.println("TBAS: " + yytext());
+		}
+	"CHARACTER"
+		{
+			System.out.println("TBAS: " + yytext());
 		}
 	";"
 		{
@@ -120,6 +155,12 @@ HexadecimalInit = {OptionalSign}\$
 		{
 			yybegin(COMMENT_BRACKET);
 		}
+		
+	'
+		{
+			System.out.println("COMIENZA STRING");
+			yybegin(LITERAL_CONST);
+		}
 
 	(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
 		{
@@ -135,6 +176,21 @@ HexadecimalInit = {OptionalSign}\$
 		{
 			System.out.println("IDENTIFICADOR: " + yytext());
 		}
+		
+	{ArithmeticOp}	
+		{
+			System.out.println("OPERADOR ARITMETICO: " + yytext());
+		}
+		
+	{ComparatorOp}	
+		{
+			System.out.println("OPERADOR DE COMPARACION: " + yytext());
+		}
+		
+	{LogicalOp}	
+		{
+			System.out.println("OPERADOR LÓGICO: " + yytext());
+		}
 }
 
 <COMMENT_KEY> {
@@ -147,4 +203,17 @@ HexadecimalInit = {OptionalSign}\$
 	"*)" {
 			yybegin(YYINITIAL);
 		 }
+}
+
+<LITERAL_CONST> {
+	"''"	{
+				System.out.print("'");
+			}
+	'	{
+			System.out.println("\nTERMINA STRING");
+			yybegin(YYINITIAL);
+		}
+	.	{
+			System.out.print(yytext());
+		}
 }

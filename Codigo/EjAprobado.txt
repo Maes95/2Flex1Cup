@@ -5,9 +5,10 @@ VAR
 	REAL resultado;
 begin
 	resultado: REAL;
-	resultado := +0.0;
+	resultado := +0.0F;
 	resultado := lado * lado;
-	areaCuadrado := resultado; 
+	areaCuadrado := resultado;
+	string := 'Hola. Esto es una constante ''literal''';
 end;
  
 procedure intercambio ( v1, v2: INTEGER )  ; {Otro comentario 9238rifhfi_kasfji8}
@@ -25,9 +26,13 @@ VAR
 	medida: REAL;
 	valor1, valor2: INTEGER;
 begin
+{Base decimal} +123 , -69 , 45 
+{Base hexadecimal} $+123 , $-A6F9 , $FFFF
+{Base decimal} +123.456 , -0.69 , 45.0
+{Base hexadecimal} $+123.0 , $-E.A6F9 , $0.FFFF
 	medida := $4.A;
-	valor1 := -3;
-	valor2 := $F6;
-	medida := areaCuadrado( medida );
+	valor1 := -3 <= 4;
+	valor2 := $F6 == 7;
+	medida := areaCuadrado( medida ) / 7;
 	intercambio(valor1, valor2);
 end.
