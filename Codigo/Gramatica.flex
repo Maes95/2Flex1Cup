@@ -161,21 +161,6 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 			System.out.println("COMIENZA STRING");
 			yybegin(LITERAL_CONST);
 		}
-
-	(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
-		{
-			System.out.println("VALOR DECIMAL: " + yytext());
-		}
-						
-	(({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)?)
-		{
-			System.out.println("VALOR HEXADECIMAL: " + yytext());
-		}
-		
-	({Letter}|_)\w*
-		{
-			System.out.println("IDENTIFICADOR: " + yytext());
-		}
 		
 	{ArithmeticOp}	
 		{
@@ -190,6 +175,21 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 	{LogicalOp}	
 		{
 			System.out.println("OPERADOR LÓGICO: " + yytext());
+		}
+
+	(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
+		{
+			System.out.println("VALOR DECIMAL: " + yytext());
+		}
+						
+	(({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)?)
+		{
+			System.out.println("VALOR HEXADECIMAL: " + yytext());
+		}
+		
+	({Letter}|_)\w*
+		{
+			System.out.println("IDENTIFICADOR: " + yytext());
 		}
 }
 

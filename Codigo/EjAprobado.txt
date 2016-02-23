@@ -33,6 +33,6 @@ begin
 	medida := $4.A;
 	valor1 := -3 <= 4;
 	valor2 := $F6 == 7;
-	medida := areaCuadrado( medida ) / 7;
+	medida := areaCuadrado( medida ) div 7;
 	intercambio(valor1, valor2);
 end.
