@@ -24,7 +24,8 @@ Uso
 #### Análisis Sintáctico
 - (Proximamente)
 
-#### Autores
+Autores  
+------------------------
 <!-- Tabla -->
 <table cellspacing="0">
   <tr  style="background-color: #E3E3E3;">
