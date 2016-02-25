@@ -213,6 +213,7 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 
 <LITERAL_CONST> {
 	"''"	{
+				//Sustituir en el token '' por '
 				System.out.print("'");
 			}
 	'	{

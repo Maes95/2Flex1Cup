@@ -15,7 +15,7 @@ procedure intercambio ( v1, v2: INTEGER )  ; {Otro comentario 9238rifhfi_kasfji8
 VAR
 	INTEGER aux;
 begin
-	aux := 0;
+	aux := 0H'gsfdgsdfg'*3;
 	aux := v1;
 	v1 := v2;
 	v2 := aux;
