@@ -177,7 +177,7 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		{
 			System.out.println("OPERADOR LÓGICO: " + yytext());
 		}
-	{"not"}
+	"not"
 		{
 			System.out.println("OPERADOR LÓGICO NOT: " + yytext());
 		}
