@@ -208,7 +208,9 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		{
 			System.out.println("< IDENTIFICADOR: " + yytext()+" >");
 		}
-	" " {} //Para no reconocer espacios
+
+	//Para que las pruebas queden en columnas al hacer System.out.print (los espacios no se imprimirán)
+	" " {}
 
 }
 
