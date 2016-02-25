@@ -44,31 +44,31 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 <YYINITIAL>	{
 	"program"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA , " + yytext()+" >");
 		}
 	"begin"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"end"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"var"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"const"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"if"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"then"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"else"
 		{
@@ -76,79 +76,79 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		}
 	"while"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"for"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"to"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"do"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"case"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"of"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"function"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"procedure"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"type"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"INTEGER"
 		{
-			System.out.println("TBAS: " + yytext());
+			System.out.println("< TBAS: " + yytext()+" >");
 		}
 	"REAL"
 		{
-			System.out.println("TBAS: " + yytext());
+			System.out.println("< TBAS: " + yytext()+" >");
 		}
 	"CHARACTER"
 		{
-			System.out.println("TBAS: " + yytext());
+			System.out.println("< TBAS: " + yytext()+" >");
 		}
 	";"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	":"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	":="
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	","
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"."
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"("
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	")"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"["
 		{
@@ -177,38 +177,39 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 
 	{ArithmeticOp}
 		{
-			System.out.println("OPERADOR ARITMETICO: " + yytext());
+			System.out.println("< OPERADOR ARITMETICO: " + yytext()+" >");
 		}
 
 	{ComparatorOp}
 		{
-			System.out.println("OPERADOR DE COMPARACION: " + yytext());
+			System.out.println("< OPERADOR DE COMPARACION: " + yytext()+" >");
 		}
 
 	{LogicalOp}
 		{
-			System.out.println("OPERADOR LÓGICO: " + yytext());
+			System.out.println("< OPERADOR LÓGICO: " + yytext()+" >");
 		}
 	"not"
 		{
-			System.out.println("OPERADOR LÓGICO NOT: " + yytext());
+			System.out.println("< OPERADOR LÓGICO NOT: " + yytext()+" >");
 		}
 
 	(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
 		{
-			System.out.println("VALOR DECIMAL: " + yytext());
+			System.out.println("< VALOR DECIMAL: " + yytext()+" >");
 		}
 
 	(({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)?)
 		{
-			System.out.println("VALOR HEXADECIMAL: " + yytext());
+			System.out.println("< VALOR HEXADECIMAL: " + yytext()+" >");
 		}
 
 	({Letter}|_)\w*
 		{
-			System.out.println("IDENTIFICADOR: " + yytext());
+			System.out.println("< IDENTIFICADOR: " + yytext()+" >");
 		}
-	" " {}
+	" " {} //Para no reconocer espacios
+
 }
 
 <COMMENT_KEY> {
