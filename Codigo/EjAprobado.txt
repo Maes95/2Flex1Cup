@@ -5,7 +5,7 @@ VAR
 	REAL resultado;
 begin
 	resultado: REAL;
-	resultado := +0.0F;
+	resultado := $+0.0F;
 	resultado := lado * lado;
 	areaCuadrado := resultado;
 	string := 'Hola. Esto es una constante ''literal''';
