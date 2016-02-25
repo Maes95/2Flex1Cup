@@ -70,6 +70,10 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		{
 			System.out.println("RESERVADA: " + yytext());
 		}
+	"else"
+		{
+			System.out.println("RESERVADA: " + yytext());
+		}
 	"while"
 		{
 			System.out.println("RESERVADA: " + yytext());
@@ -143,6 +147,14 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 			System.out.println("RESERVADA: " + yytext());
 		}
 	")"
+		{
+			System.out.println("RESERVADA: " + yytext());
+		}
+	"["
+		{
+			System.out.println("RESERVADA: " + yytext());
+		}
+	"]"
 		{
 			System.out.println("RESERVADA: " + yytext());
 		}
