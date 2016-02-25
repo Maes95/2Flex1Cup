@@ -1,0 +1,4 @@
+title Borrar
+
+del AnalizadorLexicoSintacticoPascal.java
+del AnalizadorLexicoSintacticoPascal.class
