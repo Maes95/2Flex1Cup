@@ -31,7 +31,8 @@ RealFloatPoint = e{OptionalSign}
 DecimalInit = {OptionalSign}
 HexadecimalInit = \${OptionalSign}
 ArithmeticOp = (\+|-|\*|div|mod)
-LogicalOp = (or|and|not)
+LogicalOp = (or|and)
+
 ComparatorOp = (>|<|=|>=|<=|<>)
 
 
@@ -150,47 +151,52 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		{
 			yybegin(COMMENT_KEY);
 		}
-		
+
 	"(*"
 		{
 			yybegin(COMMENT_BRACKET);
 		}
-		
+
 	'
 		{
 			System.out.println("COMIENZA STRING");
 			yybegin(LITERAL_CONST);
 		}
-		
-	{ArithmeticOp}	
+
+	{ArithmeticOp}
 		{
 			System.out.println("OPERADOR ARITMETICO: " + yytext());
 		}
-		
-	{ComparatorOp}	
+
+	{ComparatorOp}
 		{
 			System.out.println("OPERADOR DE COMPARACION: " + yytext());
 		}
-		
-	{LogicalOp}	
+
+	{LogicalOp}
 		{
 			System.out.println("OPERADOR LÓGICO: " + yytext());
+		}
+	{"not"}
+		{
+			System.out.println("OPERADOR LÓGICO NOT: " + yytext());
 		}
 
 	(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
 		{
 			System.out.println("VALOR DECIMAL: " + yytext());
 		}
-						
+
 	(({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)?)
 		{
 			System.out.println("VALOR HEXADECIMAL: " + yytext());
 		}
-		
+
 	({Letter}|_)\w*
 		{
 			System.out.println("IDENTIFICADOR: " + yytext());
 		}
+	" " {}
 }
 
 <COMMENT_KEY> {
