@@ -6,14 +6,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.charset.Charset;
-import java.io.PrintWriter;
-import java.io.FileWriter;
 
 %% // {Opciones y declaraciones}
 %standalone
 
+
 // DECLARACION DE CLASES
 %class AnalizadorLexicoSintacticoPascal
+
 %{
 
 %}
@@ -27,7 +27,6 @@ Letter = [a-zA-Z]
 DecimalDigit = [0-9]
 HexadecimalDigit = [0-9A-F]
 OptionalSign = [\+-]?
-RealFloatPoint = e{OptionalSign}
 DecimalInit = {OptionalSign}
 HexadecimalInit = \${OptionalSign}
 ArithmeticOp = (\+|-|\*|div|mod)
@@ -44,7 +43,7 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 <YYINITIAL>	{
 	"program"
 		{
-			System.out.println("< RESERVADA , " + yytext()+" >");
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"begin"
 		{
@@ -152,11 +151,11 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		}
 	"["
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 	"]"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			System.out.println("< RESERVADA: " + yytext()+" >");
 		}
 
 	"{"
