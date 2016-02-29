@@ -6,9 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.charset.Charset;
+import ProyectoJava\PascalAnalyzer\src\Token.java;
 
 %% // {Opciones y declaraciones}
-%standalone
+%type Token
 
 
 // DECLARACION DE CLASES
