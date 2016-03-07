@@ -1,0 +1,8 @@
+import java_cup.runtime.*;
+
+terminal ident, op_mas, op_mul, igual;
+non terminal E, T, S;
+
+S::= E igual E | ident;
+E::= T | E op_mas T;
+T::= ident | T op_mul ident;
