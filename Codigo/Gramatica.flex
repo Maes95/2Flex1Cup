@@ -6,11 +6,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.nio.charset.Charset;
-import ProyectoJava\PascalAnalyzer\src\Token.java;
+import java_cup.runtime.*;
 
 %% // {Opciones y declaraciones}
-%type Token
-
+%cup
+%line
+%column
 
 // DECLARACION DE CLASES
 %class AnalizadorLexicoSintacticoPascal
