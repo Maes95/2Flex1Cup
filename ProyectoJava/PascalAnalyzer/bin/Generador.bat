@@ -1,10 +1,9 @@
 title FastTest
 
-del AnalizadorLexicoSintacticoPascal.java
-del AnalizadorLexicoSintacticoPascal.class
+del AnalizadorLexico.java
+del AnalizadorLexico.class
 
 java -jar jflex-1.6.1.jar Gramatica.flex
-javac AnalizadorLexicoSintacticoPascal.java
-java AnalizadorLexicoSintacticoPascal EjAprobado.txt
+java -jar java-cup-11b.jar Sintaxis.cup
 
 pause

@@ -149,7 +149,7 @@ class CUP$parser$actions {
           case 2: // S ::= ident 
             {
               Object RESULT =null;
-
+		 System.out.println("S"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("S",2, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -167,7 +167,7 @@ class CUP$parser$actions {
           case 4: // E ::= E op_mas T 
             {
               Object RESULT =null;
-
+		 System.out.println("E"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("E",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -185,7 +185,7 @@ class CUP$parser$actions {
           case 6: // T ::= T op_mul ident 
             {
               Object RESULT =null;
-
+		 System.out.println("T"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("T",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
