@@ -1,20 +1,16 @@
 // {Código de usuario}
 
 // IMPORTS
-import java.util.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.nio.charset.Charset;
 import java_cup.runtime.*;
 
 %% // {Opciones y declaraciones}
+%unicode
 %cup
 %line
 %column
 
 // DECLARACION DE CLASES
-%class AnalizadorLexicoSintacticoPascal
+%class AnalizadorLexico
 
 %{
 
@@ -45,125 +41,126 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 <YYINITIAL>	{
 	"program"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.program);
 		}
 	"begin"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.begin);
 		}
 	"end"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.end);
 		}
 	"var"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.var);
 		}
 	"const"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.const);
 		}
 	"if"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.if);
 		}
 	"then"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.then);
 		}
 	"else"
 		{
-			System.out.println("RESERVADA: " + yytext());
+			return new java_cup.runtime.Symbol(sym.else);
 		}
 	"while"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.while);
 		}
 	"for"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.for);
 		}
 	"to"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.to);
 		}
 	"do"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.do);
 		}
 	"case"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.case);
 		}
 	"of"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.of);
 		}
 	"function"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.function);
 		}
 	"procedure"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.procedure);
 		}
 	"type"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.type);
 		}
 	"INTEGER"
 		{
-			System.out.println("< TBAS: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.int_name);
 		}
 	"REAL"
 		{
-			System.out.println("< TBAS: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.real_name);
 		}
 	"CHARACTER"
 		{
-			System.out.println("< TBAS: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.char_name);
 		}
 	";"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.semicolons);
 		}
 	":"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.colons);
 		}
 	":="
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.asig);
 		}
 	","
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.comma);
 		}
 	"."
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.point);
 		}
 	"("
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.open_bracket);
 		}
 	")"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.close_bracket);
 		}
 	"["
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.open_square_bracket);
 		}
 	"]"
 		{
-			System.out.println("< RESERVADA: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.close_square_bracket);
 		}
 
 	"{"
 		{
 			yybegin(COMMENT_KEY);
 		}
+		
 
 	"(*"
 		{
@@ -178,36 +175,36 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 
 	{ArithmeticOp}
 		{
-			System.out.println("< OPERADOR ARITMETICO: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.arithmetic_op);
 		}
 
 	{ComparatorOp}
 		{
-			System.out.println("< OPERADOR DE COMPARACION: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.comparator_op);
 		}
 
 	{LogicalOp}
 		{
-			System.out.println("< OPERADOR LÓGICO: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.logical_op);
 		}
 	"not"
 		{
-			System.out.println("< OPERADOR LÓGICO NOT: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.not_op);
 		}
 
 	(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
 		{
-			System.out.println("< VALOR DECIMAL: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.decimal_value);
 		}
 
 	(({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)?)
 		{
-			System.out.println("< VALOR HEXADECIMAL: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.hexadecimal_value);
 		}
 
 	({Letter}|_)\w*
 		{
-			System.out.println("< IDENTIFICADOR: " + yytext()+" >");
+			return new java_cup.runtime.Symbol(sym.identifier);
 		}
 
 	//Para que las pruebas queden en columnas al hacer System.out.print (los espacios no se imprimirán)
