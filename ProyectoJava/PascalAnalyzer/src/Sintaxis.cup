@@ -1,8 +1,47 @@
 import java_cup.runtime.*;
 
-terminal ident, op_mas, op_mul, igual;
-non terminal E, T, S;
+terminal program, begin, end, var, const, if, then, else, while, for, to, do, case, of, function, procedure, type, int_name, real_name, char_name,
+          semicolons, colons, asig, equal, comma, point, open_bracket, close_bracket, open_square_bracket, close_square_bracket, arithmetic_op, comparator_op,
+          logical_op, not_op, decimal_value, hexadecimal_value, identifier, lambda;
 
-S::= E igual E | ident {: System.out.println("S"); :};
-E::= T | E op_mas T {: System.out.println("E"); :};
-T::= ident | T op_mul ident {: System.out.println("T"); :};
+non terminal PRG, BLQ, DCLLIST, SENTLIST, DCL, DEFCTE, CTELIST, SIMPVALUE, DEFVAR, DEFVARLIST, VARLIST, DEFPROC, DEFFUN, FORMAL_PARAMLIST, FORMAL_PARAM,
+              TBAS, SENT, ASIG, ID, EXP, OP, OPCOMP, OPARIT, OPLOG, FACTOR, SUBPARAMLIST, EXPLIST, PROC_CALL, EXEBLQ, DCLLIST_BLQ, DCL_BLQ;
+
+PRG::= program identifier semicolons BLQ point;
+BLQ::= DCLLIST begin SENTLIST end;
+DCLLIST::= lambda | DCLLIST DCL;
+SENTLIST::= SENT | SENTLIST SENT;
+
+DCL::= DEFCTE | DEFVAR | DEFPROC | DEFFUN;
+DEFCTE::= const CTELIST;
+CTELIST::= identifier equal SIMPVALUE semicolons
+          | CTELIST identifier equal SIMPVALUE semicolons;
+SIMPVALUE::= decimal_value | hexadecimal_value; /*­­­­Faltan los strings­­­­­­­­­*/
+
+DEFVAR::= var DEFVARLIST semicolons;
+DEFVARLIST::= VARLIST colons TBAS
+             | DEFVARLIST semicolons VARLIST colons TBAS;
+VARLIST::= identifier | identifier comma VARLIST;
+DEFPROC::=  procedure identifier FORMAL_PARAMLIST semicolons BLQ semicolons;
+DEFFUN::=  function identifier FORMAL_PARAMLIST colons TBAS semicolons BLQ semicolons;
+FORMAL_PARAMLIST::= lambda | open_bracket FORMAL_PARAM close_bracket;
+FORMAL_PARAM::= VARLIST colons TBAS
+               | VARLIST colons TBAS semicolons FORMAL_PARAM;
+TBAS::= int_name | real_name | char_name;
+
+SENT::= ASIG semicolons | PROC_CALL semicolons | EXEBLQ;
+ASIG::= ID asig EXP;
+ID::= identifier;
+EXP::= EXP OP EXP | FACTOR;
+OP::= OPCOMP | OPLOG | OPARIT;
+OPCOMP::= comparator_op;
+OPARIT::= arithmetic_op;
+OPLOG::= logical_op;
+FACTOR::= SIMPVALUE | not_op FACTOR
+        | open_bracket EXP close_bracket | identifier SUBPARAMLIST;
+SUBPARAMLIST::= lambda | open_bracket EXPLIST close_bracket;
+EXPLIST::= EXP | EXP comma EXPLIST;
+PROC_CALL::= identifier SUBPARAMLIST;
+EXEBLQ::= DCLLIST_BLQ begin SENTLIST end;
+DCLLIST_BLQ::= lambda | DCLLIST_BLQ semicolons DCL_BLQ;
+DCL_BLQ::= DEFCTE | DEFVAR; /*Falta | DEFTYPE | ­­­­­­­­­*/
