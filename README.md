@@ -2,27 +2,38 @@
 =========================================
 Archivos  
 ------------------------
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/flex-icon.png) Gramática 
+> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-txt-icon.png) Codigo PASCAL a analizar
+
+> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/flex-icon.png) Gramática.flex
+
+> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/edit-diff-icon.png) Sintaxis.cup
+
+> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-bat-icon.png) Generador de secuencia de instrucciones para borrar
 
 > ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-bat-icon.png) Generador de secuencia de instrucciones para agilizar las pruebas
 
-> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-html-icon.png) Codigo PASCAL resultante con etiquetas HTML 
-
 > ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-jar-icon.png) Generador de gramática JFLEX
 
-> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-txt-icon.png) Codigo PASCAL a analizar
+> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-jar-icon.png) Generador de gramática CUP
+
+> ![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/file-extension-jar-icon.png) Analizador.java (Programa principal)
+
+
 
 Uso  
 ------------------------
-#### Analisis Léxico
+#### Analisis Léxico y Sintáctico
 - (Opcional) Cambiar el archivo (.txt) que contiene el codigo de Pascal a procesar (dentro del .bat)
+- (Opcional) Cambiar la gramatica en "Gramática.flex"
+- (Opcional) Cambiar la sintaxis en "Sintaxis.cup"
+- Ejecutar el archivo "Borrar.bat" para eliminar todos los archivos generados previamente
 - Ejecutar el archivo "Generador.bat"
-- Se crearan automaticamente los archivos "AnalizadorLexicoSintacticoPascal.java" y "AnalizadorLexicoSintacticoPascal.class"
-- Se generará una pagina HTML que mostrará el codigo Pascal procesado
-- Se abrirá una pestaña en el navegador por defecto la cual cargará el contenido del HTML para su visualización
+- Se crearan automaticamente los archivos "AnalizadorLexico.java", "parser.java" y "sym.java"
+- Abrir con Eclipse 3.0 el proyecto "AnalizadorLexicoSintacticoPascal\ProyectoJava\PascalAnalyzer"
+- Arrancar como JavaAplication "Analizador.java" para obtener el analisis sintáctico
 
-#### Análisis Sintáctico
-- (Proximamente)
+#### Traducción dirigida por Sintáxis
+- (Próximamente)
 
 Autores  
 ------------------------
