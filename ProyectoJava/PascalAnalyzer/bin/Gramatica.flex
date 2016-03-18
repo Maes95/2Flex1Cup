@@ -17,7 +17,7 @@ import java_cup.runtime.*;
 %}
 
 %eofval{
-	return(0);
+
 %eofval}
 
 // Macros
@@ -27,9 +27,6 @@ HexadecimalDigit = [0-9A-F]
 OptionalSign = [\+-]?
 DecimalInit = {OptionalSign}
 HexadecimalInit = \${OptionalSign}
-ArithmeticOp = (\+|-|\*|div|mod)
-LogicalOp = (or|and)
-
 ComparatorOp = (>|<|=|>=|<=|<>)
 
 
@@ -41,6 +38,7 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 <YYINITIAL>	{
 	"program"
 		{
+			System.out.println("_program");
 			return new java_cup.runtime.Symbol(sym.program);
 		}
 	"begin"
@@ -53,15 +51,16 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		}
 	"var"
 		{
+			System.out.println("_var");
 			return new java_cup.runtime.Symbol(sym.var);
 		}
 	"const"
 		{
-			return new java_cup.runtime.Symbol(sym.const);
+			return new java_cup.runtime.Symbol(sym.const_t);
 		}
 	"if"
 		{
-			return new java_cup.runtime.Symbol(sym.if);
+			return new java_cup.runtime.Symbol(sym.if_t);
 		}
 	"then"
 		{
@@ -69,15 +68,15 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		}
 	"else"
 		{
-			return new java_cup.runtime.Symbol(sym.else);
+			return new java_cup.runtime.Symbol(sym.else_t);
 		}
 	"while"
 		{
-			return new java_cup.runtime.Symbol(sym.while);
+			return new java_cup.runtime.Symbol(sym.while_t);
 		}
 	"for"
 		{
-			return new java_cup.runtime.Symbol(sym.for);
+			return new java_cup.runtime.Symbol(sym.for_t);
 		}
 	"to"
 		{
@@ -85,11 +84,11 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		}
 	"do"
 		{
-			return new java_cup.runtime.Symbol(sym.do);
+			return new java_cup.runtime.Symbol(sym.do_t);
 		}
 	"case"
 		{
-			return new java_cup.runtime.Symbol(sym.case);
+			return new java_cup.runtime.Symbol(sym.case_t);
 		}
 	"of"
 		{
@@ -176,24 +175,43 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 			System.out.println("COMIENZA STRING");
 			yybegin(LITERAL_CONST);
 		}
-
-	{ArithmeticOp}
-		{
-			return new java_cup.runtime.Symbol(sym.arithmetic_op);
+		
+	"+" {
+			return new java_cup.runtime.Symbol(sym.plus);
 		}
-
-	{ComparatorOp}
-		{
-			return new java_cup.runtime.Symbol(sym.comparator_op);
+	
+	"-" {
+			return new java_cup.runtime.Symbol(sym.minus);
 		}
-
-	{LogicalOp}
-		{
-			return new java_cup.runtime.Symbol(sym.logical_op);
+	
+	\* {
+			return new java_cup.runtime.Symbol(sym.product);
 		}
+	
+	"div" {
+			return new java_cup.runtime.Symbol(sym.div_op);
+		}
+	
+	"mod" {
+			return new java_cup.runtime.Symbol(sym.mod_op);
+		}
+	
+	"and" {
+			return new java_cup.runtime.Symbol(sym.and_op);
+		}
+		
+	"or" {
+			return new java_cup.runtime.Symbol(sym.or_op);
+		}
+	
 	"not"
 		{
 			return new java_cup.runtime.Symbol(sym.not_op);
+		}
+		
+	{ComparatorOp}
+		{
+			return new java_cup.runtime.Symbol(sym.comparator_op);
 		}
 
 	(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
@@ -208,11 +226,15 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 
 	({Letter}|_)\w*
 		{
+			System.out.println("_identifier: " + yytext());
 			return new java_cup.runtime.Symbol(sym.identifier);
 		}
 
 	//Para que las pruebas queden en columnas al hacer System.out.print (los espacios no se imprimir�n)
-	. {return new java_cup.runtime.Symbol(sym.lambda);}
+	// {return new java_cup.runtime.Symbol(sym.lambda);}
+	
+	(. | \n | \t | \t\n | \r\n | \r) {
+	  }
 
 }
 
