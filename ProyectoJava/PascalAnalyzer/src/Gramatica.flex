@@ -106,6 +106,10 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		{
 			return new java_cup.runtime.Symbol(sym.type);
 		}
+	"array"
+		{
+			return new java_cup.runtime.Symbol(sym.array);
+		}
 	"INTEGER"
 		{
 			return new java_cup.runtime.Symbol(sym.int_name);
@@ -142,6 +146,10 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		{
 			return new java_cup.runtime.Symbol(sym.point);
 		}
+	".."
+		{
+			return new java_cup.runtime.Symbol(sym.two_points);
+		}
 	"("
 		{
 			return new java_cup.runtime.Symbol(sym.open_bracket);
@@ -175,40 +183,40 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 			System.out.println("COMIENZA STRING");
 			yybegin(LITERAL_CONST);
 		}
-		
+
 	"+" {
 			return new java_cup.runtime.Symbol(sym.plus);
 		}
-	
+
 	"-" {
 			return new java_cup.runtime.Symbol(sym.minus);
 		}
-	
+
 	\* {
 			return new java_cup.runtime.Symbol(sym.product);
 		}
-	
+
 	"div" {
 			return new java_cup.runtime.Symbol(sym.div_op);
 		}
-	
+
 	"mod" {
 			return new java_cup.runtime.Symbol(sym.mod_op);
 		}
-	
+
 	"and" {
 			return new java_cup.runtime.Symbol(sym.and_op);
 		}
-		
+
 	"or" {
 			return new java_cup.runtime.Symbol(sym.or_op);
 		}
-	
+
 	"not"
 		{
 			return new java_cup.runtime.Symbol(sym.not_op);
 		}
-		
+
 	{ComparatorOp}
 		{
 			return new java_cup.runtime.Symbol(sym.comparator_op);
@@ -232,7 +240,7 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 
 	//Para que las pruebas queden en columnas al hacer System.out.print (los espacios no se imprimir�n)
 	// {return new java_cup.runtime.Symbol(sym.lambda);}
-	
+
 	(. | \n | \t | \t\n | \r\n | \r) {
 	  }
 
