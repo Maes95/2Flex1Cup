@@ -13,6 +13,8 @@ import java_cup.runtime.*;
 %class AnalizadorLexico
 
 %{
+public String string_acum = "";
+public String string_literal = "";
 
 %}
 
@@ -261,13 +263,15 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 <LITERAL_CONST> {
 	"''"	{
 				//Sustituir en el token '' por '
-				System.out.print("'");
+				string_acum += "'";
 			}
 	'	{
-			System.out.println("\nTERMINA STRING");
+			string_literal = string_acum;
+			string_acum = "";
 			yybegin(YYINITIAL);
+			return new java_cup.runtime.Symbol(sym.string_literal);
 		}
 	.	{
-			System.out.print(yytext());
+			string_acum += yytext();
 		}
 }

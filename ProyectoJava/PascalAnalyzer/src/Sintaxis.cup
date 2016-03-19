@@ -2,10 +2,10 @@ import java_cup.runtime.*;
 
 terminal program, begin, end, var, const_t, if_t, then, else_t, while_t, for_t, to, do_t, case_t, of, function, procedure, type, int_name, real_name, char_name,
           semicolons, colons, asig, equal, comma, point, open_bracket, close_bracket, open_square_bracket, close_square_bracket, comparator_op,
-          not_op, decimal_value, hexadecimal_value, identifier, plus, minus, product, div_op, mod_op, and_op, or_op, two_points, array;
+          not_op, decimal_value, hexadecimal_value, string_literal, identifier, plus, minus, product, div_op, mod_op, and_op, or_op, two_points, array;
 
 non terminal PRG, BLQ, DCLLIST, SENTLIST, DCL, DEFCTE, CTELIST, SIMPVALUE, DEFVAR, DEFVARLIST, VARLIST, DEFPROC, DEFFUN, FORMAL_PARAMLIST, FORMAL_PARAM,
-              TBAS, SENT, ASIG, ID, EXP, OP, OPCOMP, OPARIT, OPLOG, FACTOR, SUBPARAMLIST, EXPLIST, PROC_CALL, EXEBLQ, DCLLIST_BLQ, DCL_BLQ, DEFTYPE, TYPELIST, UDTYPE,ALLTYPES;
+              TBAS, SENT, ASIG, ID, EXP, OP, OPCOMP, OPARIT, OPLOG, FACTOR, SUBPARAMLIST, EXPLIST, PROC_CALL, EXEBLQ, DCLLIST_BLQ, DCL_BLQ, DEFTYPE, TYPELIST, UDTYPE, ALLTYPES;
 
 precedence left comparator_op;
 precedence left plus, minus, or_op;
@@ -23,7 +23,7 @@ DCL::= DEFCTE | DEFVAR | DEFPROC | DEFFUN | DEFTYPE{: System.out.println("DCL");
 DEFCTE::= const_t CTELIST {: System.out.println("DEFCTE"); :};
 CTELIST::= identifier equal SIMPVALUE semicolons
           | CTELIST identifier equal SIMPVALUE semicolons {: System.out.println("CTELIST"); :};
-SIMPVALUE::= decimal_value | hexadecimal_value {: System.out.println("SIMPVALUE"); :}; /*­­­­Faltan los strings­­­­­­­­­*/
+SIMPVALUE::= decimal_value | hexadecimal_value | string_literal {: System.out.println("SIMPVALUE"); :};
 
 DEFVAR::= var DEFVARLIST semicolons {: System.out.println("DEFVAR"); :};
 DEFVARLIST::= VARLIST colons ALLTYPES
@@ -57,11 +57,11 @@ DCL_BLQ::= DEFCTE | DEFVAR | DEFTYPE {: System.out.println("DCL_BLQ"); :};
 
 /* matriz */
 
-DEFTYPE ::= type TYPELIST
+DEFTYPE ::= type TYPELIST;
 TYPELIST ::= identifier equal UDTYPE semicolons
-              | identifier equal UDTYPE semicolons TYPELIST
-UDTYPE ::= array open_square_bracket SIMPVALUE two_points SIMPVALUE close_square_bracket of ALLTYPES
-ALLTYPES ::= TBAS | identifier
+              | identifier equal UDTYPE semicolons TYPELIST;
+UDTYPE ::= array open_square_bracket SIMPVALUE two_points SIMPVALUE close_square_bracket of ALLTYPES;
+ALLTYPES ::= TBAS | identifier;
 
 /* registro */
 
