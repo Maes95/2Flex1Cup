@@ -18,14 +18,42 @@ begin
 end;
 
 type
-   vector = array [1..25] of REAL;
+	TVector = array [1..25] of REAL;
+	TPunto = record
+              coordenadaX: INTEGER;
+              coordenadaY: INTEGER
+             end;
+
 var
 	medida: REAL;
-	valor1, valor2: INTEGER;
+	valor1, valor2, valor3, valor4, i, a, resultado : INTEGER;
 begin
 	medida := $4.A;
 	valor1 := -3;
 	valor2 := $F6;
 	medida := areaCuadrado( medida );
 	intercambio(valor1, valor2);
+	
+
+	if 3 < 5 then
+		valor3 := 4;
+	else
+		valor3 := 8;
+
+
+	case valor3 of
+	    1 : resultado := 1;
+	    2 : resultado := 2;
+	    3 : resultado := 3;
+	    4 : resultado := 4;
+	end
+	
+
+	for i := 1 to 10 do valor4 := valor4 + i;
+
+	a := 1;
+	
+
+	while  a < 20  do a := a + 1;
+
 end.

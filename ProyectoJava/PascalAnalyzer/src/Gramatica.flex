@@ -66,7 +66,7 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		}
 	"then"
 		{
-			return new java_cup.runtime.Symbol(sym.then);
+			return new java_cup.runtime.Symbol(sym.then_t);
 		}
 	"else"
 		{
@@ -107,6 +107,10 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 	"type"
 		{
 			return new java_cup.runtime.Symbol(sym.type);
+		}
+	"record"
+		{
+			return new java_cup.runtime.Symbol(sym.record);
 		}
 	"array"
 		{
