@@ -6,6 +6,7 @@ begin
 	resultado := +0.0;
 	resultado := lado * lado;
 	areaCuadrado := resultado;
+	unString := 'You''re good';
 end;
 procedure intercambio ( v1, v2: INTEGER )  ;
 var
@@ -33,7 +34,8 @@ begin
 	valor2 := $F6;
 	medida := areaCuadrado( medida );
 	intercambio(valor1, valor2);
-	
+
+	{ COMENTARIO PRUEBA }
 
 	if 3 < 5 then
 		valor3 := 4;
@@ -47,12 +49,12 @@ begin
 	    3 : resultado := 3;
 	    4 : resultado := 4;
 	end
-	
+
 
 	for i := 1 to 10 do valor4 := valor4 + i;
 
 	a := 1;
-	
+
 
 	while  a < 20  do a := a + 1;
 
