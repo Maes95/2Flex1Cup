@@ -1,4 +1,4 @@
-// {C�digo de usuario}
+// {Codigo de usuario}
 
 // IMPORTS
 import java_cup.runtime.*;
@@ -13,14 +13,12 @@ import java_cup.runtime.*;
 %class AnalizadorLexico
 
 %{
+
 public String string_acum = "";
 public String string_literal = "";
+StringBuffer string = new StringBuffer();
 
 %}
-
-%eofval{
-
-%eofval}
 
 // Macros
 Letter = [a-zA-Z]
@@ -31,11 +29,16 @@ DecimalInit = {OptionalSign}
 HexadecimalInit = \${OptionalSign}
 ComparatorOp = (>|<|=|>=|<=|<>)
 
+Comment = {KeyComment} | {ParenthesisComment}
+
+KeyComment = "{" .* "}"
+ParenthesisComment = "(*" .* "*)"
+
 
 // Estados
-%xstate COMMENT_KEY, COMMENT_BRACKET, LITERAL_CONST
+%xstate STRING
 
-%% //{Reglas l�xicas}
+%% //{Reglas lexicas}
 
 <YYINITIAL>	{
 	"program"
@@ -66,7 +69,7 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 		}
 	"then"
 		{
-			return new java_cup.runtime.Symbol(sym.then);
+			return new java_cup.runtime.Symbol(sym.then_t);
 		}
 	"else"
 		{
@@ -107,6 +110,10 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 	"type"
 		{
 			return new java_cup.runtime.Symbol(sym.type);
+		}
+	"record"
+		{
+			return new java_cup.runtime.Symbol(sym.record);
 		}
 	"array"
 		{
@@ -169,23 +176,6 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 			return new java_cup.runtime.Symbol(sym.close_square_bracket);
 		}
 
-	"{"
-		{
-			yybegin(COMMENT_KEY);
-		}
-
-
-	"(*"
-		{
-			yybegin(COMMENT_BRACKET);
-		}
-
-	'
-		{
-			System.out.println("COMIENZA STRING");
-			yybegin(LITERAL_CONST);
-		}
-
 	"+" {
 			return new java_cup.runtime.Symbol(sym.plus);
 		}
@@ -240,38 +230,27 @@ ComparatorOp = (>|<|=|>=|<=|<>)
 			return new java_cup.runtime.Symbol(sym.identifier);
 		}
 
-	//Para que las pruebas queden en columnas al hacer System.out.print (los espacios no se imprimir�n)
-	// {return new java_cup.runtime.Symbol(sym.lambda);}
+  "'"
+    {
+      System.out.println("COMIENZA STRING");
+      yybegin(STRING);
+    }
 
-	(. | \n | \t | \t\n | \r\n | \r) {
-	  }
+  {Comment}                      { /* IGNORAR */ }
+
+	[^]                            { /* IGNORAR */ }
 
 }
 
-<COMMENT_KEY> {
-	"}"	{
-			yybegin(YYINITIAL);
-		}
-}
+<STRING>
+    {
+      "'"                            { yybegin(YYINITIAL); return new java_cup.runtime.Symbol(sym.string_literal);}
+      "''"	                         { string.append('\'');}
+      [^\n\r\'\\]+                   { string.append( yytext() ); }
+      \\t                            { string.append('\t'); }
+      \\n                            { string.append('\n'); }
 
-<COMMENT_BRACKET> {
-	"*)" {
-			yybegin(YYINITIAL);
-		 }
-}
-
-<LITERAL_CONST> {
-	"''"	{
-				//Sustituir en el token '' por '
-				string_acum += "'";
-			}
-	'	{
-			string_literal = string_acum;
-			string_acum = "";
-			yybegin(YYINITIAL);
-			return new java_cup.runtime.Symbol(sym.string_literal);
-		}
-	.	{
-			string_acum += yytext();
-		}
-}
+      \\r                            { string.append('\r'); }
+      \\\"                           { string.append('\"'); }
+      \\                             { string.append('\\'); }
+    }
