@@ -18,7 +18,10 @@ parser code {:
                     salidaError.append(", columna "+(s.right+1));
             }
 
-            salidaError.append(". El token < "+s.value.toString()+" > no se ajusta a la sintaxis");
+            if (s.value != null){
+                salidaError.append(". El token < "+s.value.toString()+" > no se ajusta a la sintaxis");
+            }
+
         }
 
         salidaError.append(" : " + mensajeError);
@@ -27,6 +30,10 @@ parser code {:
     }
 
     /* Método para errores irrecuperables */
+
+    public void unrecovered_syntax_error(Symbol token) throws java.lang.Exception {
+      report_fatal_error("El analizador no pudo recuperarse del error sintactico", token);
+    }
 
     public void report_fatal_error(String mensajeError, Object token) {
         mensajeError = "Error sintactico irrecuperable\n" + mensajeError;
@@ -37,7 +44,7 @@ parser code {:
     /* Método para errores recuperables */
 
     public void syntax_error(Symbol token) {
-      report_error("Error sintactico recuperable.\nSe continuara con el analisis sintactico", token);
+      report_error("Error sintactico.\nSe procedera a intentar continuar con el analisis sintactico", token);
     }
 
 :};
@@ -125,7 +132,7 @@ SENT::= ASIG semicolons
         | WLOOP
         | FLOOP
         | CASE
-        | error SENT
+        | error SENT {: System.err.println("Recuperacion de error satisfactoria"); :}
         ;
 
 ASIG::= ID asig EXP {: System.out.println("ASIG"); :};
