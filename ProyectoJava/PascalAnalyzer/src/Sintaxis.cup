@@ -1,12 +1,60 @@
 import java_cup.runtime.*;
 
+/* ------------ CÓDIGO AÑADIDO PARA MOSTRAR ERRORES ----------- */
+
+parser code {:
+
+    public void report_error(String mensajeError, Object token) {
+
+        StringBuilder salidaError = new StringBuilder("Error");
+
+        if (token instanceof java_cup.runtime.Symbol) {
+
+            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) token);
+
+            if (s.left >= 0) {
+                salidaError.append(" en la linea "+(s.left+1));
+                if (s.right >= 0)
+                    salidaError.append(", columna "+(s.right+1));
+            }
+
+            salidaError.append(". El token < "+s.value.toString()+" > no se ajusta a la sintaxis");
+        }
+
+        salidaError.append(" : " + mensajeError);
+
+        System.err.println(salidaError);
+    }
+
+    /* Método para errores irrecuperables */
+
+    public void report_fatal_error(String mensajeError, Object token) {
+        mensajeError = "Error sintactico irrecuperable\n" + mensajeError;
+        report_error(mensajeError, token);
+        System.exit(1);
+    }
+
+    /* Método para errores recuperables */
+
+    public void syntax_error(Symbol token) {
+      report_error("Error sintactico recuperable.\nSe continuara con el analisis sintactico", token);
+    }
+
+:};
+
+/* ------------ DECLARACIÓN DE TERMINALES ----------- */
+
 terminal program, begin, end, var, const_t, if_t, then_t, else_t, while_t, for_t, to, do_t, case_t, of, function, procedure, type, int_name, real_name, char_name,
           semicolons, colons, asig, equal, comma, point, open_bracket, close_bracket, open_square_bracket, close_square_bracket, comparator_op,
           not_op, decimal_value, hexadecimal_value, string_literal, identifier, plus, minus, product, div_op, mod_op, and_op, or_op, two_points, array, record;
 
+/* ------------ DECLARACIÓN DE NO TERMINALES ----------- */
+
 non terminal PRG, BLQ, DCLLIST, SENTLIST, DCL, DEFCTE, CTELIST, SIMPVALUE, DEFVAR, DEFVARLIST, VARLIST, DEFPROC, DEFFUN, FORMAL_PARAMLIST, FORMAL_PARAM,
               TBAS, SENT, ASIG, ID, EXP, OP, OPCOMP, OPARIT, OPLOG, FACTOR, SUBPARAMLIST, EXPLIST, PROC_CALL, EXEBLQ, DCLLIST_BLQ, DCL_BLQ, DEFTYPE, TYPELIST, UDTYPE, ALLTYPES,
               COND, ELSECOND, WLOOP, FLOOP, CASE, CASELIST;
+
+/* ------------ DECLARACIÓN DE PRECEDENCIA  ----------- */
 
 precedence left comparator_op;
 precedence left plus, minus, or_op;
@@ -14,73 +62,164 @@ precedence left product, div_op, mod_op, and_op;
 precedence left else_t;
 /*precedence nonassoc EQUALS;*/
 
-/* basico */
+/* ------------ SINTAXIS BÁSICA  ----------- */
 
 PRG::= program identifier semicolons BLQ point {: System.out.println("PRG"); :};
 BLQ::= DCLLIST begin SENTLIST end {: System.out.println("BLQ"); :};
-DCLLIST::= DCLLIST DCL |  {: System.out.println("DCLLIST"); :};
-SENTLIST::= SENT | SENTLIST SENT {: System.out.println("SENTLIST"); :};
 
-DCL::= DEFCTE | DEFVAR | DEFPROC | DEFFUN | DEFTYPE{: System.out.println("DCL"); :};
+DCLLIST::=
+          | DCLLIST DCL {: System.out.println("DCLLIST"); :}
+          ;
+
+SENTLIST::= SENT
+          | SENTLIST SENT {: System.out.println("SENTLIST"); :}
+          ;
+
+DCL::= DEFCTE
+      | DEFVAR
+      | DEFPROC
+      | DEFFUN
+      | DEFTYPE {: System.out.println("DCL"); :}
+      ;
+
 DEFCTE::= const_t CTELIST {: System.out.println("DEFCTE"); :};
 CTELIST::= identifier equal SIMPVALUE semicolons
-          | CTELIST identifier equal SIMPVALUE semicolons {: System.out.println("CTELIST"); :};
-SIMPVALUE::= decimal_value | hexadecimal_value | string_literal {: System.out.println("SIMPVALUE"); :};
+          | CTELIST identifier equal SIMPVALUE semicolons {: System.out.println("CTELIST"); :}
+          ;
+
+SIMPVALUE::= decimal_value
+          | hexadecimal_value
+          | string_literal {: System.out.println("SIMPVALUE"); :}
+          ;
 
 DEFVAR::= var DEFVARLIST semicolons {: System.out.println("DEFVAR"); :};
+
 DEFVARLIST::= VARLIST colons ALLTYPES
-             | DEFVARLIST semicolons VARLIST colons ALLTYPES {: System.out.println("DEFVARLIST"); :};
-VARLIST::= identifier | identifier comma VARLIST {: System.out.println("VARLIST"); :};
+             | DEFVARLIST semicolons VARLIST colons ALLTYPES {: System.out.println("DEFVARLIST"); :}
+             ;
+
+VARLIST::= identifier
+             | identifier comma VARLIST {: System.out.println("VARLIST"); :}
+             ;
+
 DEFPROC::=  procedure identifier FORMAL_PARAMLIST semicolons BLQ semicolons {: System.out.println("DEFPROC"); :};
 DEFFUN::=  function identifier FORMAL_PARAMLIST colons ALLTYPES semicolons BLQ semicolons {: System.out.println("DEFFUN"); :};
-FORMAL_PARAMLIST::= open_bracket FORMAL_PARAM close_bracket |  {: System.out.println("FORMAL_PARAMLIST"); :};
+
+FORMAL_PARAMLIST::=
+                    | open_bracket FORMAL_PARAM close_bracket {: System.out.println("FORMAL_PARAMLIST"); :}
+                    ;
+
 FORMAL_PARAM::= VARLIST colons ALLTYPES
-               | VARLIST colons ALLTYPES semicolons FORMAL_PARAM {: System.out.println("FORMAL_PARAM"); :};
-TBAS::= int_name | real_name | char_name {: System.out.println("TBAS"); :};
+               | VARLIST colons ALLTYPES semicolons FORMAL_PARAM {: System.out.println("FORMAL_PARAM"); :}
+               ;
 
-SENT::= ASIG semicolons | PROC_CALL semicolons | EXEBLQ | COND | WLOOP | FLOOP | CASE {: System.out.println("SENT"); :};
+TBAS::= int_name
+        | real_name
+        | char_name {: System.out.println("TBAS"); :}
+        ;
+
+SENT::= ASIG semicolons
+        | PROC_CALL semicolons
+        | EXEBLQ
+        | COND
+        | WLOOP
+        | FLOOP
+        | CASE
+        | error SENT
+        ;
+
 ASIG::= ID asig EXP {: System.out.println("ASIG"); :};
-ID::= identifier | identifier open_square_bracket EXP close_square_bracket | identifier point identifier {: System.out.println("ID"); :};
 
-EXP::= EXP OP EXP | FACTOR {: System.out.println("EXP"); :};
-OP::= OPCOMP | OPLOG | OPARIT {: System.out.println("OP"); :};
+ID::= identifier
+      | identifier open_square_bracket EXP close_square_bracket
+      | identifier point identifier {: System.out.println("ID"); :}
+      ;
+
+EXP::= EXP OP EXP
+       | FACTOR {: System.out.println("EXP"); :}
+       ;
+
+OP::= OPCOMP
+      | OPLOG
+      | OPARIT {: System.out.println("OP"); :}
+      ;
+
 OPCOMP::= comparator_op {: System.out.println("OPCOMP"); :};
-OPARIT::= plus | minus | product | div_op | mod_op {: System.out.println("OPARIT"); :};
-OPLOG::= and_op | or_op {: System.out.println("OPLOG"); :};
+
+OPARIT::= plus
+          | minus
+          | product
+          | div_op
+          | mod_op {: System.out.println("OPARIT"); :}
+          ;
+
+
+OPLOG::= and_op
+          | or_op {: System.out.println("OPLOG"); :}
+          ;
 
 FACTOR::= SIMPVALUE | not_op FACTOR
-        | open_bracket EXP close_bracket | identifier SUBPARAMLIST | identifier open_square_bracket EXP close_square_bracket
-        | identifier point identifier  {: System.out.println("FACTOR"); :};
-SUBPARAMLIST::= open_bracket EXPLIST close_bracket |  {: System.out.println("SUBPARAMLIST"); :};
-EXPLIST::= EXP | EXP comma EXPLIST {: System.out.println("EXPLIST"); :};
+          | open_bracket EXP close_bracket
+          | identifier SUBPARAMLIST
+          | identifier open_square_bracket EXP close_square_bracket
+          | identifier point identifier  {: System.out.println("FACTOR"); :}
+          ;
+
+SUBPARAMLIST::=
+                | open_bracket EXPLIST close_bracket {: System.out.println("SUBPARAMLIST"); :}
+                ;
+
+EXPLIST::= EXP
+          | EXP comma EXPLIST {: System.out.println("EXPLIST"); :}
+          ;
+
 PROC_CALL::= identifier SUBPARAMLIST {: System.out.println("PROC_CALL"); :};
 EXEBLQ::= DCLLIST_BLQ begin SENTLIST end {: System.out.println("EXEBLQ"); :};
-DCLLIST_BLQ::= DCLLIST_BLQ semicolons DCL_BLQ |  {: System.out.println("DCLLIST_BLQ"); :};
-DCL_BLQ::= DEFCTE | DEFVAR | DEFTYPE {: System.out.println("DCL_BLQ"); :};
 
-/* matriz  y registro*/
+DCLLIST_BLQ::=
+               | DCLLIST_BLQ semicolons DCL_BLQ  {: System.out.println("DCLLIST_BLQ"); :}
+               ;
+
+DCL_BLQ::= DEFCTE
+           | DEFVAR
+           | DEFTYPE {: System.out.println("DCL_BLQ"); :}
+           ;
+
+/* ------------ SINTAXIS ESTRUCTURAS DE DATOS  ----------- */
 
 DEFTYPE ::= type TYPELIST {: System.out.println("DEFTYPE"); :};
-TYPELIST ::= identifier equal UDTYPE semicolons
-              | identifier equal UDTYPE semicolons TYPELIST  {: System.out.println("TYPELIST"); :};
-UDTYPE ::= array open_square_bracket SIMPVALUE two_points SIMPVALUE close_square_bracket of ALLTYPES
-              | record DEFVARLIST end  {: System.out.println("UDTYPE"); :};
-ALLTYPES ::= TBAS | identifier  {: System.out.println("ALLTYPES"); :};
 
-/* sentencia if */
+TYPELIST ::= identifier equal UDTYPE semicolons
+              | identifier equal UDTYPE semicolons TYPELIST  {: System.out.println("TYPELIST"); :}
+              ;
+
+UDTYPE ::= array open_square_bracket SIMPVALUE two_points SIMPVALUE close_square_bracket of ALLTYPES
+              | record DEFVARLIST end  {: System.out.println("UDTYPE"); :}
+              ;
+
+ALLTYPES ::= TBAS
+             | identifier  {: System.out.println("ALLTYPES"); :}
+             ;
+
+/* ------------ SINTAXIS SENTENCIAS DE CONTROL DE FLUJO  ----------- */
+
+                         /* SENTENCIA IF */
 
 COND ::= if_t EXP then_t SENT ELSECOND {: System.out.println("COND"); :};
-ELSECOND ::= else_t SENT | {: System.out.println("ELSECOND"); :};
+ELSECOND ::=
+            | else_t SENT  {: System.out.println("ELSECOND"); :};
 
-/* sentencia while */
+                        /* SENTENCIA WHILE */
 
 WLOOP ::= while_t EXP do_t SENT {: System.out.println("WLOOP"); :};
 
-/* sentencia for  */
+                        /* SENTENCIA FOR  */
 
 FLOOP ::= for_t identifier asig EXP to EXP do_t SENT {: System.out.println("FLOOP"); :};
 
-/* sentencia case */
+                        /* SENTENCIA CASE */
 
 CASE ::= case_t EXP of CASELIST end {: System.out.println("CASE"); :};
-CASELIST ::= EXP colons SENT | EXP colons SENT CASELIST {: System.out.println("CASELIST"); :};
+CASELIST ::= EXP colons SENT
+             | EXP colons SENT CASELIST {: System.out.println("CASELIST"); :}
+             ;

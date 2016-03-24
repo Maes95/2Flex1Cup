@@ -13,10 +13,15 @@ import java_cup.runtime.*;
 %class AnalizadorLexico
 
 %{
+	StringBuffer string = new StringBuffer();
 
-public String string_acum = "";
-public String string_literal = "";
-StringBuffer string = new StringBuffer();
+	private Symbol symbol(int type) {
+    return new java_cup.runtime.Symbol(type, yyline+1, yycolumn+1);
+  }
+
+  private Symbol symbol(int type, Object value) {
+    return new java_cup.runtime.Symbol(type, yyline+1, yycolumn+1, value);
+  }
 
 %}
 
@@ -29,10 +34,15 @@ DecimalInit = {OptionalSign}
 HexadecimalInit = \${OptionalSign}
 ComparatorOp = (>|<|=|>=|<=|<>)
 
+Identifier = ({Letter}|_)\w*
+
 Comment = {KeyComment} | {ParenthesisComment}
 
 KeyComment = "{" .* "}"
 ParenthesisComment = "(*" .* "*)"
+
+LineTerminator = \r|\n|\r\n
+WhiteSpace = {LineTerminator} | [ \t\f]
 
 
 // Estados
@@ -43,208 +53,205 @@ ParenthesisComment = "(*" .* "*)"
 <YYINITIAL>	{
 	"program"
 		{
-			System.out.println("_program");
-			return new java_cup.runtime.Symbol(sym.program);
+			return symbol(sym.program);
 		}
 	"begin"
 		{
-			return new java_cup.runtime.Symbol(sym.begin);
+			return symbol(sym.begin);
 		}
 	"end"
 		{
-			return new java_cup.runtime.Symbol(sym.end);
+			return symbol(sym.end);
 		}
 	"var"
 		{
-			System.out.println("_var");
-			return new java_cup.runtime.Symbol(sym.var);
+			return symbol(sym.var);
 		}
 	"const"
 		{
-			return new java_cup.runtime.Symbol(sym.const_t);
+			return symbol(sym.const_t);
 		}
 	"if"
 		{
-			return new java_cup.runtime.Symbol(sym.if_t);
+			return symbol(sym.if_t);
 		}
 	"then"
 		{
-			return new java_cup.runtime.Symbol(sym.then_t);
+			return symbol(sym.then_t);
 		}
 	"else"
 		{
-			return new java_cup.runtime.Symbol(sym.else_t);
+			return symbol(sym.else_t);
 		}
 	"while"
 		{
-			return new java_cup.runtime.Symbol(sym.while_t);
+			return symbol(sym.while_t);
 		}
 	"for"
 		{
-			return new java_cup.runtime.Symbol(sym.for_t);
+			return symbol(sym.for_t);
 		}
 	"to"
 		{
-			return new java_cup.runtime.Symbol(sym.to);
+			return symbol(sym.to);
 		}
 	"do"
 		{
-			return new java_cup.runtime.Symbol(sym.do_t);
+			return symbol(sym.do_t);
 		}
 	"case"
 		{
-			return new java_cup.runtime.Symbol(sym.case_t);
+			return symbol(sym.case_t);
 		}
 	"of"
 		{
-			return new java_cup.runtime.Symbol(sym.of);
+			return symbol(sym.of);
 		}
 	"function"
 		{
-			return new java_cup.runtime.Symbol(sym.function);
+			return symbol(sym.function);
 		}
 	"procedure"
 		{
-			return new java_cup.runtime.Symbol(sym.procedure);
+			return symbol(sym.procedure);
 		}
 	"type"
 		{
-			return new java_cup.runtime.Symbol(sym.type);
+			return symbol(sym.type);
 		}
 	"record"
 		{
-			return new java_cup.runtime.Symbol(sym.record);
+			return symbol(sym.record);
 		}
 	"array"
 		{
-			return new java_cup.runtime.Symbol(sym.array);
+			return symbol(sym.array);
 		}
 	"INTEGER"
 		{
-			return new java_cup.runtime.Symbol(sym.int_name);
+			return symbol(sym.int_name);
 		}
 	"REAL"
 		{
-			return new java_cup.runtime.Symbol(sym.real_name);
+			return symbol(sym.real_name);
 		}
 	"CHARACTER"
 		{
-			return new java_cup.runtime.Symbol(sym.char_name);
+			return symbol(sym.char_name);
 		}
 	";"
 		{
-			return new java_cup.runtime.Symbol(sym.semicolons);
+			return symbol(sym.semicolons);
 		}
 	":"
 		{
-			return new java_cup.runtime.Symbol(sym.colons);
+			return symbol(sym.colons);
 		}
 	":="
 		{
-			return new java_cup.runtime.Symbol(sym.asig);
+			return symbol(sym.asig);
 		}
 	"="
 		{
-			return new java_cup.runtime.Symbol(sym.equal);
+			return symbol(sym.equal);
 		}
 	","
 		{
-			return new java_cup.runtime.Symbol(sym.comma);
+			return symbol(sym.comma);
 		}
 	"."
 		{
-			return new java_cup.runtime.Symbol(sym.point);
+			return symbol(sym.point);
 		}
 	".."
 		{
-			return new java_cup.runtime.Symbol(sym.two_points);
+			return symbol(sym.two_points);
 		}
 	"("
 		{
-			return new java_cup.runtime.Symbol(sym.open_bracket);
+			return symbol(sym.open_bracket);
 		}
 	")"
 		{
-			return new java_cup.runtime.Symbol(sym.close_bracket);
+			return symbol(sym.close_bracket);
 		}
 	"["
 		{
-			return new java_cup.runtime.Symbol(sym.open_square_bracket);
+			return symbol(sym.open_square_bracket);
 		}
 	"]"
 		{
-			return new java_cup.runtime.Symbol(sym.close_square_bracket);
+			return symbol(sym.close_square_bracket);
 		}
 
 	"+" {
-			return new java_cup.runtime.Symbol(sym.plus);
+			return symbol(sym.plus);
 		}
 
 	"-" {
-			return new java_cup.runtime.Symbol(sym.minus);
+			return symbol(sym.minus);
 		}
 
 	\* {
-			return new java_cup.runtime.Symbol(sym.product);
+			return symbol(sym.product);
 		}
 
 	"div" {
-			return new java_cup.runtime.Symbol(sym.div_op);
+			return symbol(sym.div_op);
 		}
 
 	"mod" {
-			return new java_cup.runtime.Symbol(sym.mod_op);
+			return symbol(sym.mod_op);
 		}
 
 	"and" {
-			return new java_cup.runtime.Symbol(sym.and_op);
+			return symbol(sym.and_op);
 		}
 
 	"or" {
-			return new java_cup.runtime.Symbol(sym.or_op);
+			return symbol(sym.or_op);
 		}
 
 	"not"
 		{
-			return new java_cup.runtime.Symbol(sym.not_op);
+			return symbol(sym.not_op);
 		}
 
 	{ComparatorOp}
 		{
-			return new java_cup.runtime.Symbol(sym.comparator_op);
+			return symbol(sym.comparator_op);
 		}
 
 	(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
 		{
-			return new java_cup.runtime.Symbol(sym.decimal_value);
+			return symbol(sym.decimal_value);
 		}
 
 	(({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)?)
 		{
-			return new java_cup.runtime.Symbol(sym.hexadecimal_value);
+			return symbol(sym.hexadecimal_value);
 		}
 
-	({Letter}|_)\w*
+	{Identifier}
 		{
-			System.out.println("_identifier: " + yytext());
-			return new java_cup.runtime.Symbol(sym.identifier);
+			return symbol(sym.identifier, yytext());
 		}
 
   "'"
     {
-      System.out.println("COMIENZA STRING");
+			string.setLength(0);
       yybegin(STRING);
     }
 
   {Comment}                      { /* IGNORAR */ }
 
-	[^]                            { /* IGNORAR */ }
+	{WhiteSpace}                   { /* IGNORAR */ }
 
 }
 
 <STRING>
     {
-      "'"                            { yybegin(YYINITIAL); return new java_cup.runtime.Symbol(sym.string_literal);}
+      "'"                            { yybegin(YYINITIAL); return symbol(sym.string_literal, string.toString());}
       "''"	                         { string.append('\'');}
       [^\n\r\'\\]+                   { string.append( yytext() ); }
       \\t                            { string.append('\t'); }
@@ -254,3 +261,8 @@ ParenthesisComment = "(*" .* "*)"
       \\\"                           { string.append('\"'); }
       \\                             { string.append('\\'); }
     }
+
+		// CARACTERES NO VÁLIDOS
+
+		[^]                            { throw new RuntimeException("Cadena novalida:  \""+yytext()+
+		                                                              "\" en la linea "+yyline+", columna "+yycolumn); }
