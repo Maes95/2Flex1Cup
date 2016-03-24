@@ -13,7 +13,7 @@ import java_cup.runtime.*;
 %class AnalizadorLexico
 
 %{
-StringBuffer string = new StringBuffer();
+	StringBuffer string = new StringBuffer();
 
 	private Symbol symbol(int type) {
     return new java_cup.runtime.Symbol(type, yyline+1, yycolumn+1);
@@ -41,6 +41,9 @@ Comment = {KeyComment} | {ParenthesisComment}
 KeyComment = "{" .* "}"
 ParenthesisComment = "(*" .* "*)"
 
+LineTerminator = \r|\n|\r\n
+WhiteSpace = {LineTerminator} | [ \t\f]
+
 
 // Estados
 %xstate STRING
@@ -50,7 +53,6 @@ ParenthesisComment = "(*" .* "*)"
 <YYINITIAL>	{
 	"program"
 		{
-			System.out.println("_program");
 			return symbol(sym.program);
 		}
 	"begin"
@@ -63,7 +65,6 @@ ParenthesisComment = "(*" .* "*)"
 		}
 	"var"
 		{
-			System.out.println("_var");
 			return symbol(sym.var);
 		}
 	"const"
@@ -233,20 +234,18 @@ ParenthesisComment = "(*" .* "*)"
 
 	{Identifier}
 		{
-			System.out.println("_identifier: " + yytext());
 			return symbol(sym.identifier, yytext());
 		}
 
   "'"
     {
-      System.out.println("COMIENZA STRING");
 			string.setLength(0);
       yybegin(STRING);
     }
 
   {Comment}                      { /* IGNORAR */ }
 
-	[^]                            { /* IGNORAR */ }
+	{WhiteSpace}                   { /* IGNORAR */ }
 
 }
 
@@ -262,3 +261,8 @@ ParenthesisComment = "(*" .* "*)"
       \\\"                           { string.append('\"'); }
       \\                             { string.append('\\'); }
     }
+
+		// CARACTERES NO VÁLIDOS
+
+		[^]                            { throw new RuntimeException("Cadena novalida:  \""+yytext()+
+		                                                              "\" en la linea "+yyline+", columna "+yycolumn); }
