@@ -12,6 +12,7 @@ procedure intercambio ( v1, v2: INTEGER )  ;
 var
 	aux: INTEGER;
 begin
+	aux { ERROR RECUPERABLE }
 	aux := 0;
 	aux := v1;
 	v1 := v2;
@@ -57,5 +58,7 @@ begin
 
 
 	while  a < 20  do a := a + 1;
+
+cosas { ERROR IRRECUPERABLE }
 
 end.
