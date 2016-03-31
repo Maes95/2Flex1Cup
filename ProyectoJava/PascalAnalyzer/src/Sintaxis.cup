@@ -104,28 +104,28 @@ precedence left else_t;
 
 /* ------------ SINTAXIS BÁSICA  ----------- */
 
-PRG::= program identifier:i1 semicolons BLQ point {: System.out.println("PRG (program "+i1+" ; BLQ .)");  mostrarArbol("PRG (program "+i1+" ; BLQ .)"); :};
-BLQ::= DCLLIST begin SENTLIST end {: System.out.println("BLQ (DCLLIST begin SENTLIST end)");  :};
+PRG::= program identifier:i1 semicolons BLQ point {: System.out.println("PRG <program "+i1+" ; BLQ .>"); :};
+BLQ::= DCLLIST begin SENTLIST end {: System.out.println("BLQ <DCLLIST begin SENTLIST end>"); :};
 
-DCLLIST::=              {: System.out.println("DCLLIST (lambda)"); :}
-          | DCLLIST DCL {: System.out.println("DCLLIST (DCLLIST DCL)"); :}
+DCLLIST::=              {: System.out.println("DCLLIST <lambda>"); :}
+          | DCLLIST DCL {: System.out.println("DCLLIST <DCLLIST DCL>"); :}
           ;
 
-SENTLIST::= SENT {: System.out.println("SENTLIST (SENT)"); :}
-          | SENTLIST SENT {: System.out.println("SENTLIST (SENTLIST SENT)"); :}
+SENTLIST::= SENT {: System.out.println("SENTLIST <SENT>"); :}
+          | SENTLIST SENT {: System.out.println("SENTLIST <SENTLIST SENT>"); :}
           ;
 
-DCL::= DEFCTE   {: System.out.println("DCL (DEFCTE)"); :}
-      | DEFVAR  {: System.out.println("DCL (DEFVAR)"); :}
-      | DEFPROC {: System.out.println("DCL (DEFPROC)"); :}
-      | DEFFUN  {: System.out.println("DCL (DEFFUN)"); :}
-      | DEFTYPE {: System.out.println("DCL (DEFTYPE)"); :}
+DCL::= DEFCTE   {: System.out.println("DCL <DEFCTE>"); :}
+      | DEFVAR  {: System.out.println("DCL <DEFVAR>"); :}
+      | DEFPROC {: System.out.println("DCL <DEFPROC>"); :}
+      | DEFFUN  {: System.out.println("DCL <DEFFUN>"); :}
+      | DEFTYPE {: System.out.println("DCL <DEFTYPE>"); :}
       ;
 
-DEFCTE::= const_t CTELIST {: System.out.println("DEFCTE (const CTELIST)"); :};
+DEFCTE::= const_t CTELIST {: System.out.println("DEFCTE <const CTELIST>"); :};
 
-CTELIST::= identifier:i1 equal SIMPVALUE semicolons {: System.out.println("CTELIST (" +i1+" = SIMPVALUE ;)"); :}
-          | CTELIST identifier:i2 equal SIMPVALUE semicolons {: System.out.println("CTELIST (CTELIST "+i2+" = SIMPVALUE ;)"); :}
+CTELIST::= identifier:i1 equal SIMPVALUE semicolons {: System.out.println("CTELIST <" +i1+" = SIMPVALUE ;>"); :}
+          | CTELIST identifier:i2 equal SIMPVALUE semicolons {: System.out.println("CTELIST <CTELIST "+i2+" = SIMPVALUE ;>"); :}
           ;
 
 SIMPVALUE::= decimal_value:dv    {: System.out.println("REDUCIDO SIMVALUE: " + dv ); :}
@@ -133,25 +133,25 @@ SIMPVALUE::= decimal_value:dv    {: System.out.println("REDUCIDO SIMVALUE: " + d
           | string_literal:sl    {: System.out.println("REDUCIDO SIMVALUE: " + sl ); :}
           ;
 
-DEFVAR::= var DEFVARLIST semicolons {: System.out.println("DEFVAR (var DEFVARLIST ;)"); :};
+DEFVAR::= var DEFVARLIST semicolons {: System.out.println("DEFVAR <var DEFVARLIST ;>"); :};
 
-DEFVARLIST::= VARLIST colons ALLTYPES                        {: System.out.println("DEFVARLIST (VARLIST : ALLTYPES)"); :}
-             | DEFVARLIST semicolons VARLIST colons ALLTYPES {: System.out.println("DEFVARLIST (DEFVARLIST ; VARLIST : ALLTYPES)"); :}
+DEFVARLIST::= VARLIST colons ALLTYPES                        {: System.out.println("DEFVARLIST <VARLIST : ALLTYPES>"); :}
+             | DEFVARLIST semicolons VARLIST colons ALLTYPES {: System.out.println("DEFVARLIST <DEFVARLIST ; VARLIST : ALLTYPES>"); :}
              ;
 
 VARLIST::= identifier:i1                 {: System.out.println("REDUCIDO VARLIST: " + i1); :}
-           | identifier:i2 comma VARLIST {: System.out.println("VARLIST ("+i2+" , VARLIST)"); :}
+           | identifier:i2 comma VARLIST {: System.out.println("VARLIST <"+i2+" , VARLIST>"); :}
            ;
 
-DEFPROC::=  procedure identifier:i1 FORMAL_PARAMLIST semicolons BLQ semicolons {: System.out.println("DEFPROC (procedure "+i1+" FORMAL_PARAMLIST ; BLQ ;)"); :};
-DEFFUN::=  function identifier:i2 FORMAL_PARAMLIST colons ALLTYPES semicolons BLQ semicolons {: System.out.println("DEFFUN (function "+i2+" FORMAL_PARAMLIST : ALLTYPES ; BLQ ;)"); :};
+DEFPROC::=  procedure identifier:i1 FORMAL_PARAMLIST semicolons BLQ semicolons {: System.out.println("DEFPROC <procedure "+i1+" FORMAL_PARAMLIST ; BLQ ;>"); :};
+DEFFUN::=  function identifier:i2 FORMAL_PARAMLIST colons ALLTYPES semicolons BLQ semicolons {: System.out.println("DEFFUN <function "+i2+" FORMAL_PARAMLIST : ALLTYPES ; BLQ ;>"); :};
 
-FORMAL_PARAMLIST::=                                           {: System.out.println("FORMAL_PARAMLIST (lambda)"); :}
-                    | open_bracket FORMAL_PARAM close_bracket {: System.out.println("FORMAL_PARAMLIST ( ( FORMAL_PARAM ) )"); :}
+FORMAL_PARAMLIST::=                                           {: System.out.println("FORMAL_PARAMLIST <lambda>"); :}
+                    | open_bracket FORMAL_PARAM close_bracket {: System.out.println("FORMAL_PARAMLIST <( FORMAL_PARAM )>"); :}
                     ;
 
-FORMAL_PARAM::= VARLIST colons ALLTYPES                          {: System.out.println("FORMAL_PARAM (VARLIST : ALLTYPES)"); :}
-               | VARLIST colons ALLTYPES semicolons FORMAL_PARAM {: System.out.println("FORMAL_PARAM (VARLIST : ALLTYPES ; FORMAL_PARAM)"); :}
+FORMAL_PARAM::= VARLIST colons ALLTYPES                          {: System.out.println("FORMAL_PARAM <VARLIST : ALLTYPES>"); :}
+               | VARLIST colons ALLTYPES semicolons FORMAL_PARAM {: System.out.println("FORMAL_PARAM <VARLIST : ALLTYPES ; FORMAL_PARAM>"); :}
                ;
 
 TBAS::= int_name    {: System.out.println("REDUCIDO TBAS: INTEGER"); :}
@@ -159,33 +159,33 @@ TBAS::= int_name    {: System.out.println("REDUCIDO TBAS: INTEGER"); :}
         | char_name {: System.out.println("REDUCIDO TBAS: CHAR"); :}
         ;
 
-SENT::= ASIG semicolons         {: System.out.println("SENT (ASIG ;)"); :}
-        | PROC_CALL semicolons  {: System.out.println("SENT (PROC_CALL ;)"); :}
-        | EXEBLQ                {: System.out.println("SENT (EXEBLQ)"); :}
-        | COND                  {: System.out.println("SENT (COND)"); :}
-        | WLOOP                 {: System.out.println("SENT (WLOOP)"); :}
-        | FLOOP                 {: System.out.println("SENT (FLOOP)"); :}
-        | CASE                  {: System.out.println("SENT (CASE)"); :}
+SENT::= ASIG semicolons         {: System.out.println("SENT <ASIG ;>"); :}
+        | PROC_CALL semicolons  {: System.out.println("SENT <PROC_CALL ;>"); :}
+        | EXEBLQ                {: System.out.println("SENT <EXEBLQ>"); :}
+        | COND                  {: System.out.println("SENT <COND>"); :}
+        | WLOOP                 {: System.out.println("SENT <WLOOP>"); :}
+        | FLOOP                 {: System.out.println("SENT <FLOOP>"); :}
+        | CASE                  {: System.out.println("SENT <CASE>"); :}
         | error SENT            {: System.out.println("Recuperacion de error satisfactoria en SENT"); :}
         ;
 
-ASIG::= ID asig EXP {: System.out.println("ASIG (ID := EXP)"); :};
+ASIG::= ID asig EXP {: System.out.println("ASIG <ID := EXP>"); :};
 
 ID::= identifier:i1                                                {: System.out.println("REDUCIDO ID: "+i1); :}
-      | identifier:i4 open_square_bracket EXP close_square_bracket {: System.out.println("ID ("+i4+" [ EXP ])"); :}
-      | identifier:i2 point identifier:i3                          {: System.out.println("REDUCIDO ID: "+i2+"."+i3); :}
+      | identifier:i4 open_square_bracket EXP close_square_bracket {: System.out.println("ID <"+i4+" [ EXP ]>"); :}
+      | identifier:i2 point identifier:i3                          {: System.out.println("REDUCIDO ID: "+i2+" . "+i3); :}
       ;
 
-EXP::= EXP OP EXP {: System.out.println("EXP (EXP OP EXP)"); :}
-       | FACTOR   {: System.out.println("EXP (FACTOR)"); :}
+EXP::= EXP OP EXP {: System.out.println("EXP <EXP OP EXP>"); :}
+       | FACTOR   {: System.out.println("EXP <FACTOR>"); :}
        ;
 
-OP::= OPCOMP   {: System.out.println("OP (OPCOMP)"); :}
-      | OPLOG  {: System.out.println("OP (OPLOG)"); :}
-      | OPARIT {: System.out.println("OP (OPARIT)"); :}
+OP::= OPCOMP   {: System.out.println("OP <OPCOMP>"); :}
+      | OPLOG  {: System.out.println("OP <OPLOG>"); :}
+      | OPARIT {: System.out.println("OP <OPARIT>"); :}
       ;
 
-OPCOMP::= comparator_op:op {: System.out.println("OPCOMP ("+op+")"); :}; /* MIRAR */
+OPCOMP::= comparator_op:op {: System.out.println("OPCOMP <"+op+">"); :}; /* MIRAR */
 
 OPARIT::= plus       {: System.out.println("REDUCIDO OPARIT: +"); :}
           | minus    {: System.out.println("REDUCIDO OPARIT: -"); :}
@@ -199,47 +199,47 @@ OPLOG::= and_op    {: System.out.println("REDUCIDO OPLOG: and"); :}
           | or_op  {: System.out.println("REDUCIDO OPLOG: or"); :}
           ;
 
-FACTOR::= SIMPVALUE                                                      {: System.out.println("FACTOR (SIMPVALUE)"); :}
-          | not_op FACTOR                                                {: System.out.println("FACTOR (not FACTOR)"); :}
-          | open_bracket EXP close_bracket                               {: System.out.println("FACTOR ( ( EXP ) )"); :}
-          | identifier:i1 SUBPARAMLIST                                   {: System.out.println("FACTOR ("+i1+" SUBPARAMLIST)"); :}
-          | identifier:i2 open_square_bracket EXP close_square_bracket   {: System.out.println("FACTOR ("+i2+" [ EXP ])"); :}
-          | identifier:i3 point identifier:i4                            {: System.out.println("FACTOR ("+i3+" . "+i4+")"); :}
+FACTOR::= SIMPVALUE                                                      {: System.out.println("FACTOR <SIMPVALUE>"); :}
+          | not_op FACTOR                                                {: System.out.println("FACTOR <not FACTOR>"); :}
+          | open_bracket EXP close_bracket                               {: System.out.println("FACTOR <( EXP )>"); :}
+          | identifier:i1 SUBPARAMLIST                                   {: System.out.println("FACTOR <"+i1+" SUBPARAMLIST>"); :}
+          | identifier:i2 open_square_bracket EXP close_square_bracket   {: System.out.println("FACTOR <"+i2+" [ EXP ]>"); :}
+          | identifier:i3 point identifier:i4                            {: System.out.println("FACTOR <"+i3+" . "+i4+">"); :}
           ;
 
-SUBPARAMLIST::=                                      {: System.out.println("SUBPARAMLIST (lambda)"); :}
-                | open_bracket EXPLIST close_bracket {: System.out.println("SUBPARAMLIST ( ( EXPLIST ) )"); :}
+SUBPARAMLIST::=                                      {: System.out.println("SUBPARAMLIST <lambda>"); :}
+                | open_bracket EXPLIST close_bracket {: System.out.println("SUBPARAMLIST <( EXPLIST )>"); :}
                 ;
 
-EXPLIST::= EXP                {: System.out.println("EXPLIST (EXP)"); :}
-          | EXP comma EXPLIST {: System.out.println("EXPLIST (EXP , EXPLIST)"); :}
+EXPLIST::= EXP                {: System.out.println("EXPLIST <EXP>"); :}
+          | EXP comma EXPLIST {: System.out.println("EXPLIST <EXP , EXPLIST>"); :}
           ;
 
-PROC_CALL::= identifier:i1 SUBPARAMLIST {: System.out.println("PROC_CALL ("+i1+" SUBPARAMLIST)"); :};
-EXEBLQ::= DCLLIST_BLQ begin SENTLIST end {: System.out.println("EXEBLQ (DCLLIST_BLQ begin SENTLIST end)"); :};
+PROC_CALL::= identifier:i1 SUBPARAMLIST {: System.out.println("PROC_CALL <"+i1+" SUBPARAMLIST>"); :};
+EXEBLQ::= DCLLIST_BLQ begin SENTLIST end {: System.out.println("EXEBLQ <DCLLIST_BLQ begin SENTLIST end>"); :};
 
-DCLLIST_BLQ::=                                   {: System.out.println("DCLLIST_BLQ (lambda)"); :}
-               | DCLLIST_BLQ semicolons DCL_BLQ  {: System.out.println("DCLLIST_BLQ (DCLLIST_BLQ ; DCL_BLQ)"); :}
+DCLLIST_BLQ::=                                   {: System.out.println("DCLLIST_BLQ <lambda>"); :}
+               | DCLLIST_BLQ semicolons DCL_BLQ  {: System.out.println("DCLLIST_BLQ <DCLLIST_BLQ ; DCL_BLQ>"); :}
                ;
 
-DCL_BLQ::= DEFCTE    {: System.out.println("DCL_BLQ (DEFCTE)"); :}
-           | DEFVAR  {: System.out.println("DCL_BLQ (DEFVAR)"); :}
-           | DEFTYPE {: System.out.println("DCL_BLQ (DEFTYPE)"); :}
+DCL_BLQ::= DEFCTE    {: System.out.println("DCL_BLQ <DEFCTE>"); :}
+           | DEFVAR  {: System.out.println("DCL_BLQ <DEFVAR>"); :}
+           | DEFTYPE {: System.out.println("DCL_BLQ <DEFTYPE>"); :}
            ;
 
 /* ------------ SINTAXIS ESTRUCTURAS DE DATOS  ----------- */
 
-DEFTYPE ::= type TYPELIST {: System.out.println("DEFTYPE (type TYPELIST)"); :};
+DEFTYPE ::= type TYPELIST {: System.out.println("DEFTYPE <type TYPELIST>"); :};
 
-TYPELIST ::= identifier:i1 equal UDTYPE semicolons              {: System.out.println("TYPELIST ("+i1+" = UDTYPE ;)"); :}
-              | identifier:i2 equal UDTYPE semicolons TYPELIST  {: System.out.println("TYPELIST ("+i2+" = UDTYPE ; TYPELIST)"); :}
+TYPELIST ::= identifier:i1 equal UDTYPE semicolons              {: System.out.println("TYPELIST <"+i1+" = UDTYPE ;>"); :}
+              | identifier:i2 equal UDTYPE semicolons TYPELIST  {: System.out.println("TYPELIST <"+i2+" = UDTYPE ; TYPELIST>"); :}
               ;
 
-UDTYPE ::= array open_square_bracket SIMPVALUE two_points SIMPVALUE close_square_bracket of ALLTYPES {: System.out.println("UDTYPE (array [SIMPVALUE .. SIMPVALUE] of ALLTYPES)"); :}
-              | record DEFVARLIST end                                                                {: System.out.println("UDTYPE (record DEFVARLIST end)"); :}
+UDTYPE ::= array open_square_bracket SIMPVALUE two_points SIMPVALUE close_square_bracket of ALLTYPES {: System.out.println("UDTYPE <array [ SIMPVALUE .. SIMPVALUE ] of ALLTYPES>"); :}
+              | record DEFVARLIST end                                                                {: System.out.println("UDTYPE <record DEFVARLIST end>"); :}
               ;
 
-ALLTYPES ::= TBAS            {: System.out.println("ALLTYPES (TBAS)"); :}
+ALLTYPES ::= TBAS            {: System.out.println("ALLTYPES <TBAS>"); :}
              | identifier:i  {: System.out.println("REDUCIDO ALLTYPES: "+i); :}
              ;
 
@@ -247,24 +247,24 @@ ALLTYPES ::= TBAS            {: System.out.println("ALLTYPES (TBAS)"); :}
 
                          /* SENTENCIA IF */
 
-COND ::= if_t EXP then_t SENT ELSECOND {: System.out.println("COND (if EXP then SENT ELSECOND)"); :};
+COND ::= if_t EXP then_t SENT ELSECOND {: System.out.println("COND <if EXP then SENT ELSECOND>"); :};
 
-ELSECOND ::=               {: System.out.println("ELSECOND (lambda)"); :}
-            | else_t SENT  {: System.out.println("ELSECOND (else SENT)"); :}
+ELSECOND ::=               {: System.out.println("ELSECOND <lambda>"); :}
+            | else_t SENT  {: System.out.println("ELSECOND <else SENT>"); :}
             ;
 
                         /* SENTENCIA WHILE */
 
-WLOOP ::= while_t EXP do_t SENT {: System.out.println("WLOOP (while EXP do SENT)"); :};
+WLOOP ::= while_t EXP do_t SENT {: System.out.println("WLOOP <while EXP do SENT>"); :};
 
                         /* SENTENCIA FOR  */
 
-FLOOP ::= for_t identifier:i1 asig EXP to EXP do_t SENT {: System.out.println("FLOOP (for "+i1+" := EXP to EXP do SENT)"); :};
+FLOOP ::= for_t identifier:i1 asig EXP to EXP do_t SENT {: System.out.println("FLOOP <for "+i1+" := EXP to EXP do SENT>"); :};
 
                         /* SENTENCIA CASE */
 
-CASE ::= case_t EXP of CASELIST end {: System.out.println("CASE (case EXP of CASELIST)"); :};
+CASE ::= case_t EXP of CASELIST end {: System.out.println("CASE <case EXP of CASELIST end>"); :};
 
-CASELIST ::= EXP colons SENT            {: System.out.println("CASELIST (EXP : SENT)"); :}
-             | EXP colons SENT CASELIST {: System.out.println("CASELIST (EXP : SENT CASELIST)"); :}
+CASELIST ::= EXP colons SENT            {: System.out.println("CASELIST <EXP : SENT>"); :}
+             | EXP colons SENT CASELIST {: System.out.println("CASELIST <EXP : SENT CASELIST>"); :}
              ;
