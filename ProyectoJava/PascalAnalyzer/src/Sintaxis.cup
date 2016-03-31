@@ -203,7 +203,7 @@ TYPELIST ::= identifier:i1 equal UDTYPE semicolons              {: System.out.pr
               | identifier:i2 equal UDTYPE semicolons TYPELIST  {: System.out.println("TYPELIST <"+i2+" = UDTYPE ; TYPELIST>"); :}
               ;
 
-UDTYPE ::= array open_square_bracket SIMPVALUE two_points SIMPVALUE close_square_bracket of ALLTYPES {: System.out.println("UDTYPE <array [SIMPVALUE .. SIMPVALUE] of ALLTYPES>"); :}
+UDTYPE ::= array open_square_bracket SIMPVALUE two_points SIMPVALUE close_square_bracket of ALLTYPES {: System.out.println("UDTYPE <array [ SIMPVALUE .. SIMPVALUE ] of ALLTYPES>"); :}
               | record DEFVARLIST end                                                                {: System.out.println("UDTYPE <record DEFVARLIST end>"); :}
               ;
 
