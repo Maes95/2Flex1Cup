@@ -219,7 +219,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 
 	{ComparatorOp}
 		{
-			return symbol(sym.comparator_op);
+			return symbol(sym.comparator_op, yytext());
 		}
 
 	(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
@@ -264,5 +264,5 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 
 		// CARACTERES NO VÁLIDOS
 
-		[^]                            { throw new RuntimeException("Cadena novalida:  \""+yytext()+
+		[^]                            { throw new RuntimeException("Cadena no valida:  \""+yytext()+
 		                                                              "\" en la linea "+yyline+", columna "+yycolumn); }
