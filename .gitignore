@@ -13,6 +13,9 @@ hs_err_pid*
 
 ProyectoJava/.metadata/*
 
+ProyectoJava/.idea/*
+
 ProyectoJava/RemoteSystemsTempFiles/*
 
 ProyectoJava/PascalAnalyzer/.classpath
+ProyectoJava/PascalAnalyzer/PascalAnalyzer.iml
