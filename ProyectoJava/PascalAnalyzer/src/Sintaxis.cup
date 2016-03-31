@@ -1,4 +1,36 @@
 import java_cup.runtime.*;
+import java.util.Stack;
+
+/* ------------ CÓDIGO AÑADIDO AL INICIO DEL PROGRAMA -----------*/
+
+init with {:
+  // INIT CODE
+  // Para inicializar
+  this.stack = new Stack<>();
+:};
+
+action code {:
+  // ACTION CODE
+  // Para ejecutables
+  public void pushRegla(String cadena){
+    Regla regla = new Regla(cadena);
+    stack.push(regla);
+  }
+
+  public void mostrarArbol(String cadena){
+    Regla regla = new Regla(cadena);
+    System.out.println("_" + regla.antecedente);
+    Regla.printSyntacticTree(stack, "");
+  }
+
+:};
+
+parser code {:
+  // PARSE CODE
+  // Para declarar
+  Stack<Regla> stack;
+:};
+
 
 /* ------------ CÓDIGO AÑADIDO PARA MOSTRAR ERRORES ----------- */
 
@@ -72,8 +104,8 @@ precedence left else_t;
 
 /* ------------ SINTAXIS BÁSICA  ----------- */
 
-PRG::= program identifier:i1 semicolons BLQ point {: System.out.println("PRG (program "+i1+" ; BLQ .)"); :};
-BLQ::= DCLLIST begin SENTLIST end {: System.out.println("BLQ (DCLLIST begin SENTLIST end)"); :};
+PRG::= program identifier:i1 semicolons BLQ point {: System.out.println("PRG (program "+i1+" ; BLQ .)");  mostrarArbol("PRG (program "+i1+" ; BLQ .)"); :};
+BLQ::= DCLLIST begin SENTLIST end {: System.out.println("BLQ (DCLLIST begin SENTLIST end)");  :};
 
 DCLLIST::=              {: System.out.println("DCLLIST (lambda)"); :}
           | DCLLIST DCL {: System.out.println("DCLLIST (DCLLIST DCL)"); :}
