@@ -121,8 +121,8 @@ FORMAL_PARAM::= VARLIST colons ALLTYPES
                ;
 
 TBAS::= int_name
-        | real_name
-        | char_name {: System.out.println("TBAS"); :}
+        | real_name {: System.out.println("REAL"); :}
+        | char_name {: System.out.println("CHAR"); :}
         ;
 
 SENT::= ASIG semicolons
@@ -165,7 +165,8 @@ OPLOG::= and_op
           | or_op {: System.out.println("OPLOG"); :}
           ;
 
-FACTOR::= SIMPVALUE | not_op FACTOR
+FACTOR::= SIMPVALUE
+          | not_op FACTOR
           | open_bracket EXP close_bracket
           | identifier SUBPARAMLIST
           | identifier open_square_bracket EXP close_square_bracket
