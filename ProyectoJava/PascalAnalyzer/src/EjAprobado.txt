@@ -2,6 +2,7 @@ program EjemploAprobado;
 function areaCuadrado ( lado: REAL ) : REAL ;
 var
 	resultado: REAL;
+	unChar: CHARACTER;
 begin
 	resultado := +0.0;
 	resultado := lado * lado;
