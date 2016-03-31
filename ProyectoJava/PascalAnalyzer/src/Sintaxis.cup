@@ -26,7 +26,7 @@ parser code {:
 
         salidaError.append(" : " + mensajeError);
 
-        System.err.println(salidaError);
+        System.out.println(salidaError);
     }
 
     /* Método para errores irrecuperables */
@@ -132,7 +132,7 @@ SENT::= ASIG semicolons
         | WLOOP
         | FLOOP
         | CASE
-        | error SENT {: System.err.println("Recuperacion de error satisfactoria"); :}
+        | error SENT {: System.out.println("Recuperacion de error satisfactoria"); :}
         ;
 
 ASIG::= ID asig EXP {: System.out.println("ASIG"); :};

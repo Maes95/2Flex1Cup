@@ -15,7 +15,10 @@ ProyectoJava/.metadata/*
 
 ProyectoJava/.idea/*
 
+ProyectoJava/out/*
+
 ProyectoJava/RemoteSystemsTempFiles/*
 
 ProyectoJava/PascalAnalyzer/.classpath
 ProyectoJava/PascalAnalyzer/PascalAnalyzer.iml
+ProyectoJava/PascalAnalyzer/src/AnalizadorLexico.java
