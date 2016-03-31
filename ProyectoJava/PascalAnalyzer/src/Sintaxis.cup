@@ -141,7 +141,7 @@ ASIG::= ID asig EXP {: System.out.println("ASIG <ID := EXP>"); :};
 
 ID::= identifier:i1                                                {: System.out.println("REDUCIDO ID: "+i1); :}
       | identifier:i4 open_square_bracket EXP close_square_bracket {: System.out.println("ID <"+i4+" [ EXP ]>"); :}
-      | identifier:i2 point identifier:i3                          {: System.out.println("REDUCIDO ID: "+i2+"."+i3); :}
+      | identifier:i2 point identifier:i3                          {: System.out.println("REDUCIDO ID: "+i2+" . "+i3); :}
       ;
 
 EXP::= EXP OP EXP {: System.out.println("EXP <EXP OP EXP>"); :}
