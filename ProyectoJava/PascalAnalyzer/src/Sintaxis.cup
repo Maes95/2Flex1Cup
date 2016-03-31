@@ -5,13 +5,13 @@ import java.util.Stack;
 
 init with {:
   // INIT CODE
-  // Para inicializar
+  // Codigo para inicializar
   this.stack = new Stack<>();
 :};
 
 action code {:
   // ACTION CODE
-  // Para ejecutables
+  // Codigo para métodos
   public void pushRegla(String cadena){
     Regla regla = new Regla(cadena);
     stack.push(regla);
@@ -21,14 +21,14 @@ action code {:
     Regla regla = new Regla(cadena);
     stack.push(regla);
     System.out.println("_" + regla.antecedente);
-    Regla.printSyntacticTree(stack, "");
+    Regla.printSyntacticTree(stack, ""); // Pinta el arbol sintáctico
   }
 
 :};
 
 parser code {:
   // PARSE CODE
-  // Para declarar
+  // Código para declarar variables
   Stack<Regla> stack;
 :};
 

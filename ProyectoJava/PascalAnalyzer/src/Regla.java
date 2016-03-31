@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 import java.util.Stack;
 import java.util.regex.Pattern;
 
 
 /**
  *
- * @author Michel
+ * @author Michel & Pablo
  */
 public class Regla{
 
@@ -44,6 +37,7 @@ public class Regla{
             }else{
                 System.out.println(s + "   |_" + word);
                 r.numNT--;
+                // No incluira la continuación de una rama si es el ultimo hijo (el primero) y es un NO TERMINAL
                 if(r.numNT == 0 && r.consecuentes.empty()){
                   printSyntacticTree(reglas, s + "    ");
                 }else{
@@ -55,7 +49,7 @@ public class Regla{
 
     /**
      * @param args the command line arguments
-     */
+
     public static void main(String[] args) {
         Regla regla = new Regla("SENTLIST <SENTLIST SENT>");
         Regla regla2 = new Regla("BLQ <DCLLIST begin SENTLIST end>");
@@ -68,4 +62,5 @@ public class Regla{
         printSyntacticTree(stack, "");
 
     }
+    */
 }
