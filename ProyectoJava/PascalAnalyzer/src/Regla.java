@@ -15,17 +15,18 @@ import java.util.regex.Pattern;
  */
 public class Regla{
 
-    String cadena;
+    int numNT;
     String antecedente;
     Stack<String> consecuentes;
 
     public Regla (String cadena){
-      this.cadena = cadena;
-      String[] array = cadena.split(" <");
+      this.numNT = 0;
+      String[] array = cadena.split(" <%");
       this.antecedente = array[0];
       this.consecuentes = new Stack<>();
-      for (String word : array[1].split(">")[0].split(" ") ){
+      for (String word : array[1].split("%>")[0].split(" ") ){
         consecuentes.push(word);
+        if(!esTerminal(word)){numNT++;}
       }
     }
 
@@ -42,7 +43,12 @@ public class Regla{
                 System.out.println(s + "   |_" + word);
             }else{
                 System.out.println(s + "   |_" + word);
-                printSyntacticTree(reglas, s + "   |");
+                r.numNT--;
+                if(r.numNT == 0 && r.consecuentes.empty()){
+                  printSyntacticTree(reglas, s + "    ");
+                }else{
+                  printSyntacticTree(reglas, s + "   |");
+                }
             }
         }
     }

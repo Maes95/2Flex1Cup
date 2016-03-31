@@ -19,6 +19,7 @@ action code {:
 
   public void mostrarArbol(String cadena){
     Regla regla = new Regla(cadena);
+    stack.push(regla);
     System.out.println("_" + regla.antecedente);
     Regla.printSyntacticTree(stack, "");
   }
@@ -104,167 +105,167 @@ precedence left else_t;
 
 /* ------------ SINTAXIS BÁSICA  ----------- */
 
-PRG::= program identifier:i1 semicolons BLQ point {: System.out.println("PRG <program "+i1+" ; BLQ .>"); :};
-BLQ::= DCLLIST begin SENTLIST end {: System.out.println("BLQ <DCLLIST begin SENTLIST end>"); :};
+PRG::= program identifier:i1 semicolons BLQ point {: mostrarArbol("PRG <%program "+i1+" ; BLQ .%>"); :};
+BLQ::= DCLLIST begin SENTLIST end {: pushRegla("BLQ <%DCLLIST begin SENTLIST end%>"); :};
 
-DCLLIST::=              {: System.out.println("DCLLIST <lambda>"); :}
-          | DCLLIST DCL {: System.out.println("DCLLIST <DCLLIST DCL>"); :}
+DCLLIST::=              {: pushRegla("DCLLIST <%lambda%>"); :}
+          | DCLLIST DCL {: pushRegla("DCLLIST <%DCLLIST DCL%>"); :}
           ;
 
-SENTLIST::= SENT {: System.out.println("SENTLIST <SENT>"); :}
-          | SENTLIST SENT {: System.out.println("SENTLIST <SENTLIST SENT>"); :}
+SENTLIST::= SENT {: pushRegla("SENTLIST <%SENT%>");  :}
+          | SENTLIST SENT {: pushRegla("SENTLIST <%SENTLIST SENT%>"); :}
           ;
 
-DCL::= DEFCTE   {: System.out.println("DCL <DEFCTE>"); :}
-      | DEFVAR  {: System.out.println("DCL <DEFVAR>"); :}
-      | DEFPROC {: System.out.println("DCL <DEFPROC>"); :}
-      | DEFFUN  {: System.out.println("DCL <DEFFUN>"); :}
-      | DEFTYPE {: System.out.println("DCL <DEFTYPE>"); :}
+DCL::= DEFCTE   {: pushRegla("DCL <%DEFCTE%>"); :}
+      | DEFVAR  {: pushRegla("DCL <%DEFVAR%>"); :}
+      | DEFPROC {: pushRegla("DCL <%DEFPROC%>"); :}
+      | DEFFUN  {: pushRegla("DCL <%DEFFUN%>"); :}
+      | DEFTYPE {: pushRegla("DCL <%DEFTYPE%>"); :}
       ;
 
-DEFCTE::= const_t CTELIST {: System.out.println("DEFCTE <const CTELIST>"); :};
+DEFCTE::= const_t CTELIST {: pushRegla("DEFCTE <%const CTELIST%>"); :};
 
-CTELIST::= identifier:i1 equal SIMPVALUE semicolons {: System.out.println("CTELIST <" +i1+" = SIMPVALUE ;>"); :}
-          | CTELIST identifier:i2 equal SIMPVALUE semicolons {: System.out.println("CTELIST <CTELIST "+i2+" = SIMPVALUE ;>"); :}
+CTELIST::= identifier:i1 equal SIMPVALUE semicolons {: pushRegla("CTELIST <%" +i1+" = SIMPVALUE ;%>"); :}
+          | CTELIST identifier:i2 equal SIMPVALUE semicolons {: pushRegla("CTELIST <%CTELIST "+i2+" = SIMPVALUE ;%>"); :}
           ;
 
-SIMPVALUE::= decimal_value:dv    {: System.out.println("REDUCIDO SIMVALUE: " + dv ); :}
-          | hexadecimal_value:hv {: System.out.println("REDUCIDO SIMVALUE: " + hv ); :}
-          | string_literal:sl    {: System.out.println("REDUCIDO SIMVALUE: " + sl ); :}
+SIMPVALUE::= decimal_value:dv    {: pushRegla("SIMVALUE <%" + dv + "%>" ); :}
+          | hexadecimal_value:hv {: pushRegla("SIMVALUE <%" + hv + "%>"); :}
+          | string_literal:sl    {: pushRegla("SIMVALUE <%" + sl + "%>"); :}
           ;
 
-DEFVAR::= var DEFVARLIST semicolons {: System.out.println("DEFVAR <var DEFVARLIST ;>"); :};
+DEFVAR::= var DEFVARLIST semicolons {: pushRegla("DEFVAR <%var DEFVARLIST ;%>"); :};
 
-DEFVARLIST::= VARLIST colons ALLTYPES                        {: System.out.println("DEFVARLIST <VARLIST : ALLTYPES>"); :}
-             | DEFVARLIST semicolons VARLIST colons ALLTYPES {: System.out.println("DEFVARLIST <DEFVARLIST ; VARLIST : ALLTYPES>"); :}
+DEFVARLIST::= VARLIST colons ALLTYPES                        {: pushRegla("DEFVARLIST <%VARLIST : ALLTYPES%>"); :}
+             | DEFVARLIST semicolons VARLIST colons ALLTYPES {: pushRegla("DEFVARLIST <%DEFVARLIST ; VARLIST : ALLTYPES%>"); :}
              ;
 
-VARLIST::= identifier:i1                 {: System.out.println("REDUCIDO VARLIST: " + i1); :}
-           | identifier:i2 comma VARLIST {: System.out.println("VARLIST <"+i2+" , VARLIST>"); :}
+VARLIST::= identifier:i1                 {: pushRegla("VARLIST <%" + i1 + "%>"); :}
+           | identifier:i2 comma VARLIST {: pushRegla("VARLIST <%"+i2+" , VARLIST%>"); :}
            ;
 
-DEFPROC::=  procedure identifier:i1 FORMAL_PARAMLIST semicolons BLQ semicolons {: System.out.println("DEFPROC <procedure "+i1+" FORMAL_PARAMLIST ; BLQ ;>"); :};
-DEFFUN::=  function identifier:i2 FORMAL_PARAMLIST colons ALLTYPES semicolons BLQ semicolons {: System.out.println("DEFFUN <function "+i2+" FORMAL_PARAMLIST : ALLTYPES ; BLQ ;>"); :};
+DEFPROC::=  procedure identifier:i1 FORMAL_PARAMLIST semicolons BLQ semicolons {: pushRegla("DEFPROC <%procedure "+i1+" FORMAL_PARAMLIST ; BLQ ;%>"); :};
+DEFFUN::=  function identifier:i2 FORMAL_PARAMLIST colons ALLTYPES semicolons BLQ semicolons {: pushRegla("DEFFUN <%function "+i2+" FORMAL_PARAMLIST : ALLTYPES ; BLQ ;%>"); :};
 
-FORMAL_PARAMLIST::=                                           {: System.out.println("FORMAL_PARAMLIST <lambda>"); :}
-                    | open_bracket FORMAL_PARAM close_bracket {: System.out.println("FORMAL_PARAMLIST <( FORMAL_PARAM )>"); :}
+FORMAL_PARAMLIST::=                                           {: pushRegla("FORMAL_PARAMLIST <%lambda%>"); :}
+                    | open_bracket FORMAL_PARAM close_bracket {: pushRegla("FORMAL_PARAMLIST <%( FORMAL_PARAM )%>"); :}
                     ;
 
-FORMAL_PARAM::= VARLIST colons ALLTYPES                          {: System.out.println("FORMAL_PARAM <VARLIST : ALLTYPES>"); :}
-               | VARLIST colons ALLTYPES semicolons FORMAL_PARAM {: System.out.println("FORMAL_PARAM <VARLIST : ALLTYPES ; FORMAL_PARAM>"); :}
+FORMAL_PARAM::= VARLIST colons ALLTYPES                          {: pushRegla("FORMAL_PARAM <%VARLIST : ALLTYPES%>"); :}
+               | VARLIST colons ALLTYPES semicolons FORMAL_PARAM {: pushRegla("FORMAL_PARAM <%VARLIST : ALLTYPES ; FORMAL_PARAM%>"); :}
                ;
 
-TBAS::= int_name    {: System.out.println("REDUCIDO TBAS: INTEGER"); :}
-        | real_name {: System.out.println("REDUCIDO TBAS: REAL"); :}
-        | char_name {: System.out.println("REDUCIDO TBAS: CHAR"); :}
+TBAS::= int_name    {: pushRegla("TBAS <%INTEGER%>"); :}
+        | real_name {: pushRegla("TBAS <%REAL%>"); :}
+        | char_name {: pushRegla("TBAS <%CHAR%>"); :}
         ;
 
-SENT::= ASIG semicolons         {: System.out.println("SENT <ASIG ;>"); :}
-        | PROC_CALL semicolons  {: System.out.println("SENT <PROC_CALL ;>"); :}
-        | EXEBLQ                {: System.out.println("SENT <EXEBLQ>"); :}
-        | COND                  {: System.out.println("SENT <COND>"); :}
-        | WLOOP                 {: System.out.println("SENT <WLOOP>"); :}
-        | FLOOP                 {: System.out.println("SENT <FLOOP>"); :}
-        | CASE                  {: System.out.println("SENT <CASE>"); :}
-        | error SENT            {: System.out.println("Recuperacion de error satisfactoria en SENT"); :}
+SENT::= ASIG semicolons         {: pushRegla("SENT <%ASIG ;%>"); :}
+        | PROC_CALL semicolons  {: pushRegla("SENT <%PROC_CALL ;%>"); :}
+        | EXEBLQ                {: pushRegla("SENT <%EXEBLQ%>"); :}
+        | COND                  {: pushRegla("SENT <%COND%>"); :}
+        | WLOOP                 {: pushRegla("SENT <%WLOOP%>"); :}
+        | FLOOP                 {: pushRegla("SENT <%FLOOP%>"); :}
+        | CASE                  {: pushRegla("SENT <%CASE%>"); :}
+        | error SENT            {: pushRegla("Recuperacion de error satisfactoria en SENT"); :}
         ;
 
-ASIG::= ID asig EXP {: System.out.println("ASIG <ID := EXP>"); :};
+ASIG::= ID asig EXP {: pushRegla("ASIG <%ID := EXP%>"); :};
 
-ID::= identifier:i1                                                {: System.out.println("REDUCIDO ID: "+i1); :}
-      | identifier:i4 open_square_bracket EXP close_square_bracket {: System.out.println("ID <"+i4+" [ EXP ]>"); :}
-      | identifier:i2 point identifier:i3                          {: System.out.println("REDUCIDO ID: "+i2+" . "+i3); :}
+ID::= identifier:i1                                                {: pushRegla("ID <%"+i1+"%>"); :}
+      | identifier:i4 open_square_bracket EXP close_square_bracket {: pushRegla("ID <%"+i4+" [ EXP ]%>"); :}
+      | identifier:i2 point identifier:i3                          {: pushRegla("ID <%"+i2+" . "+i3+"%>"); :}
       ;
 
-EXP::= EXP OP EXP {: System.out.println("EXP <EXP OP EXP>"); :}
-       | FACTOR   {: System.out.println("EXP <FACTOR>"); :}
+EXP::= EXP OP EXP {: pushRegla("EXP <%EXP OP EXP%>"); :}
+       | FACTOR   {: pushRegla("EXP <%FACTOR%>"); :}
        ;
 
-OP::= OPCOMP   {: System.out.println("OP <OPCOMP>"); :}
-      | OPLOG  {: System.out.println("OP <OPLOG>"); :}
-      | OPARIT {: System.out.println("OP <OPARIT>"); :}
+OP::= OPCOMP   {: pushRegla("OP <%OPCOMP%>"); :}
+      | OPLOG  {: pushRegla("OP <%OPLOG%>"); :}
+      | OPARIT {: pushRegla("OP <%OPARIT%>"); :}
       ;
 
-OPCOMP::= comparator_op:op {: System.out.println("OPCOMP <"+op+">"); :}; /* MIRAR */
+OPCOMP::= comparator_op:op {: pushRegla("OPCOMP <%"+op+"%>"); :}; /* MIRAR */
 
-OPARIT::= plus       {: System.out.println("REDUCIDO OPARIT: +"); :}
-          | minus    {: System.out.println("REDUCIDO OPARIT: -"); :}
-          | product  {: System.out.println("REDUCIDO OPARIT: *"); :}
-          | div_op   {: System.out.println("REDUCIDO OPARIT: div"); :}
-          | mod_op   {: System.out.println("REDUCIDO OPARIT: mod"); :}
+OPARIT::= plus       {: pushRegla("OPARIT <%+%>"); :}
+          | minus    {: pushRegla("OPARIT <%-%>"); :}
+          | product  {: pushRegla("OPARIT <%*%>"); :}
+          | div_op   {: pushRegla("OPARIT <%div%>"); :}
+          | mod_op   {: pushRegla("OPARIT <%mod%>"); :}
           ;
 
 
-OPLOG::= and_op    {: System.out.println("REDUCIDO OPLOG: and"); :}
-          | or_op  {: System.out.println("REDUCIDO OPLOG: or"); :}
+OPLOG::= and_op    {: pushRegla("OPLOG <%and%>"); :}
+          | or_op  {: pushRegla("OPLOG <%or%>"); :}
           ;
 
-FACTOR::= SIMPVALUE                                                      {: System.out.println("FACTOR <SIMPVALUE>"); :}
-          | not_op FACTOR                                                {: System.out.println("FACTOR <not FACTOR>"); :}
-          | open_bracket EXP close_bracket                               {: System.out.println("FACTOR <( EXP )>"); :}
-          | identifier:i1 SUBPARAMLIST                                   {: System.out.println("FACTOR <"+i1+" SUBPARAMLIST>"); :}
-          | identifier:i2 open_square_bracket EXP close_square_bracket   {: System.out.println("FACTOR <"+i2+" [ EXP ]>"); :}
-          | identifier:i3 point identifier:i4                            {: System.out.println("FACTOR <"+i3+" . "+i4+">"); :}
+FACTOR::= SIMPVALUE                                                      {: pushRegla("FACTOR <%SIMPVALUE%>"); :}
+          | not_op FACTOR                                                {: pushRegla("FACTOR <%not FACTOR%>"); :}
+          | open_bracket EXP close_bracket                               {: pushRegla("FACTOR <%( EXP )%>"); :}
+          | identifier:i1 SUBPARAMLIST                                   {: pushRegla("FACTOR <%"+i1+" SUBPARAMLIST%>"); :}
+          | identifier:i2 open_square_bracket EXP close_square_bracket   {: pushRegla("FACTOR <%"+i2+" [ EXP ]%>"); :}
+          | identifier:i3 point identifier:i4                            {: pushRegla("FACTOR <%"+i3+" . "+i4+"%>"); :}
           ;
 
-SUBPARAMLIST::=                                      {: System.out.println("SUBPARAMLIST <lambda>"); :}
-                | open_bracket EXPLIST close_bracket {: System.out.println("SUBPARAMLIST <( EXPLIST )>"); :}
+SUBPARAMLIST::=                                      {: pushRegla("SUBPARAMLIST <%lambda%>"); :}
+                | open_bracket EXPLIST close_bracket {: pushRegla("SUBPARAMLIST <%( EXPLIST )%>"); :}
                 ;
 
-EXPLIST::= EXP                {: System.out.println("EXPLIST <EXP>"); :}
-          | EXP comma EXPLIST {: System.out.println("EXPLIST <EXP , EXPLIST>"); :}
+EXPLIST::= EXP                {: pushRegla("EXPLIST <%EXP%>"); :}
+          | EXP comma EXPLIST {: pushRegla("EXPLIST <%EXP , EXPLIST%>"); :}
           ;
 
-PROC_CALL::= identifier:i1 SUBPARAMLIST {: System.out.println("PROC_CALL <"+i1+" SUBPARAMLIST>"); :};
-EXEBLQ::= DCLLIST_BLQ begin SENTLIST end {: System.out.println("EXEBLQ <DCLLIST_BLQ begin SENTLIST end>"); :};
+PROC_CALL::= identifier:i1 SUBPARAMLIST {: pushRegla("PROC_CALL <%"+i1+" SUBPARAMLIST%>"); :};
+EXEBLQ::= DCLLIST_BLQ begin SENTLIST end {: pushRegla("EXEBLQ <%DCLLIST_BLQ begin SENTLIST end%>"); :};
 
-DCLLIST_BLQ::=                                   {: System.out.println("DCLLIST_BLQ <lambda>"); :}
-               | DCLLIST_BLQ semicolons DCL_BLQ  {: System.out.println("DCLLIST_BLQ <DCLLIST_BLQ ; DCL_BLQ>"); :}
+DCLLIST_BLQ::=                                   {: pushRegla("DCLLIST_BLQ <%lambda%>"); :}
+               | DCLLIST_BLQ semicolons DCL_BLQ  {: pushRegla("DCLLIST_BLQ <%DCLLIST_BLQ ; DCL_BLQ%>"); :}
                ;
 
-DCL_BLQ::= DEFCTE    {: System.out.println("DCL_BLQ <DEFCTE>"); :}
-           | DEFVAR  {: System.out.println("DCL_BLQ <DEFVAR>"); :}
-           | DEFTYPE {: System.out.println("DCL_BLQ <DEFTYPE>"); :}
+DCL_BLQ::= DEFCTE    {: pushRegla("DCL_BLQ <%DEFCTE%>"); :}
+           | DEFVAR  {: pushRegla("DCL_BLQ <%DEFVAR%>"); :}
+           | DEFTYPE {: pushRegla("DCL_BLQ <%DEFTYPE%>"); :}
            ;
 
 /* ------------ SINTAXIS ESTRUCTURAS DE DATOS  ----------- */
 
-DEFTYPE ::= type TYPELIST {: System.out.println("DEFTYPE <type TYPELIST>"); :};
+DEFTYPE ::= type TYPELIST {: pushRegla("DEFTYPE <%type TYPELIST%>"); :};
 
-TYPELIST ::= identifier:i1 equal UDTYPE semicolons              {: System.out.println("TYPELIST <"+i1+" = UDTYPE ;>"); :}
-              | identifier:i2 equal UDTYPE semicolons TYPELIST  {: System.out.println("TYPELIST <"+i2+" = UDTYPE ; TYPELIST>"); :}
+TYPELIST ::= identifier:i1 equal UDTYPE semicolons              {: pushRegla("TYPELIST <%"+i1+" = UDTYPE ;%>"); :}
+              | identifier:i2 equal UDTYPE semicolons TYPELIST  {: pushRegla("TYPELIST <%"+i2+" = UDTYPE ; TYPELIST%>"); :}
               ;
 
-UDTYPE ::= array open_square_bracket SIMPVALUE two_points SIMPVALUE close_square_bracket of ALLTYPES {: System.out.println("UDTYPE <array [ SIMPVALUE .. SIMPVALUE ] of ALLTYPES>"); :}
-              | record DEFVARLIST end                                                                {: System.out.println("UDTYPE <record DEFVARLIST end>"); :}
+UDTYPE ::= array open_square_bracket SIMPVALUE two_points SIMPVALUE close_square_bracket of ALLTYPES {: pushRegla("UDTYPE <%array [ SIMPVALUE .. SIMPVALUE ] of ALLTYPES%>"); :}
+              | record DEFVARLIST end                                                                {: pushRegla("UDTYPE <%record DEFVARLIST end%>"); :}
               ;
 
-ALLTYPES ::= TBAS            {: System.out.println("ALLTYPES <TBAS>"); :}
-             | identifier:i  {: System.out.println("REDUCIDO ALLTYPES: "+i); :}
+ALLTYPES ::= TBAS            {: pushRegla("ALLTYPES <%TBAS%>"); :}
+             | identifier:i  {: pushRegla("ALLTYPES <%"+i+"%>"); :}
              ;
 
 /* ------------ SINTAXIS SENTENCIAS DE CONTROL DE FLUJO  ----------- */
 
                          /* SENTENCIA IF */
 
-COND ::= if_t EXP then_t SENT ELSECOND {: System.out.println("COND <if EXP then SENT ELSECOND>"); :};
+COND ::= if_t EXP then_t SENT ELSECOND {: pushRegla("COND <%if EXP then SENT ELSECOND%>"); :};
 
-ELSECOND ::=               {: System.out.println("ELSECOND <lambda>"); :}
-            | else_t SENT  {: System.out.println("ELSECOND <else SENT>"); :}
+ELSECOND ::=               {: pushRegla("ELSECOND <%lambda%>"); :}
+            | else_t SENT  {: pushRegla("ELSECOND <%else SENT%>"); :}
             ;
 
                         /* SENTENCIA WHILE */
 
-WLOOP ::= while_t EXP do_t SENT {: System.out.println("WLOOP <while EXP do SENT>"); :};
+WLOOP ::= while_t EXP do_t SENT {: pushRegla("WLOOP <%while EXP do SENT%>"); :};
 
                         /* SENTENCIA FOR  */
 
-FLOOP ::= for_t identifier:i1 asig EXP to EXP do_t SENT {: System.out.println("FLOOP <for "+i1+" := EXP to EXP do SENT>"); :};
+FLOOP ::= for_t identifier:i1 asig EXP to EXP do_t SENT {: pushRegla("FLOOP <%for "+i1+" := EXP to EXP do SENT%>"); :};
 
                         /* SENTENCIA CASE */
 
-CASE ::= case_t EXP of CASELIST end {: System.out.println("CASE <case EXP of CASELIST end>"); :};
+CASE ::= case_t EXP of CASELIST end {: pushRegla("CASE <%case EXP of CASELIST end%>"); :};
 
-CASELIST ::= EXP colons SENT            {: System.out.println("CASELIST <EXP : SENT>"); :}
-             | EXP colons SENT CASELIST {: System.out.println("CASELIST <EXP : SENT CASELIST>"); :}
+CASELIST ::= EXP colons SENT            {: pushRegla("CASELIST <%EXP : SENT%>"); :}
+             | EXP colons SENT CASELIST {: pushRegla("CASELIST <%EXP : SENT CASELIST%>"); :}
              ;
