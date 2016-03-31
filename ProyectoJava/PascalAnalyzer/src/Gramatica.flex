@@ -16,11 +16,11 @@ import java_cup.runtime.*;
 	StringBuffer string = new StringBuffer();
 
 	private Symbol symbol(int type) {
-    return new java_cup.runtime.Symbol(type, yyline+1, yycolumn+1);
+    return new java_cup.runtime.Symbol(type, yyline, yycolumn);
   }
 
   private Symbol symbol(int type, Object value) {
-    return new java_cup.runtime.Symbol(type, yyline+1, yycolumn+1, value);
+    return new java_cup.runtime.Symbol(type, yyline, yycolumn, value);
   }
 
 %}
@@ -224,12 +224,12 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 
 	(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
 		{
-			return symbol(sym.decimal_value);
+			return symbol(sym.decimal_value, yytext());
 		}
 
 	(({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)?)
 		{
-			return symbol(sym.hexadecimal_value);
+			return symbol(sym.hexadecimal_value, yytext());
 		}
 
 	{Identifier}
@@ -265,4 +265,4 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 		// CARACTERES NO VÁLIDOS
 
 		[^]                            { throw new RuntimeException("Cadena no valida:  \""+yytext()+
-		                                                              "\" en la linea "+yyline+", columna "+yycolumn); }
+		                                                              "\" en la linea "+(yyline+1)+", columna "+yycolumn); }
