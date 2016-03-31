@@ -115,7 +115,7 @@ DEFPROC::=  procedure identifier:i1 FORMAL_PARAMLIST semicolons BLQ semicolons {
 DEFFUN::=  function identifier:i2 FORMAL_PARAMLIST colons ALLTYPES semicolons BLQ semicolons {: System.out.println("DEFFUN <function "+i2+" FORMAL_PARAMLIST : ALLTYPES ; BLQ ;>"); :};
 
 FORMAL_PARAMLIST::=                                           {: System.out.println("FORMAL_PARAMLIST <lambda>"); :}
-                    | open_bracket FORMAL_PARAM close_bracket {: System.out.println("FORMAL_PARAMLIST < ( FORMAL_PARAM ) >"); :}
+                    | open_bracket FORMAL_PARAM close_bracket {: System.out.println("FORMAL_PARAMLIST <( FORMAL_PARAM )>"); :}
                     ;
 
 FORMAL_PARAM::= VARLIST colons ALLTYPES                          {: System.out.println("FORMAL_PARAM <VARLIST : ALLTYPES>"); :}
@@ -169,14 +169,14 @@ OPLOG::= and_op    {: System.out.println("REDUCIDO OPLOG: and"); :}
 
 FACTOR::= SIMPVALUE                                                      {: System.out.println("FACTOR <SIMPVALUE>"); :}
           | not_op FACTOR                                                {: System.out.println("FACTOR <not FACTOR>"); :}
-          | open_bracket EXP close_bracket                               {: System.out.println("FACTOR < ( EXP ) >"); :}
+          | open_bracket EXP close_bracket                               {: System.out.println("FACTOR <( EXP )>"); :}
           | identifier:i1 SUBPARAMLIST                                   {: System.out.println("FACTOR <"+i1+" SUBPARAMLIST>"); :}
           | identifier:i2 open_square_bracket EXP close_square_bracket   {: System.out.println("FACTOR <"+i2+" [ EXP ]>"); :}
           | identifier:i3 point identifier:i4                            {: System.out.println("FACTOR <"+i3+" . "+i4+">"); :}
           ;
 
 SUBPARAMLIST::=                                      {: System.out.println("SUBPARAMLIST <lambda>"); :}
-                | open_bracket EXPLIST close_bracket {: System.out.println("SUBPARAMLIST < ( EXPLIST ) >"); :}
+                | open_bracket EXPLIST close_bracket {: System.out.println("SUBPARAMLIST <( EXPLIST )>"); :}
                 ;
 
 EXPLIST::= EXP                {: System.out.println("EXPLIST <EXP>"); :}
