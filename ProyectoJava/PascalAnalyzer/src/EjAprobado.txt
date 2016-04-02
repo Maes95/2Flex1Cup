@@ -55,6 +55,9 @@ begin
 		valor3 := 8;
 	end
 
+        (* Comentario
+            multilinea *)
+
 	if 3 < 5 then
 		valor3 := 4;
 	else
@@ -62,6 +65,8 @@ begin
 		valor3 := 8;
 	end
 
+        { Otro comentario
+            multilinea }
 
 	case valor3 of
 	    1 : resultado := 1;
@@ -89,6 +94,8 @@ begin
 		a := a + 1;
 	end
 
-{ cosas ERROR IRRECUPERABLE }
+{ cosas ERROR IRRECUPERABLE &&% }
 
 end.
+
+{ Comentario que no importa que no se cierre
