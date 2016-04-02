@@ -1,28 +1,94 @@
-program EjemploAprobado; 
+program EjemploAprobado;
 function areaCuadrado ( lado: REAL ) : REAL ;
 var
 	resultado: REAL;
+	unChar: CHARACTER;
 begin
 	resultado := +0.0;
 	resultado := lado * lado;
-	areaCuadrado := resultado; 
+	areaCuadrado := resultado;
+	unString := 'You''re good;
 end;
 procedure intercambio ( v1, v2: INTEGER )  ;
 var
 	aux: INTEGER;
 begin
+	aux { ERROR RECUPERABLE }
 	aux := 0;
 	aux := v1;
 	v1 := v2;
 	v2 := aux;
+&
 end;
+
+type
+	TVector = array [1..25] of REAL;
+	TPunto = record
+              coordenadaX: INTEGER;
+              coordenadaY: INTEGER
+             end;
+
 var
 	medida: REAL;
-	valor1, valor2: INTEGER;
+	valor1, valor2, valor3, valor4, i, a, resultado : INTEGER;
 begin
 	medida := $4.A;
+	aux  { ERROR RECUPERABLE }
 	valor1 := -3;
 	valor2 := $F6;
 	medida := areaCuadrado( medida );
 	intercambio(valor1, valor2);
+
+	{ COMENTARIO PRUEBA }
+
+	if 3 < 5 then
+		valor3 := 4;
+	else
+		valor3 := 8;
+
+	if 3 < 5 then
+	begin
+		valor3 := 4;
+	end
+	else
+	begin
+		valor3 := 8;
+	end
+
+	if 3 < 5 then
+		valor3 := 4;
+	else
+	begin
+		valor3 := 8;
+	end
+
+
+	case valor3 of
+	    1 : resultado := 1;
+	    2 : resultado := 2;
+	    3 : resultado := 3;
+	    4 : resultado := 4;
+	end
+
+
+	for i := 1 to 10 do valor4 := valor4 + i;
+
+	for i := 1 to 10 do
+	begin
+	    valor4 := valor4 + i;
+			valor4 := valor4 + 2;
+	end
+
+	a := 1;
+
+	{ %&%& }
+	while  a < 20  do a := a + 1;
+
+	while  a < 20  do
+	begin
+		a := a + 1;
+	end
+
+{ cosas ERROR IRRECUPERABLE }
+
 end.

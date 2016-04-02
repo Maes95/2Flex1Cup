@@ -38,8 +38,8 @@ Identifier = ({Letter}|_)\w*
 
 Comment = {KeyComment} | {ParenthesisComment}
 
-KeyComment = "{" .* "}"
-ParenthesisComment = "(*" .* "*)"
+KeyComment = "{" [^"}"]* "}"
+ParenthesisComment = "(*" [^"*)"]* "*)"
 
 LineTerminator = \r|\n|\r\n
 WhiteSpace = {LineTerminator} | [ \t\f]
@@ -255,14 +255,13 @@ WhiteSpace = {LineTerminator} | [ \t\f]
       "''"	                         { string.append('\'');}
       [^\n\r\'\\]+                   { string.append( yytext() ); }
       \\t                            { string.append('\t'); }
-      \\n                            { string.append('\n'); }
-
-      \\r                            { string.append('\r'); }
       \\\"                           { string.append('\"'); }
       \\                             { string.append('\\'); }
+			{LineTerminator}               { yybegin(YYINITIAL); System.err.println("ERROR LEXICO: La cadena de caracteres "+string.toString()+" no se cerro correctamente (Fin de linea encontrado)"); }
+
     }
 
 		// CARACTERES NO VÁLIDOS
 
-		[^]                            { throw new RuntimeException("Cadena no valida:  \""+yytext()+
+		[^]                            { System.err.println("ERROR LEXICO: Cadena no valida:  \""+yytext()+
 		                                                              "\" en la linea "+(yyline+1)+", columna "+yycolumn); }

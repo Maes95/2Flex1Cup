@@ -1,55 +1,272 @@
 import java_cup.runtime.*;
+import java.util.Stack;
 
-terminal program, begin, end, var, const_t, if_t, then, else_t, while_t, for_t, to, do_t, case_t, of, function, procedure, type, int_name, real_name, char_name,
+/* ------------ CODIGO AÑADIDO PARA MOSTRAR EL ARBOL -----------*/
+
+init with {:
+  // INIT CODE
+  // Codigo para inicializar
+  System.out.println("---------------------------------------------------------------------\n"
+                    +"|       ANALIZADOR LEXICO Y SINTACTICO PARA LEGUAJE PASCAL          |\n"
+                    +"---------------------------------------------------------------------\n");
+  this.stack = new Stack<>();
+:};
+
+action code {:
+  // ACTION CODE
+  // Codigo para métodos
+  public void pushRegla(String cadena){
+    System.out.println(cadena);
+    Regla regla = new Regla(cadena);
+    stack.push(regla);
+  }
+
+  public void mostrarArbol(String cadena){
+    Regla regla = new Regla(cadena);
+    stack.push(regla);
+    System.out.println("---------------------------------------------------------------------\n"
+                      +"|                    ARBOL SINTACTICO GENERADO                      |\n"
+                      +"---------------------------------------------------------------------\n");
+    System.out.println("_" + regla.antecedente);
+    Regla.printSyntacticTree(stack, ""); // Pinta el arbol sintáctico (ver clase "Regla")
+  }
+
+:};
+
+/* ------------ CODIGO AÑADIDO PARA MOSTRAR ERRORES ----------- */
+
+parser code {:
+
+    Stack<Regla> stack; // Pila donde se almacenan las reglas que se han reducido
+
+    public void report_error(String mensajeError, Object token) {
+
+                 StringBuilder salidaError = new StringBuilder("ERROR SINTACTICO: ");
+
+                 if (token instanceof java_cup.runtime.Symbol) {
+
+                     java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) token);
+
+                     if (s.left >= 0) {
+                         salidaError.append(" en la linea "+(s.left));
+                         if (s.right >= 0)
+                             salidaError.append(", columna "+(s.right));
+                     }
+
+                     if (s.value != null){
+                         salidaError.append(". El token <"+s.value.toString()+"> no se ajusta a la sintaxis");
+                     }
+
+                 }
+
+        salidaError.append(" : " + mensajeError);
+
+        System.err.println(salidaError);
+    }
+
+    /* Método para errores irrecuperables */
+
+    public void unrecovered_syntax_error(Symbol token) throws java.lang.Exception {
+      report_fatal_error("El analizador no pudo recuperarse del error sintactico", token);
+    }
+
+    public void report_fatal_error(String mensajeError, Object token) {
+        mensajeError = "Error sintactico irrecuperable\n" + mensajeError;
+        report_error(mensajeError, token);
+        System.exit(1);
+    }
+
+    /* Método para errores recuperables */
+
+    public void syntax_error(Symbol token) {
+      report_error("Se procedera a intentar continuar con el analisis sintactico", token);
+    }
+
+:};
+
+/* ------------ DECLARACIÓN DE TERMINALES ----------- */
+
+terminal program, begin, end, var, const_t, if_t, then_t, else_t, while_t, for_t, to, do_t, case_t, of, function, procedure, type, int_name, real_name, char_name,
           semicolons, colons, asig, equal, comma, point, open_bracket, close_bracket, open_square_bracket, close_square_bracket, comparator_op,
-          not_op, decimal_value, hexadecimal_value, identifier, plus, minus, product, div_op, mod_op, and_op, or_op;
+          not_op, decimal_value, hexadecimal_value, string_literal, identifier, plus, minus, product, div_op, mod_op, and_op, or_op, two_points, array, record;
+
+/* ------------ DECLARACIÓN DE NO TERMINALES ----------- */
 
 non terminal PRG, BLQ, DCLLIST, SENTLIST, DCL, DEFCTE, CTELIST, SIMPVALUE, DEFVAR, DEFVARLIST, VARLIST, DEFPROC, DEFFUN, FORMAL_PARAMLIST, FORMAL_PARAM,
-              TBAS, SENT, ASIG, ID, EXP, OP, OPCOMP, OPARIT, OPLOG, FACTOR, SUBPARAMLIST, EXPLIST, PROC_CALL, EXEBLQ, DCLLIST_BLQ, DCL_BLQ;
+              TBAS, SENT, ASIG, ID, EXP, OP, OPCOMP, OPARIT, OPLOG, FACTOR, SUBPARAMLIST, EXPLIST, PROC_CALL, EXEBLQ, DCLLIST_BLQ, DCL_BLQ, DEFTYPE, TYPELIST, UDTYPE, ALLTYPES,
+              COND, ELSECOND, WLOOP, FLOOP, CASE, CASELIST;
+
+/* ------------ DECLARACIÓN DE PRECEDENCIA  ----------- */
 
 precedence left comparator_op;
 precedence left plus, minus, or_op;
 precedence left product, div_op, mod_op, and_op;
-/*precedence nonassoc EQUALS;*/
+precedence left open_bracket, close_bracket;
+precedence left else_t;
+
+/* ------------ SINTAXIS BÁSICA  ----------- */
+
+PRG::= program identifier:i1 semicolons BLQ point {: mostrarArbol("PRG <%program "+i1+" ; BLQ .%>"); :};
+BLQ::= DCLLIST begin SENTLIST end {: pushRegla("BLQ <%DCLLIST begin SENTLIST end%>"); :};
+
+DCLLIST::=              {: pushRegla("DCLLIST <%lambda%>"); :}
+          | DCLLIST DCL {: pushRegla("DCLLIST <%DCLLIST DCL%>"); :}
+          ;
+
+SENTLIST::= SENT {: pushRegla("SENTLIST <%SENT%>");  :}
+          | SENTLIST SENT {: pushRegla("SENTLIST <%SENTLIST SENT%>"); :}
+          | error
+          ;
+
+DCL::= DEFCTE   {: pushRegla("DCL <%DEFCTE%>"); :}
+      | DEFVAR  {: pushRegla("DCL <%DEFVAR%>"); :}
+      | DEFPROC {: pushRegla("DCL <%DEFPROC%>"); :}
+      | DEFFUN  {: pushRegla("DCL <%DEFFUN%>"); :}
+      | DEFTYPE {: pushRegla("DCL <%DEFTYPE%>"); :}
+      ;
+
+DEFCTE::= const_t CTELIST {: pushRegla("DEFCTE <%const CTELIST%>"); :};
+
+CTELIST::= identifier:i1 equal SIMPVALUE semicolons {: pushRegla("CTELIST <%" +i1+" = SIMPVALUE ;%>"); :}
+          | CTELIST identifier:i2 equal SIMPVALUE semicolons {: pushRegla("CTELIST <%CTELIST "+i2+" = SIMPVALUE ;%>"); :}
+          ;
+
+SIMPVALUE::= decimal_value:dv    {: pushRegla("SIMVALUE <%" + dv + "%>" ); :}
+          | hexadecimal_value:hv {: pushRegla("SIMVALUE <%" + hv + "%>"); :}
+          | string_literal:sl    {: pushRegla("SIMVALUE <%" + sl + "%>"); :}
+          ;
+
+DEFVAR::= var DEFVARLIST semicolons {: pushRegla("DEFVAR <%var DEFVARLIST ;%>"); :};
+
+DEFVARLIST::= VARLIST colons ALLTYPES                        {: pushRegla("DEFVARLIST <%VARLIST : ALLTYPES%>"); :}
+             | DEFVARLIST semicolons VARLIST colons ALLTYPES {: pushRegla("DEFVARLIST <%DEFVARLIST ; VARLIST : ALLTYPES%>"); :}
+             ;
+
+VARLIST::= identifier:i1                 {: pushRegla("VARLIST <%" + i1 + "%>"); :}
+           | identifier:i2 comma VARLIST {: pushRegla("VARLIST <%"+i2+" , VARLIST%>"); :}
+           ;
+
+DEFPROC::=  procedure identifier:i1 FORMAL_PARAMLIST semicolons BLQ semicolons {: pushRegla("DEFPROC <%procedure "+i1+" FORMAL_PARAMLIST ; BLQ ;%>"); :};
+DEFFUN::=  function identifier:i2 FORMAL_PARAMLIST colons ALLTYPES semicolons BLQ semicolons {: pushRegla("DEFFUN <%function "+i2+" FORMAL_PARAMLIST : ALLTYPES ; BLQ ;%>"); :};
+
+FORMAL_PARAMLIST::=                                           {: pushRegla("FORMAL_PARAMLIST <%lambda%>"); :}
+                    | open_bracket FORMAL_PARAM close_bracket {: pushRegla("FORMAL_PARAMLIST <%( FORMAL_PARAM )%>"); :}
+                    ;
+
+FORMAL_PARAM::= VARLIST colons ALLTYPES                          {: pushRegla("FORMAL_PARAM <%VARLIST : ALLTYPES%>"); :}
+               | VARLIST colons ALLTYPES semicolons FORMAL_PARAM {: pushRegla("FORMAL_PARAM <%VARLIST : ALLTYPES ; FORMAL_PARAM%>"); :}
+               ;
+
+TBAS::= int_name    {: pushRegla("TBAS <%INTEGER%>"); :}
+        | real_name {: pushRegla("TBAS <%REAL%>"); :}
+        | char_name {: pushRegla("TBAS <%CHAR%>"); :}
+        ;
+
+SENT::= ASIG semicolons         {: pushRegla("SENT <%ASIG ;%>"); :}
+        | PROC_CALL semicolons  {: pushRegla("SENT <%PROC_CALL ;%>"); :}
+        | EXEBLQ                {: pushRegla("SENT <%EXEBLQ%>"); :}
+        | COND                  {: pushRegla("SENT <%COND%>"); :}
+        | WLOOP                 {: pushRegla("SENT <%WLOOP%>"); :}
+        | FLOOP                 {: pushRegla("SENT <%FLOOP%>"); :}
+        | CASE                  {: pushRegla("SENT <%CASE%>"); :}
+        ;
+
+ASIG::= ID asig EXP {: pushRegla("ASIG <%ID := EXP%>"); :};
+
+ID::= identifier:i1                                                {: pushRegla("ID <%"+i1+"%>"); :}
+      | identifier:i4 open_square_bracket EXP close_square_bracket {: pushRegla("ID <%"+i4+" [ EXP ]%>"); :}
+      | identifier:i2 point identifier:i3                          {: pushRegla("ID <%"+i2+" . "+i3+"%>"); :}
+      ;
+
+EXP::= EXP OP EXP {: pushRegla("EXP <%EXP OP EXP%>"); :}
+       | FACTOR   {: pushRegla("EXP <%FACTOR%>"); :}
+       ;
+
+OP::= OPCOMP   {: pushRegla("OP <%OPCOMP%>"); :}
+      | OPLOG  {: pushRegla("OP <%OPLOG%>"); :}
+      | OPARIT {: pushRegla("OP <%OPARIT%>"); :}
+      ;
+
+OPCOMP::= comparator_op:op {: pushRegla("OPCOMP <%"+op+"%>"); :}; /* MIRAR */
+
+OPARIT::= plus       {: pushRegla("OPARIT <%+%>"); :}
+          | minus    {: pushRegla("OPARIT <%-%>"); :}
+          | product  {: pushRegla("OPARIT <%*%>"); :}
+          | div_op   {: pushRegla("OPARIT <%div%>"); :}
+          | mod_op   {: pushRegla("OPARIT <%mod%>"); :}
+          ;
 
 
-PRG::= program identifier semicolons BLQ point {: System.out.println("PRG"); :};
-BLQ::= DCLLIST begin SENTLIST end {: System.out.println("BLQ"); :};
-DCLLIST::= DCLLIST DCL |  {: System.out.println("DCLLIST"); :};
-SENTLIST::= SENT | SENTLIST SENT {: System.out.println("SENTLIST"); :};
+OPLOG::= and_op    {: pushRegla("OPLOG <%and%>"); :}
+          | or_op  {: pushRegla("OPLOG <%or%>"); :}
+          ;
 
-DCL::= DEFCTE | DEFVAR | DEFPROC | DEFFUN {: System.out.println("DCL"); :};
-DEFCTE::= const_t CTELIST {: System.out.println("DEFCTE"); :};
-CTELIST::= identifier equal SIMPVALUE semicolons
-          | CTELIST identifier equal SIMPVALUE semicolons {: System.out.println("CTELIST"); :};
-SIMPVALUE::= decimal_value | hexadecimal_value {: System.out.println("SIMPVALUE"); :}; /*­­­­Faltan los strings­­­­­­­­­*/
+FACTOR::= SIMPVALUE                                                      {: pushRegla("FACTOR <%SIMPVALUE%>"); :}
+          | not_op FACTOR                                                {: pushRegla("FACTOR <%not FACTOR%>"); :}
+          | open_bracket EXP close_bracket                               {: pushRegla("FACTOR <%( EXP )%>"); :}
+          | identifier:i1 SUBPARAMLIST                                   {: pushRegla("FACTOR <%"+i1+" SUBPARAMLIST%>"); :}
+          | identifier:i2 open_square_bracket EXP close_square_bracket   {: pushRegla("FACTOR <%"+i2+" [ EXP ]%>"); :}
+          | identifier:i3 point identifier:i4                            {: pushRegla("FACTOR <%"+i3+" . "+i4+"%>"); :}
+          ;
 
-DEFVAR::= var DEFVARLIST semicolons {: System.out.println("DEFVAR"); :};
-DEFVARLIST::= VARLIST colons TBAS
-             | DEFVARLIST semicolons VARLIST colons TBAS {: System.out.println("DEFVARLIST"); :};
-VARLIST::= identifier | identifier comma VARLIST {: System.out.println("VARLIST"); :};
-DEFPROC::=  procedure identifier FORMAL_PARAMLIST semicolons BLQ semicolons {: System.out.println("DEFPROC"); :};
-DEFFUN::=  function identifier FORMAL_PARAMLIST colons TBAS semicolons BLQ semicolons {: System.out.println("DEFFUN"); :};
-FORMAL_PARAMLIST::= open_bracket FORMAL_PARAM close_bracket |  {: System.out.println("FORMAL_PARAMLIST"); :};
-FORMAL_PARAM::= VARLIST colons TBAS
-               | VARLIST colons TBAS semicolons FORMAL_PARAM {: System.out.println("FORMAL_PARAM"); :};
-TBAS::= int_name | real_name | char_name {: System.out.println("TBAS"); :};
+SUBPARAMLIST::=                                      {: pushRegla("SUBPARAMLIST <%lambda%>"); :}
+                | open_bracket EXPLIST close_bracket {: pushRegla("SUBPARAMLIST <%( EXPLIST )%>"); :}
+                ;
 
-SENT::= ASIG semicolons | PROC_CALL semicolons | EXEBLQ {: System.out.println("SENT"); :};
-ASIG::= ID asig EXP {: System.out.println("ASIG"); :};
-ID::= identifier {: System.out.println("ID"); :};
+EXPLIST::= EXP                {: pushRegla("EXPLIST <%EXP%>"); :}
+          | EXP comma EXPLIST {: pushRegla("EXPLIST <%EXP , EXPLIST%>"); :}
+          ;
 
-EXP::= EXP OP EXP | FACTOR {: System.out.println("EXP"); :};
-OP::= OPCOMP | OPLOG | OPARIT {: System.out.println("OP"); :};
-OPCOMP::= comparator_op {: System.out.println("OPCOMP"); :};
-OPARIT::= plus | minus | product | div_op | mod_op {: System.out.println("OPARIT"); :};
-OPLOG::= and_op | or_op {: System.out.println("OPLOG"); :};
+PROC_CALL::= identifier:i1 SUBPARAMLIST {: pushRegla("PROC_CALL <%"+i1+" SUBPARAMLIST%>"); :};
+EXEBLQ::= DCLLIST_BLQ begin SENTLIST end {: pushRegla("EXEBLQ <%DCLLIST_BLQ begin SENTLIST end%>"); :};
 
-FACTOR::= SIMPVALUE | not_op FACTOR
-        | open_bracket EXP close_bracket | identifier SUBPARAMLIST {: System.out.println("FACTOR"); :};
-SUBPARAMLIST::= open_bracket EXPLIST close_bracket |  {: System.out.println("SUBPARAMLIST"); :};
-EXPLIST::= EXP | EXP comma EXPLIST {: System.out.println("EXPLIST"); :};
-PROC_CALL::= identifier SUBPARAMLIST {: System.out.println("PROC_CALL"); :};
-EXEBLQ::= DCLLIST_BLQ begin SENTLIST end {: System.out.println("EXEBLQ"); :};
-DCLLIST_BLQ::= DCLLIST_BLQ semicolons DCL_BLQ |  {: System.out.println("DCLLIST_BLQ"); :};
-DCL_BLQ::= DEFCTE | DEFVAR {: System.out.println("DCL_BLQ"); :}; /*Falta | DEFTYPE | ­­­­­­­­­*/
+DCLLIST_BLQ::=                                   {: pushRegla("DCLLIST_BLQ <%lambda%>"); :}
+               | DCLLIST_BLQ semicolons DCL_BLQ  {: pushRegla("DCLLIST_BLQ <%DCLLIST_BLQ ; DCL_BLQ%>"); :}
+               ;
+
+DCL_BLQ::= DEFCTE    {: pushRegla("DCL_BLQ <%DEFCTE%>"); :}
+           | DEFVAR  {: pushRegla("DCL_BLQ <%DEFVAR%>"); :}
+           | DEFTYPE {: pushRegla("DCL_BLQ <%DEFTYPE%>"); :}
+           ;
+
+/* ------------ SINTAXIS ESTRUCTURAS DE DATOS  ----------- */
+
+DEFTYPE ::= type TYPELIST {: pushRegla("DEFTYPE <%type TYPELIST%>"); :};
+
+TYPELIST ::= identifier:i1 equal UDTYPE semicolons              {: pushRegla("TYPELIST <%"+i1+" = UDTYPE ;%>"); :}
+              | identifier:i2 equal UDTYPE semicolons TYPELIST  {: pushRegla("TYPELIST <%"+i2+" = UDTYPE ; TYPELIST%>"); :}
+              ;
+
+UDTYPE ::= array open_square_bracket SIMPVALUE two_points SIMPVALUE close_square_bracket of ALLTYPES {: pushRegla("UDTYPE <%array [ SIMPVALUE .. SIMPVALUE ] of ALLTYPES%>"); :}
+              | record DEFVARLIST end                                                                {: pushRegla("UDTYPE <%record DEFVARLIST end%>"); :}
+              ;
+
+ALLTYPES ::= TBAS            {: pushRegla("ALLTYPES <%TBAS%>"); :}
+             | identifier:i  {: pushRegla("ALLTYPES <%"+i+"%>"); :}
+             ;
+
+/* ------------ SINTAXIS SENTENCIAS DE CONTROL DE FLUJO  ----------- */
+
+                         /* SENTENCIA IF */
+
+COND ::= if_t EXP then_t SENT ELSECOND {: pushRegla("COND <%if EXP then SENT ELSECOND%>"); :};
+
+ELSECOND ::=               {: pushRegla("ELSECOND <%lambda%>"); :}
+            | else_t SENT  {: pushRegla("ELSECOND <%else SENT%>"); :}
+            ;
+
+                        /* SENTENCIA WHILE */
+
+WLOOP ::= while_t EXP do_t SENT {: pushRegla("WLOOP <%while EXP do SENT%>"); :};
+
+                        /* SENTENCIA FOR  */
+
+FLOOP ::= for_t identifier:i1 asig EXP to EXP do_t SENT {: pushRegla("FLOOP <%for "+i1+" := EXP to EXP do SENT%>"); :};
+
+                        /* SENTENCIA CASE */
+
+CASE ::= case_t EXP of CASELIST end {: pushRegla("CASE <%case EXP of CASELIST end%>"); :};
+
+CASELIST ::= EXP colons SENT            {: pushRegla("CASELIST <%EXP : SENT%>"); :}
+             | EXP colons SENT CASELIST {: pushRegla("CASELIST <%EXP : SENT CASELIST%>"); :}
+             ;
