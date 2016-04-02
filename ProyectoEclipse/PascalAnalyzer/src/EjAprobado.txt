@@ -1,4 +1,4 @@
-program EjemploAprobado;
+program EjemploAprobadoExpandido1;
 function areaCuadrado ( lado: REAL ) : REAL ;
 var
 	resultado: REAL;
@@ -13,7 +13,7 @@ procedure intercambio ( v1, v2: INTEGER )  ;
 var
 	aux: INTEGER;
 begin
-	{aux  ERROR RECUPERABLE }
+	aux { ERROR RECUPERABLE }
 	aux := 0;
 	aux := v1;
 	v1 := v2;

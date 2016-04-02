@@ -1,7 +1,7 @@
 import java_cup.runtime.*;
 import java.util.Stack;
 
-/* ------------ CÓDIGO AÑADIDO AL INICIO DEL PROGRAMA -----------*/
+/* ------------ CÓDIGO AL INICIO DEL PROGRAMA -----------*/
 
 init with {:
   // INIT CODE
@@ -26,16 +26,13 @@ action code {:
 
 :};
 
-parser code {:
-  // PARSE CODE
-  // Código para declarar variables
-  Stack<Regla> stack;
-:};
-
-
 /* ------------ CÓDIGO AÑADIDO PARA MOSTRAR ERRORES ----------- */
 
 parser code {:
+
+    // PARSE CODE
+    // Código para declarar variables
+    Stack<Regla> stack;
 
     public void report_error(String mensajeError, Object token) {
 
@@ -59,7 +56,7 @@ parser code {:
 
         salidaError.append(" : " + mensajeError);
 
-        System.out.println(salidaError);
+        System.err.println(salidaError);
     }
 
     /* Método para errores irrecuperables */
@@ -167,7 +164,7 @@ SENT::= ASIG semicolons         {: pushRegla("SENT <%ASIG ;%>"); :}
         | WLOOP                 {: pushRegla("SENT <%WLOOP%>"); :}
         | FLOOP                 {: pushRegla("SENT <%FLOOP%>"); :}
         | CASE                  {: pushRegla("SENT <%CASE%>"); :}
-        | error SENT            {: pushRegla("Recuperacion de error satisfactoria en SENT"); :}
+        | error SENT            {: pushRegla("SENT <%Recuperacion_de_error_satisfactoria SENT%>"); :}
         ;
 
 ASIG::= ID asig EXP {: pushRegla("ASIG <%ID := EXP%>"); :};

@@ -1,35 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package pruebas;
-
 import java.util.Stack;
 import java.util.regex.Pattern;
 
 
 /**
  *
- * @author Michel
+ * @author Michel & Pablo
  */
 public class Regla{
 
-    String cadena;
+    int numNT;
     String antecedente;
     Stack<String> consecuentes;
 
     public Regla (String cadena){
-      this.cadena = cadena;
-      String[] array = cadena.split(" <");
+      this.numNT = 0;
+      String[] array = cadena.split(" <%");
       this.antecedente = array[0];
       this.consecuentes = new Stack<>();
-      for (String word : array[1].split(">")[0].split(" ") ){
+      for (String word : array[1].split("%>")[0].split(" ") ){
         consecuentes.push(word);
+        if(!esTerminal(word)){numNT++;}
       }
     }
 
-    public static boolean esTerminal(String cadena){
+    private static boolean esTerminal(String cadena){
         return !Pattern.compile("[A-Z_]*").matcher(cadena).matches();
     }
 
@@ -42,14 +36,20 @@ public class Regla{
                 System.out.println(s + "   |_" + word);
             }else{
                 System.out.println(s + "   |_" + word);
-                printSyntacticTree(reglas, s + "   |");
+                r.numNT--;
+                // No incluira la continuación de una rama si es el ultimo hijo (el primero) y es un NO TERMINAL
+                if(r.numNT == 0 && r.consecuentes.empty()){
+                  printSyntacticTree(reglas, s + "    ");
+                }else{
+                  printSyntacticTree(reglas, s + "   |");
+                }
             }
         }
     }
 
     /**
      * @param args the command line arguments
-     */
+
     public static void main(String[] args) {
         Regla regla = new Regla("SENTLIST <SENTLIST SENT>");
         Regla regla2 = new Regla("BLQ <DCLLIST begin SENTLIST end>");
@@ -62,4 +62,5 @@ public class Regla{
         printSyntacticTree(stack, "");
 
     }
+    */
 }
