@@ -22,6 +22,7 @@ action code {:
   }
 
   public void mostrarArbol(String cadena){
+    System.out.println(cadena + "\n");
     Regla regla = new Regla(cadena);
     stack.push(regla);
     System.out.println("---------------------------------------------------------------------\n"
