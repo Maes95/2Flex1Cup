@@ -1,11 +1,14 @@
 import java_cup.runtime.*;
 import java.util.Stack;
 
-/* ------------ CÓDIGO AÑADIDO AL INICIO DEL PROGRAMA -----------*/
+/* ------------ CODIGO AÑADIDO PARA MOSTRAR EL ARBOL -----------*/
 
 init with {:
   // INIT CODE
   // Codigo para inicializar
+  System.out.println("---------------------------------------------------------------------\n"
+                    +"|       ANALIZADOR LEXICO Y SINTACTICO PARA LEGUAJE PASCAL          |\n"
+                    +"---------------------------------------------------------------------\n");
   this.stack = new Stack<>();
 :};
 
@@ -13,6 +16,7 @@ action code {:
   // ACTION CODE
   // Codigo para métodos
   public void pushRegla(String cadena){
+    System.out.println(cadena);
     Regla regla = new Regla(cadena);
     stack.push(regla);
   }
@@ -20,26 +24,24 @@ action code {:
   public void mostrarArbol(String cadena){
     Regla regla = new Regla(cadena);
     stack.push(regla);
+    System.out.println("---------------------------------------------------------------------\n"
+                      +"|                    ARBOL SINTACTICO GENERADO                      |\n"
+                      +"---------------------------------------------------------------------\n");
     System.out.println("_" + regla.antecedente);
-    Regla.printSyntacticTree(stack, ""); // Pinta el arbol sintáctico
+    Regla.printSyntacticTree(stack, ""); // Pinta el arbol sintáctico (ver clase "Regla")
   }
 
 :};
 
-parser code {:
-  // PARSE CODE
-  // Código para declarar variables
-  Stack<Regla> stack;
-:};
-
-
-/* ------------ CÓDIGO AÑADIDO PARA MOSTRAR ERRORES ----------- */
+/* ------------ CODIGO AÑADIDO PARA MOSTRAR ERRORES ----------- */
 
 parser code {:
+
+    Stack<Regla> stack; // Pila donde se almacenan las reglas que se han reducido
 
     public void report_error(String mensajeError, Object token) {
 
-                 StringBuilder salidaError = new StringBuilder("Error");
+                 StringBuilder salidaError = new StringBuilder("ERROR SINTACTICO: ");
 
                  if (token instanceof java_cup.runtime.Symbol) {
 
@@ -59,7 +61,7 @@ parser code {:
 
         salidaError.append(" : " + mensajeError);
 
-        System.out.println(salidaError);
+        System.err.println(salidaError);
     }
 
     /* Método para errores irrecuperables */
@@ -77,7 +79,7 @@ parser code {:
     /* Método para errores recuperables */
 
     public void syntax_error(Symbol token) {
-      report_error("Error sintactico.\nSe procedera a intentar continuar con el analisis sintactico", token);
+      report_error("Se procedera a intentar continuar con el analisis sintactico", token);
     }
 
 :};
@@ -101,7 +103,6 @@ precedence left plus, minus, or_op;
 precedence left product, div_op, mod_op, and_op;
 precedence left open_bracket, close_bracket;
 precedence left else_t;
-/*precedence nonassoc EQUALS;*/
 
 /* ------------ SINTAXIS BÁSICA  ----------- */
 
@@ -114,6 +115,7 @@ DCLLIST::=              {: pushRegla("DCLLIST <%lambda%>"); :}
 
 SENTLIST::= SENT {: pushRegla("SENTLIST <%SENT%>");  :}
           | SENTLIST SENT {: pushRegla("SENTLIST <%SENTLIST SENT%>"); :}
+          | error
           ;
 
 DCL::= DEFCTE   {: pushRegla("DCL <%DEFCTE%>"); :}
@@ -167,7 +169,6 @@ SENT::= ASIG semicolons         {: pushRegla("SENT <%ASIG ;%>"); :}
         | WLOOP                 {: pushRegla("SENT <%WLOOP%>"); :}
         | FLOOP                 {: pushRegla("SENT <%FLOOP%>"); :}
         | CASE                  {: pushRegla("SENT <%CASE%>"); :}
-        | error SENT            {: pushRegla("Recuperacion de error satisfactoria en SENT"); :}
         ;
 
 ASIG::= ID asig EXP {: pushRegla("ASIG <%ID := EXP%>"); :};
