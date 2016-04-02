@@ -14,6 +14,7 @@ import java_cup.runtime.*;
 
 %{
 	StringBuffer string = new StringBuffer();
+	String inicioComentario = "";
 
 	private Symbol symbol(int type) {
     return new java_cup.runtime.Symbol(type, yyline, yycolumn);
@@ -23,9 +24,21 @@ import java_cup.runtime.*;
     return new java_cup.runtime.Symbol(type, yyline, yycolumn, value);
   }
 
+	private void errorLexico(String msg){
+		System.err.println("ERROR LEXICO: "+msg);
+	}
+
+	private void comentarioAbierto(String tipoComentario){
+		System.err.println("ADVERTENCIA EN LEXICO: No se cerro el comentario iniciado en "+inicioComentario+" ("+tipoComentario+")."
+											 +"Se asume que el resto del codigo es un comentario."
+											 +"Esto puede ocasionar errores irrecuperables en el analisis sintactico");
+		yybegin(YYINITIAL);
+	}
+
 %}
 
 // Macros
+
 Letter = [a-zA-Z]
 DecimalDigit = [0-9]
 HexadecimalDigit = [0-9A-F]
@@ -34,19 +47,17 @@ DecimalInit = {OptionalSign}
 HexadecimalInit = \${OptionalSign}
 ComparatorOp = (>|<|=|>=|<=|<>)
 
+HexadecimalValue = (({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)?)
+DecimalValue = (({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
+
 Identifier = ({Letter}|_)\w*
-
-Comment = {KeyComment} | {ParenthesisComment}
-
-KeyComment = "{" [^"}"]* "}"
-ParenthesisComment = "(*" [^"*)"]* "*)"
 
 LineTerminator = \r|\n|\r\n
 WhiteSpace = {LineTerminator} | [ \t\f]
 
 
 // Estados
-%xstate STRING
+%xstate STRING, KEYCOMMENT, BRACKETCOMMENT
 
 %% //{Reglas lexicas}
 
@@ -222,12 +233,12 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 			return symbol(sym.comparator_op, yytext());
 		}
 
-	(({DecimalInit}{DecimalDigit}+)(\.{DecimalDigit}+)?)
+	{DecimalValue}
 		{
 			return symbol(sym.decimal_value, yytext());
 		}
 
-	(({HexadecimalInit}{HexadecimalDigit}+)(\.{HexadecimalDigit}+)?)
+	{HexadecimalValue}
 		{
 			return symbol(sym.hexadecimal_value, yytext());
 		}
@@ -243,11 +254,33 @@ WhiteSpace = {LineTerminator} | [ \t\f]
       yybegin(STRING);
     }
 
-  {Comment}                      { /* IGNORAR */ }
+	"{"
+		{
+			yybegin(KEYCOMMENT); inicioComentario = "linea: "+(yyline+1)+", columna: "+yycolumn;
+		}
+
+	"(*"
+		{
+			yybegin(BRACKETCOMMENT); inicioComentario = "linea: "+(yyline+1)+", columna: "+yycolumn;
+		}
 
 	{WhiteSpace}                   { /* IGNORAR */ }
 
 }
+
+<KEYCOMMENT>
+		{
+			"}"   										 	 { yybegin(YYINITIAL); }
+			<<EOF>>                      { comentarioAbierto("KeyComment"); }
+			[^"}"]*											 { /* IGNORAR */ }
+		}
+
+<BRACKETCOMMENT>
+		{
+			"*)"   										 	 { yybegin(YYINITIAL); }
+			<<EOF>>                      { comentarioAbierto("BracketComment"); }
+			[^"*)"]*										 { /* IGNORAR */ }
+		}
 
 <STRING>
     {
@@ -257,11 +290,11 @@ WhiteSpace = {LineTerminator} | [ \t\f]
       \\t                            { string.append('\t'); }
       \\\"                           { string.append('\"'); }
       \\                             { string.append('\\'); }
-			{LineTerminator}               { yybegin(YYINITIAL); System.err.println("ERROR LEXICO: La cadena de caracteres "+string.toString()+" no se cerro correctamente (Fin de linea encontrado)"); }
+			{LineTerminator}               { errorLexico("La cadena de caracteres "+string.toString()+" no se cerro correctamente (Fin de linea encontrado)"); yybegin(YYINITIAL); }
 
     }
 
 		// CARACTERES NO VÁLIDOS
 
-		[^]                            { System.err.println("ERROR LEXICO: Cadena no valida:  \""+yytext()+
-		                                                              "\" en la linea "+(yyline+1)+", columna "+yycolumn); }
+		[^]                            { errorLexico("Cadena no valida:  \""+yytext()+
+		                                                              "\" en la linea "+(yyline+1)+", columna "+yycolumn+1); }
