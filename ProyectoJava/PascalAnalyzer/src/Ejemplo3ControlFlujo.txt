@@ -1,0 +1,65 @@
+program Ejemplo3ControlFlujo;
+
+var
+	valor1, valor2, valor3, valor4, i, a, resultado : INTEGER;
+begin
+
+  (* PROBAMOS LOS IF *)
+
+	if 3 < 5 then
+		valor3 := 4;
+	else
+		valor3 := 8;
+
+	if 3 < 5 then
+	begin
+		valor3 := 4;
+	end
+	else
+	begin
+		valor3 := 8;
+	end
+
+	if 3 < 5 then
+		valor3 := 4;
+	else
+	begin
+		valor3 := 8;
+	end
+
+  if 3 < 5 then
+	begin
+		valor3 := 4;
+	end
+	else
+		valor3 := 8;
+
+  (* PROBAMOS EL CASE *)
+
+	case valor3 of
+	    1 : resultado := 1;
+	    2 : resultado := 2;
+	    3 : resultado := 3;
+	    4 : resultado := 4;
+	end
+
+  (* PROBAMOS LOS FOR *)
+
+	for i := 1 to 10 do valor4 := valor4 + i;
+
+	for i := 1 to 10 do
+	begin
+	    valor4 := valor4 + i;
+			valor4 := valor4 + 2;
+	end
+
+  (* PROBAMOS LOS WHILE *)
+
+	while  a < 20  do a := a + 1;
+
+	while  a < 20  do
+	begin
+		a := a + 1;
+	end
+
+end.

@@ -1,0 +1,23 @@
+program Ejemplo2TiposDeDatos;
+
+type
+	TVector = array [1..25] of REAL;
+	TPunto = record
+              coordenadaX: INTEGER;
+              coordenadaY: INTEGER
+             end;
+var
+	valor1: TVector;
+  valor2: TPunto;
+begin
+
+  (* PROBAMOS LOS ARRAYS *)
+
+  valor1[0] := 1;
+
+  (* PROBAMOS LOS REGISTROS *)
+  
+  valor2.coordenadaX := 1;
+  valor2.coordenadaY := 2;
+
+end.
