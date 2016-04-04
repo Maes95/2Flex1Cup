@@ -1,0 +1,23 @@
+program Ejemplo5ErroresRecuperablesLexico;
+
+var
+  a: INTEGER;
+begin
+
+    & { Este simbolo se ignorará pero se notificará }
+
+    unStringCerrado := 'Cualquier cosa que se me ocurra que cierro';
+
+    ? { Este simbolo se ignorará pero se notificará }
+
+    unStringNoCerrado := 'Cualquier cosa que se me ocurra que no cierro ;
+
+    Ç { Este simbolo se ignorará pero se notificará }
+
+    otroStringEspecialNoCerrado := 'You''re good;
+
+    % { Este simbolo se ignorará pero se notificará }
+
+end.
+
+{ Comentario que no importa que no se cierre

@@ -24,7 +24,10 @@ public class Regla{
     }
 
     private static boolean esTerminal(String cadena){
-        return !Pattern.compile("[A-Z_]*").matcher(cadena).matches();
+        return !Pattern.compile("[A-Z_]*").matcher(cadena).matches() 
+                || "REAL".equals(cadena)
+                || "INTEGER".equals(cadena)
+                || "CHAR".equals(cadena);
     }
 
     public static void printSyntacticTree(Stack<Regla> reglas, String s){

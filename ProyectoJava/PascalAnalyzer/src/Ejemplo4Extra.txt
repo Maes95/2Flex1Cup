@@ -1,0 +1,57 @@
+program Ejemplo4Extra;
+
+(* Constantes *)
+
+const num = 2;
+const iva = +0.16;
+
+{ Funcio con const dentro }
+
+function areaCuadrado ( lado: REAL ) : REAL ;
+var
+	resultado: REAL;
+	unChar, unCharito: CHARACTER;
+const nombre = 123;
+begin
+	resultado := +0.0;
+	resultado := lado * lado;
+	areaCuadrado := resultado;
+end;
+
+{ Variables }
+
+var
+  a: INTEGER;
+	medida, miIva: REAL;
+begin
+
+  (* Un comentario unilinea con caracteres raros &%&$& 654&%$%$ *)
+
+  a := 19;
+
+  { Un comentario unilinea con caracteres raros &%&$& 654&%$%$ }
+
+  if a < 5 then
+    unString := 'Cualquier cosa que se me ocurra';
+  else
+    otroStringEspecial := 'You''re good';
+
+  a := num;
+
+  (*
+      Un comentario
+      muy largo que
+      será multilinea
+  *)
+
+  medida := $4.A;
+
+  miIva := iva;
+
+  {
+      Un comentario
+      muy largo que
+      será multilinea
+  }
+
+end.

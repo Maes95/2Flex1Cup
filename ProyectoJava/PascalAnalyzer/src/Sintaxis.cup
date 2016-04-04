@@ -55,7 +55,7 @@ parser code {:
                      }
 
                      if (s.value != null){
-                         salidaError.append(". El token <"+s.value.toString()+"> no se ajusta a la sintaxis");
+                         salidaError.append(". No se esperaba el token <"+s.value.toString()+">");
                      }
 
                  }
@@ -124,6 +124,7 @@ DCL::= DEFCTE   {: pushRegla("DCL <%DEFCTE%>"); :}
       | DEFPROC {: pushRegla("DCL <%DEFPROC%>"); :}
       | DEFFUN  {: pushRegla("DCL <%DEFFUN%>"); :}
       | DEFTYPE {: pushRegla("DCL <%DEFTYPE%>"); :}
+      | error
       ;
 
 DEFCTE::= const_t CTELIST {: pushRegla("DEFCTE <%const CTELIST%>"); :};
@@ -188,7 +189,7 @@ OP::= OPCOMP   {: pushRegla("OP <%OPCOMP%>"); :}
       | OPARIT {: pushRegla("OP <%OPARIT%>"); :}
       ;
 
-OPCOMP::= comparator_op:op {: pushRegla("OPCOMP <%"+op+"%>"); :}; /* MIRAR */
+OPCOMP::= comparator_op:op {: pushRegla("OPCOMP <%"+op+"%>"); :};
 
 OPARIT::= plus       {: pushRegla("OPARIT <%+%>"); :}
           | minus    {: pushRegla("OPARIT <%-%>"); :}

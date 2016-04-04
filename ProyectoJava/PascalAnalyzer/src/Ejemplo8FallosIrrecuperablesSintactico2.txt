@@ -1,0 +1,10 @@
+program Ejemplo8FallosIrrecuperablesSintactico;
+var
+	medida: REAL;
+	valor1, valor2: INTEGER;
+begin
+	medida := $4.A;
+	valor1 := -3;
+	valor2 := $F6;
+  (* Se me olvido cerrar este comentario y va a cascar
+end.
