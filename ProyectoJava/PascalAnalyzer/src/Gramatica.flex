@@ -16,10 +16,6 @@ import java_cup.runtime.*;
 	StringBuffer string = new StringBuffer();
 	String inicioComentario = "";
 
-	private Symbol symbol(int type) {
-    return new java_cup.runtime.Symbol(type, yyline, yycolumn);
-  }
-
   private Symbol symbol(int type, Object value) {
     return new java_cup.runtime.Symbol(type, yyline, yycolumn, value);
   }
@@ -64,168 +60,168 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 <YYINITIAL>	{
 	"program"
 		{
-			return symbol(sym.program);
+			return symbol(sym.program, yytext());
 		}
 	"begin"
 		{
-			return symbol(sym.begin);
+			return symbol(sym.begin, yytext());
 		}
 	"end"
 		{
-			return symbol(sym.end);
+			return symbol(sym.end, yytext());
 		}
 	"var"
 		{
-			return symbol(sym.var);
+			return symbol(sym.var, yytext());
 		}
 	"const"
 		{
-			return symbol(sym.const_t);
+			return symbol(sym.const_t, yytext());
 		}
 	"if"
 		{
-			return symbol(sym.if_t);
+			return symbol(sym.if_t, yytext());
 		}
 	"then"
 		{
-			return symbol(sym.then_t);
+			return symbol(sym.then_t, yytext());
 		}
 	"else"
 		{
-			return symbol(sym.else_t);
+			return symbol(sym.else_t, yytext());
 		}
 	"while"
 		{
-			return symbol(sym.while_t);
+			return symbol(sym.while_t, yytext());
 		}
 	"for"
 		{
-			return symbol(sym.for_t);
+			return symbol(sym.for_t, yytext());
 		}
 	"to"
 		{
-			return symbol(sym.to);
+			return symbol(sym.to, yytext());
 		}
 	"do"
 		{
-			return symbol(sym.do_t);
+			return symbol(sym.do_t, yytext());
 		}
 	"case"
 		{
-			return symbol(sym.case_t);
+			return symbol(sym.case_t, yytext());
 		}
 	"of"
 		{
-			return symbol(sym.of);
+			return symbol(sym.of, yytext());
 		}
 	"function"
 		{
-			return symbol(sym.function);
+			return symbol(sym.function, yytext());
 		}
 	"procedure"
 		{
-			return symbol(sym.procedure);
+			return symbol(sym.procedure, yytext());
 		}
 	"type"
 		{
-			return symbol(sym.type);
+			return symbol(sym.type, yytext());
 		}
 	"record"
 		{
-			return symbol(sym.record);
+			return symbol(sym.record, yytext());
 		}
 	"array"
 		{
-			return symbol(sym.array);
+			return symbol(sym.array, yytext());
 		}
 	"INTEGER"
 		{
-			return symbol(sym.int_name);
+			return symbol(sym.int_name, yytext());
 		}
 	"REAL"
 		{
-			return symbol(sym.real_name);
+			return symbol(sym.real_name, yytext());
 		}
 	"CHARACTER"
 		{
-			return symbol(sym.char_name);
+			return symbol(sym.char_name, yytext());
 		}
 	";"
 		{
-			return symbol(sym.semicolons);
+			return symbol(sym.semicolons, yytext());
 		}
 	":"
 		{
-			return symbol(sym.colons);
+			return symbol(sym.colons, yytext());
 		}
 	":="
 		{
-			return symbol(sym.asig);
+			return symbol(sym.asig, yytext());
 		}
 	"="
 		{
-			return symbol(sym.equal);
+			return symbol(sym.equal, yytext());
 		}
 	","
 		{
-			return symbol(sym.comma);
+			return symbol(sym.comma, yytext());
 		}
 	"."
 		{
-			return symbol(sym.point);
+			return symbol(sym.point, yytext());
 		}
 	".."
 		{
-			return symbol(sym.two_points);
+			return symbol(sym.two_points, yytext());
 		}
 	"("
 		{
-			return symbol(sym.open_bracket);
+			return symbol(sym.open_bracket, yytext());
 		}
 	")"
 		{
-			return symbol(sym.close_bracket);
+			return symbol(sym.close_bracket, yytext());
 		}
 	"["
 		{
-			return symbol(sym.open_square_bracket);
+			return symbol(sym.open_square_bracket, yytext());
 		}
 	"]"
 		{
-			return symbol(sym.close_square_bracket);
+			return symbol(sym.close_square_bracket, yytext());
 		}
 
 	"+" {
-			return symbol(sym.plus);
+			return symbol(sym.plus, yytext());
 		}
 
 	"-" {
-			return symbol(sym.minus);
+			return symbol(sym.minus, yytext());
 		}
 
 	\* {
-			return symbol(sym.product);
+			return symbol(sym.product, yytext());
 		}
 
 	"div" {
-			return symbol(sym.div_op);
+			return symbol(sym.div_op, yytext());
 		}
 
 	"mod" {
-			return symbol(sym.mod_op);
+			return symbol(sym.mod_op, yytext());
 		}
 
 	"and" {
-			return symbol(sym.and_op);
+			return symbol(sym.and_op, yytext());
 		}
 
 	"or" {
-			return symbol(sym.or_op);
+			return symbol(sym.or_op, yytext());
 		}
 
 	"not"
 		{
-			return symbol(sym.not_op);
+			return symbol(sym.not_op, yytext());
 		}
 
 	{ComparatorOp}
