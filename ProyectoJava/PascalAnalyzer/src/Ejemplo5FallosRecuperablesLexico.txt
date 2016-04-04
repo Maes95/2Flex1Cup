@@ -4,19 +4,19 @@ var
   a: INTEGER;
 begin
 
-    & { Este simbolo se ignorará pero se notificará }
+    & { Este simbolo se ignorara pero se notificara }
 
     unStringCerrado := 'Cualquier cosa que se me ocurra que cierro';
 
-    ? { Este simbolo se ignorará pero se notificará }
+    ? { Este simbolo se ignorara pero se notificara }
 
     unStringNoCerrado := 'Cualquier cosa que se me ocurra que no cierro ;
 
-    Ç { Este simbolo se ignorará pero se notificará }
+    Ç { Este simbolo se ignorara pero se notificara }
 
     otroStringEspecialNoCerrado := 'You''re good;
 
-    % { Este simbolo se ignorará pero se notificará }
+    % { Este simbolo se ignorara pero se notificara }
 
 end.
 
