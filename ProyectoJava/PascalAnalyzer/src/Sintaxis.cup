@@ -10,6 +10,7 @@ init with {:
                     +"|       ANALIZADOR LEXICO Y SINTACTICO PARA LEGUAJE PASCAL          |\n"
                     +"---------------------------------------------------------------------\n");
   this.stack = new Stack<>();
+  this.htmlGenerator = new HTMLGenerator();
 :};
 
 action code {:
@@ -39,6 +40,8 @@ action code {:
 parser code {:
 
     Stack<Regla> stack; // Pila donde se almacenan las reglas que se han reducido
+
+    HTMLGenerator htmlGenerator;
 
     public void report_error(String mensajeError, Object token) {
 
@@ -107,23 +110,34 @@ precedence left else_t;
 
 /* ------------ SINTAXIS BÁSICA  ----------- */
 
-PRG::= program identifier:i1 semicolons BLQ point {: mostrarArbol("PRG <%program "+i1+" ; BLQ .%>"); :};
-BLQ::= DCLLIST begin SENTLIST end {: pushRegla("BLQ <%DCLLIST begin SENTLIST end%>"); :};
+PRG::= program identifier:i1 semicolons BLQ:blq point {: mostrarArbol("PRG <%program "+i1+" ; BLQ .%>");
+                                                         htmlGenerator.closeHTML("program", (String)i1, ";", (String)blq, ".");:};
+BLQ::= DCLLIST:dcllist begin SENTLIST:sentlist end {: pushRegla("BLQ <%DCLLIST begin SENTLIST end%>");
+                                                      RESULT = dcllist + "begin" + sentlist + "end";:};
 
-DCLLIST::=              {: pushRegla("DCLLIST <%lambda%>"); :}
-          | DCLLIST DCL {: pushRegla("DCLLIST <%DCLLIST DCL%>"); :}
+DCLLIST::=                          {: pushRegla("DCLLIST <%lambda%>");
+                                       RESULT = "";:}
+          | DCLLIST:dcllist DCL:dcl {: pushRegla("DCLLIST <%DCLLIST DCL%>");
+                                       RESULT = dcllist + (String)dcl;:}
           ;
 
-SENTLIST::= SENT {: pushRegla("SENTLIST <%SENT%>");  :}
-          | SENTLIST SENT {: pushRegla("SENTLIST <%SENTLIST SENT%>"); :}
+SENTLIST::= SENT:sent    {: pushRegla("SENTLIST <%SENT%>");
+                         RESULT = sent;:}
+          | SENTLIST:sentlist SENT:sent {: pushRegla("SENTLIST <%SENTLIST SENT%>");
+                                           RESULT = sentlist + (String)sent;:}
           | error
           ;
 
-DCL::= DEFCTE   {: pushRegla("DCL <%DEFCTE%>"); :}
-      | DEFVAR  {: pushRegla("DCL <%DEFVAR%>"); :}
-      | DEFPROC {: pushRegla("DCL <%DEFPROC%>"); :}
-      | DEFFUN  {: pushRegla("DCL <%DEFFUN%>"); :}
-      | DEFTYPE {: pushRegla("DCL <%DEFTYPE%>"); :}
+DCL::= DEFCTE   {: pushRegla("DCL <%DEFCTE%>");
+                   RESULT = "dcl";:}
+      | DEFVAR  {: pushRegla("DCL <%DEFVAR%>");
+                   RESULT = "dcl";:}
+      | DEFPROC {: pushRegla("DCL <%DEFPROC%>");
+                   RESULT = "dcl";:}
+      | DEFFUN  {: pushRegla("DCL <%DEFFUN%>");
+                   RESULT = "dcl";:}
+      | DEFTYPE {: pushRegla("DCL <%DEFTYPE%>");
+                   RESULT = "dcl";:}
       | error
       ;
 
@@ -164,13 +178,20 @@ TBAS::= int_name    {: pushRegla("TBAS <%INTEGER%>"); :}
         | char_name {: pushRegla("TBAS <%CHAR%>"); :}
         ;
 
-SENT::= ASIG semicolons         {: pushRegla("SENT <%ASIG ;%>"); :}
-        | PROC_CALL semicolons  {: pushRegla("SENT <%PROC_CALL ;%>"); :}
-        | EXEBLQ                {: pushRegla("SENT <%EXEBLQ%>"); :}
-        | COND                  {: pushRegla("SENT <%COND%>"); :}
-        | WLOOP                 {: pushRegla("SENT <%WLOOP%>"); :}
-        | FLOOP                 {: pushRegla("SENT <%FLOOP%>"); :}
-        | CASE                  {: pushRegla("SENT <%CASE%>"); :}
+SENT::= ASIG semicolons         {: pushRegla("SENT <%ASIG ;%>");
+                                   RESULT = "asig";:}
+        | PROC_CALL semicolons  {: pushRegla("SENT <%PROC_CALL ;%>");
+                                   RESULT = "proc_call";:}
+        | EXEBLQ                {: pushRegla("SENT <%EXEBLQ%>");
+                                   RESULT = "exeblq";:}
+        | COND                  {: pushRegla("SENT <%COND%>");
+                                   RESULT = "cond";:}
+        | WLOOP                 {: pushRegla("SENT <%WLOOP%>");
+                                   RESULT = "wloop";:}
+        | FLOOP                 {: pushRegla("SENT <%FLOOP%>");
+                                   RESULT = "floop";:}
+        | CASE                  {: pushRegla("SENT <%CASE%>");
+                                   RESULT = "case";:}
         ;
 
 ASIG::= ID asig EXP {: pushRegla("ASIG <%ID := EXP%>"); :};
