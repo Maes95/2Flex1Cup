@@ -9,6 +9,8 @@ import java.io.Writer;
 
 public class HTMLGenerator {
 
+    public int identLevel = 0;
+
     static String cabeceraHastaBody =   "<html>\n" +
                                         "<head>\n" +
                                         "<title>EjemploHTML.pl</title>\n" +
@@ -34,6 +36,7 @@ public class HTMLGenerator {
     }
 
     public String closeHTML (String... prgSentence){
+        //push Lista de FUNCIONES
         pushHTML(prgSentence);
         System.out.println(cabeceraHastaBody + innerHTML + cierreHTML);
         createHtml(cabeceraHastaBody + innerHTML + cierreHTML);
@@ -42,6 +45,14 @@ public class HTMLGenerator {
 
     public String getIdent (String s){
         return "<span class='ident'>" + s + "</span>";
+    }
+
+    public String getSent (String s){
+        return "<div style='text-indent: " + this.identLevel + "cm'>" + s + "</div>";
+    }
+
+    public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
+        return "<a name='" + id + "'> <span class='palres'>function </span> " + id + " " + formal_paramlist + ":" + alltypes + "</br>" + blq;
     }
 
     /**

@@ -90,14 +90,14 @@ parser code {:
 
 /* ------------ DECLARACIÓN DE TERMINALES ----------- */
 
-terminal program, begin, end, var, const_t, if_t, then_t, else_t, while_t, for_t, to, do_t, case_t, of, function, procedure, type, int_name, real_name, char_name,
+terminal String program, begin, end, var, const_t, if_t, then_t, else_t, while_t, for_t, to, do_t, case_t, of, function, procedure, type, int_name, real_name, char_name,
           semicolons, colons, asig, equal, comma, point, open_bracket, close_bracket, open_square_bracket, close_square_bracket, comparator_op,
           not_op, decimal_value, hexadecimal_value, string_literal, plus, minus, product, div_op, mod_op, and_op, or_op, two_points, array, record;
 
 terminal String identifier;
 /* ------------ DECLARACIÓN DE NO TERMINALES ----------- */
 
-non terminal PRG, BLQ, DCLLIST, SENTLIST, DCL, DEFCTE, CTELIST, SIMPVALUE, DEFVAR, DEFVARLIST, VARLIST, DEFPROC, DEFFUN, FORMAL_PARAMLIST, FORMAL_PARAM,
+non terminal String PRG, BLQ, DCLLIST, SENTLIST, DCL, DEFCTE, CTELIST, SIMPVALUE, DEFVAR, DEFVARLIST, VARLIST, DEFPROC, DEFFUN, FORMAL_PARAMLIST, FORMAL_PARAM,
               TBAS, SENT, ASIG, ID, EXP, OP, OPCOMP, OPARIT, OPLOG, FACTOR, SUBPARAMLIST, EXPLIST, PROC_CALL, EXEBLQ, DCLLIST_BLQ, DCL_BLQ, DEFTYPE, TYPELIST, UDTYPE, ALLTYPES,
               COND, ELSECOND, WLOOP, FLOOP, CASE, CASELIST;
 
@@ -113,7 +113,9 @@ precedence left else_t;
 
 PRG::= program identifier:i1 semicolons BLQ:blq point {: mostrarArbol("PRG <%program "+i1+" ; BLQ .%>");
                                                          htmlGenerator.closeHTML("program", htmlGenerator.getIdent(i1), ";", (String)blq, ".");:};
-BLQ::= DCLLIST:dcllist begin SENTLIST:sentlist end {: pushRegla("BLQ <%DCLLIST begin SENTLIST end%>");
+BLQ::= DCLLIST:dcllist begin{:htmlGenerator.identLevel++;:} SENTLIST:sentlist end
+                                                      {: htmlGenerator.identLevel--;
+                                                      pushRegla("BLQ <%DCLLIST begin SENTLIST end%>");
                                                       RESULT = dcllist + "begin" + sentlist + "end";:};
 
 DCLLIST::=                          {: pushRegla("DCLLIST <%lambda%>");
@@ -179,7 +181,7 @@ DEFPROC::=  procedure identifier:i1 FORMAL_PARAMLIST:formal_paramlist semicolons
                     RESULT = "procedure" + htmlGenerator.getIdent(i1) + formal_paramlist + ";" + blq + ";";:};
 DEFFUN::=  function identifier:i2 FORMAL_PARAMLIST:formal_paramlist colons ALLTYPES:alltypes semicolons BLQ:blq semicolons {:
                     pushRegla("DEFFUN <%function "+i2+" FORMAL_PARAMLIST : ALLTYPES ; BLQ ;%>");
-                    RESULT = "function" + htmlGenerator.getIdent(i2) + formal_paramlist + ":" + alltypes + ";" + blq + ";";:};
+                    RESULT = htmlGenerator.getFunc(i2, formal_paramlist, alltypes, blq);:};
 
 FORMAL_PARAMLIST::=                                                        {: pushRegla("FORMAL_PARAMLIST <%lambda%>");
                                                                               RESULT = "";:}
@@ -202,19 +204,19 @@ TBAS::= int_name    {: pushRegla("TBAS <%INTEGER%>");
         ;
 
 SENT::= ASIG:asig semicolons              {: pushRegla("SENT <%ASIG ;%>");
-                                             RESULT = asig + ";<br>";:}
+                                             RESULT = htmlGenerator.getSent(asig + ";");:}
         | PROC_CALL:proc_call semicolons  {: pushRegla("SENT <%PROC_CALL ;%>");
-                                             RESULT = proc_call + ";<br>";:}
+                                             RESULT = htmlGenerator.getSent(proc_call + ";");:}
         | EXEBLQ:exeblq                   {: pushRegla("SENT <%EXEBLQ%>");
-                                             RESULT = exeblq + "<br>";:}
+                                             RESULT = htmlGenerator.getSent(exeblq);:}
         | COND:cond                       {: pushRegla("SENT <%COND%>");
-                                             RESULT = cond + "<br>";:}
+                                             RESULT = htmlGenerator.getSent(cond);:}
         | WLOOP:wloop                     {: pushRegla("SENT <%WLOOP%>");
-                                             RESULT = wloop + "<br>";:}
+                                             RESULT = htmlGenerator.getSent(wloop);:}
         | FLOOP:floop                     {: pushRegla("SENT <%FLOOP%>");
-                                             RESULT = floop + "<br>";:}
+                                             RESULT = htmlGenerator.getSent(floop);:}
         | CASE:case_t                       {: pushRegla("SENT <%CASE%>");
-                                             RESULT = case_t + "<br>";:}
+                                             RESULT = htmlGenerator.getSent(case_t);:}
         ;
 
 ASIG::= ID:id asig EXP:exp {: pushRegla("ASIG <%ID := EXP%>");
