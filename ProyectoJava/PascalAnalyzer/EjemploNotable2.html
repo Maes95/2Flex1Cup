@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EjemploNotable2</title>
+<style>
+.cte {color:rgb(19,189,72);}
+.ident {color:rgb(55,40,244);}
+.palres {color:rgb(0,0,0);font-weight:bold;}
+</style>
+</head>
+
+<body>
+<a name='inicio'>
+<h1>Programa: EjemploNotable</h1>
+<h2>Funciones y procedimientos</h2>
+<ul>
+<li><a href='#areaCuadrado'>function areaCuadrado (lado: REAL): REAL</a></li>
+<li><a href='#intercambio'>procedure intercambio (v1,v2: INTEGER)</a></li>
+<li><a href='#ProgPpal'>Programa princial</a></li>
+</ul>
+<hr/>
+
+<a name='areaCuadrado'><span class='palres'>function </span>areaCuadrado (<span class='ident'>lado</span>:<span class='palres'> REAL</span>):<span class='palres'> REAL</span>;</br><span class='palres'>type </span><span class='ident'>miArray</span> = <span class='palres'>array </span>[ <span class='cte'>0</span> .. <span class='cte'>5</span> ]<span class='palres'> of </span><span class='palres'> INTEGER</span>;<span class='palres'>var </span><span class='ident'>resultado</span> : <span class='palres'> REAL</span>; <br/><span class='palres'>begin</span><div style='text-indent: 1cm'><span class='ident'>resultado</span> := <span class='cte'>+0.0</span>;</div>
+<div style='text-indent: 1cm'><span class='ident'>miArray</span>[ <span class='cte'>1</span> ] := <span class='cte'>0</span>;</div>
+<div style='text-indent: 1cm'><span class='ident'>resultado</span> := <span class='ident'>lado</span> * <span class='ident'>lado</span> + <span class='ident'>miArray</span>[<span class='cte'>1</span> + <span class='cte'>2</span>];</div>
+<div style='text-indent: 1cm'><span class='ident'>areaCuadrado</span> := <span class='ident'>resultado</span>;</div>
+<span class='palres'>end</span>
+<br/>
+<a href='#areaCuadrado'>Inicio de rutina</a><br/>
+<a href='#inicio'>Inicio de programa</a><br/>
+<hr/>
+
+<a name='intercambio'><span class='palres'>procedure </span>intercambio (<span class='ident'>v1</span>,<span class='ident'>v2</span>:<span class='palres'> INTEGER</span>);</br><span class='palres'>var </span><span class='ident'>aux</span> : <span class='palres'> INTEGER</span>; <br/><span class='palres'>begin</span><div style='text-indent: 1cm'><span class='palres'>if </span>(<span class='ident'>v1</span><><span class='ident'>v2</span>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
+<div style='text-indent: 2cm'><span class='ident'>aux</span> := <span class='cte'>0</span>;</div>
+<div style='text-indent: 2cm'><span class='ident'>aux</span> := <span class='ident'>v1</span>;</div>
+<div style='text-indent: 2cm'><span class='ident'>v1</span> := <span class='ident'>v2</span>;</div>
+<div style='text-indent: 2cm'><span class='ident'>v2</span> := <span class='ident'>aux</span>;</div>
+<div style='text-indent: 1cm'><span class='palres'>end</span></div>
+</div>
+<span class='palres'>end</span>
+<br/>
+<a href='#intercambio'>Inicio de rutina</a><br/>
+<a href='#inicio'>Inicio de programa</a><br/>
+<hr/>
+
+<a name='ProgPpal'>
+<h2>Programa Principal</h2>
+<span class='palres'>var </span><span class='ident'>medida</span> : <span class='palres'> REAL</span>; <span class='ident'>valor1</span>,<span class='ident'>valor2</span> : <span class='palres'> INTEGER</span>; <br/><span class='palres'>begin</span>
+<div style='text-indent: 1cm'><span class='ident'>medida</span> := <span class='cte'>$4.A</span>;</div>
+<div style='text-indent: 1cm'><span class='palres'>if </span>(<span class='ident'>v1</span><><span class='ident'>v2</span>)<span class='palres'> then </span><div style='text-indent: 2cm'><span class='ident'>valor1</span> := <span class='cte'>2</span>;</div>
+</div>
+<div style='text-indent: 1cm'><span class='palres'>if </span>(<span class='ident'>v1</span><><span class='ident'>v2</span>)<span class='palres'> then </span><div style='text-indent: 2cm'><span class='ident'>intercambio</span> (<span class='ident'>valor1</span>,<span class='ident'>valor2</span>) ;</div>
+</div>
+<div style='text-indent: 1cm'><span class='ident'>valor1</span> := <span class='cte'>-3</span>;</div>
+<div style='text-indent: 1cm'><span class='ident'>valor2</span> := <span class='cte'>$F6</span>;</div>
+<div style='text-indent: 1cm'><span class='palres'>while </span><span class='ident'>medida</span><<span class='ident'>valor1</span><span class='palres'> do </span><div style='text-indent: 2cm'><span class='ident'>medida</span> := <span class='ident'>areaCuadrado</span> (<span class='ident'>medida</span>) ;</div>
+</div>
+<div style='text-indent: 1cm'><span class='ident'>intercambio</span> (<span class='ident'>valor1</span>,<span class='ident'>valor2</span>) ;</div>
+<div style='text-indent: 1cm'><span class='palres'>while </span><span class='ident'>medida</span><<span class='ident'>valor1</span><span class='palres'> do </span><div style='text-indent: 1cm'><span class='palres'>if </span>(<span class='ident'>v1</span><><span class='ident'>v2</span>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
+<div style='text-indent: 2cm'><span class='ident'>aux</span> := <span class='cte'>0</span>;</div>
+<div style='text-indent: 2cm'><span class='ident'>aux</span> := <span class='ident'>v1</span>;</div>
+<div style='text-indent: 2cm'><span class='ident'>v1</span> := <span class='ident'>v2</span>;</div>
+<div style='text-indent: 2cm'><span class='ident'>v2</span> := <span class='ident'>aux</span>;</div>
+<div style='text-indent: 1cm'><span class='palres'>end</span></div>
+</div>
+</div>
+<span class='palres'>end</span>.<br/>
+<a href='#ProgPpal'>Inicio del programa principal</a><br/>
+<a href='#inicio'>Inicio de programa</a>
+<br/>
+
+
+</body>
+</html>

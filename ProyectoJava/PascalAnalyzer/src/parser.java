@@ -445,7 +445,7 @@ public class parser extends java_cup.runtime.lr_parser {
                     +"|       ANALIZADOR LEXICO Y SINTACTICO PARA LEGUAJE PASCAL          |\n"
                     +"---------------------------------------------------------------------\n");
   this.stack = new Stack<>();
-  this.htmlGenerator = new HTMLGenerator();
+  this.htmlGenerator = new HTMLGenerator(this.fileName);
 
     }
 
@@ -454,6 +454,8 @@ public class parser extends java_cup.runtime.lr_parser {
     Stack<Regla> stack; // Pila donde se almacenan las reglas que se han reducido
 
     HTMLGenerator htmlGenerator;
+
+    public String fileName;
 
     public void report_error(String mensajeError, Object token) {
 

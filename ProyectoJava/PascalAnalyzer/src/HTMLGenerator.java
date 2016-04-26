@@ -1,4 +1,3 @@
-import com.sun.org.apache.xpath.internal.SourceTree;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,10 +11,34 @@ public class HTMLGenerator {
 
     public int identLevel = 0;
 
-    final String CABECERA_HASTA_BODY =   "<!DOCTYPE html>\n" +
+    private final String CIERRE_HTML =  "\n</body>\n" +
+                                "</html>";
+    
+    
+    private final String CABECERA_HASTA_BODY;
+
+
+    public String nameProgram;
+    public String mainProgram;
+    public String mainProgramDcl;
+    
+    private String fileName;
+
+    public boolean sentCond; // Indica si se esta dentro de una sentencia de control de flujo
+
+    ArrayList<String> methods;
+
+    public HTMLGenerator (String fileName){
+        this.fileName = fileName;
+        this.methods = new ArrayList<>();
+        this.sentCond = false;
+        System.out.println(this.fileName);
+        this.fileName = this.fileName.replaceAll("(src/|.txt)", "");
+        
+        this.CABECERA_HASTA_BODY = "<!DOCTYPE html>\n" +
                                         "<html>\n" +
                                         "<head>\n" +
-                                        "<title>EjemploHTML.pl</title>\n" +
+                                        "<title>"+this.fileName+"</title>\n" +
                                         "<style>\n" +
                                         ".cte {color:rgb(19,189,72);}\n" +
                                         ".ident {color:rgb(55,40,244);}\n" +
@@ -23,21 +46,6 @@ public class HTMLGenerator {
                                         "</style>\n" +
                                         "</head>\n\n" +
                                         "<body>\n";
-
-    final String CIERRE_HTML =  "\n</body>\n" +
-                                "</html>";
-
-    public String nameProgram;
-    public String mainProgram;
-    public String mainProgramDcl;
-
-    public boolean sentCond; // Indica si se esta dentro de una sentencia de control de flujo
-
-    ArrayList<String> methods;
-
-    public HTMLGenerator (){
-        this.methods = new ArrayList<>();
-        this.sentCond = false;
     }
 
     public void closeHTML (){
@@ -158,7 +166,7 @@ public class HTMLGenerator {
     public void createHtml(String html){
         Writer out = null;
         try {
-            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("programa.html"), "UTF-8"));
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(this.fileName+".html"), "UTF-8"));
             try {
                 out.write(html);
             } catch (IOException ex) {
