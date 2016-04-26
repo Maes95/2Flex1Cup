@@ -44,12 +44,9 @@ public class HTMLGenerator {
         innerHTML =  String.join(" ", arrayHtml) + innerHTML;
     }
 
-    public String closeHTML (String... prgSentence){
-        pushHTML(prgSentence);
+    public void closeHTML (){
         String s = cabeceraHastaBody + generateIndexPart() + generateMethodsPart() + generateMainProgramPart() + cierreHTML;
-        System.out.println(s);
         createHtml(s);
-        return s;
     }
 
     //AUXILIAR METHODS TO GET HTML ELEMENTS
@@ -57,20 +54,28 @@ public class HTMLGenerator {
         return "<span class='ident'>" + s + "</span>";
     }
 
+    public String getConst (String s){
+        return "<span class='cte'>" + s + "</span>";
+    }
+
     public String getSent (String s){
-        return "<div style='text-indent: " + this.identLevel + "cm'>" + s + "</div>";
+        return "<div style='text-indent: " + this.identLevel + "cm'>" + s + "</div>\n";
     }
 
     public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
-        String f = "<a name='" + id + "'><span class='palres'>function </span>" + id + " " + formal_paramlist + ":" + alltypes + ";" + "</br>" + blq;
+        String f = "<a name='" + id + "'>" + this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";" + "</br>" + blq + "\n";
         this.methods.add(f);
         return f;
     }
 
     public String getProc(String id, String formal_paramlist, String blq) {
-        String p = "<a name='" + id + "'><span class='palres'>procedure </span>" + id + " " + formal_paramlist + ";"  + "</br>" + blq;
+        String p = "<a name='" + id + "'>" + this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";"  + "</br>" + blq + "\n";
         this.methods.add(p);
         return p;
+    }
+
+    public String getReservedWord (String t){
+        return "<span class='palres'>" + t + "</span>";
     }
 
     public void getMainProgram(String s){
@@ -124,7 +129,6 @@ public class HTMLGenerator {
     public String deleteTags (String s){
         System.out.println(s);
         s = s.replaceAll("<[^>]*>", "");
-        System.out.println(s);
         return s;
     }
 
