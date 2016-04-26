@@ -12,7 +12,8 @@ public class HTMLGenerator {
 
     public int identLevel = 0;
 
-    static String cabeceraHastaBody =   "<html>\n" +
+    static String cabeceraHastaBody =   "<!DOCTYPE html>\n" +
+                                        "<html>\n" +
                                         "<head>\n" +
                                         "<title>EjemploHTML.pl</title>\n" +
                                         "<style>\n" +
@@ -20,7 +21,7 @@ public class HTMLGenerator {
                                         ".ident {color:rgb(55,40,244);}\n" +
                                         ".palres {color:rgb(0,0,0);font-weight:bold;}\n" +
                                         "</style>\n" +
-                                        "<style type=\"text/css\"></style></head>\n" +
+                                        "</head>\n\n" +
                                         "<body>\n";
 
     static String cierreHTML =  "\n</body>\n" +
@@ -29,10 +30,13 @@ public class HTMLGenerator {
     String innerHTML;
 
     public String nameProgram;
+    public String mainProgram;
+    public String mainProgramDcl;
 
     ArrayList<String> methods;
 
     public HTMLGenerator (){
+        this.methods = new ArrayList<>();
         this.innerHTML = "";
     }
 
@@ -58,47 +62,82 @@ public class HTMLGenerator {
     }
 
     public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
-        String f = "<a name='" + id + "'> <span class='palres'>function </span> " + id + " " + formal_paramlist + ":" + alltypes + "</br>" + blq;
+        String f = "<a name='" + id + "'><span class='palres'>function </span>" + id + " " + formal_paramlist + ":" + alltypes + ";" + "</br>" + blq;
         this.methods.add(f);
         return f;
     }
 
     public String getProc(String id, String formal_paramlist, String blq) {
-        String p = "<a name='" + id + "'> <span class='palres'>procedure </span> " + id + " " + formal_paramlist + ";"  + "</br>" + blq;
+        String p = "<a name='" + id + "'><span class='palres'>procedure </span>" + id + " " + formal_paramlist + ";"  + "</br>" + blq;
         this.methods.add(p);
         return p;
     }
 
+    public void getMainProgram(String s){
+        this.mainProgram = s;
+    }
 
 
     //METHODS TO GENERATE MAIN STRUCTURES IN HTML
     public String generateIndexPart(){
         String s = "<a name='inicio'>\n" +
-                    "<h1>Programa: " + this.nameProgram + "</h1>\n" +
-        <H2>Funciones y procedimientos</H2>
-        <UL>
-        <LI><A HREF="#areaCuadrado">function areaCuadrado ( lado: REAL ) : REAL </A></LI>
-        <LI><A HREF="#intercambioEntero">procedure intercambio ( v1, v2: INTEGER ) </A></LI>
-        <LI><A HREF="#ProgPpal">Programa princial</A></LI>
-        </UL>
-        <HR/>
-
+                   "<h1>Programa: " + this.nameProgram + "</h1>\n" +
+                   "<h2>Funciones y procedimientos</h2>\n" +
+                   "<ul>\n";
+        for (String m : this.methods){
+            String simpleM = deleteTags(m);
+            s += "<li><a href='#" + getMethodName(simpleM) + "'>" + getMethodHeader(simpleM) + "</a></li>\n";
+        }
+        s += "<li><a href='#ProgPpal'>Programa princial</a></li>\n" +
+             "</ul>\n" +
+             "<hr/>\n\n";
         return s;
     }
 
     public String generateMethodsPart(){
-        return null;
+        String s = "";
+        for (String m : this.methods){
+            String tagsDeleted = deleteTags(m);
+            s +=  m + "<br/>\n" +
+                 "<a href='#" + getMethodName(tagsDeleted) + "'>Inicio de rutina</a><br/>\n" +
+                 "<a href='#inicio'>Inicio de programa</a><br/>\n"+
+                 "<hr/>\n\n";
+        }
+        return s;
     }
 
     public String generateMainProgramPart(){
-        return null;
+        String s = "<a name='ProgPpal'>\n" +
+                   "<h2>Programa Principal</h2>\n";
+        s += this.mainProgramDcl;
+        s += "<span class='palres'>begin</span>\n";
+        s += this.mainProgram;
+        s += "<span class='palres'>end</span>.<br/>\n";
+        s += "<a href='#ProgPpal'>Inicio del programa principal</a><br/>\n" +
+             "<a href='#inicio'>Inicio de programa</a>\n" +
+             "<br/>\n\n";
+        return s;
     }
 
 
     //ELIMINATE TAGS IN AN HTML ELEMENT (just plain text)
     public String deleteTags (String s){
+        System.out.println(s);
         s = s.replaceAll("<[^>]*>", "");
+        System.out.println(s);
         return s;
+    }
+
+    public String getMethodName (String s){
+        return s.split("\\s+")[1];
+    }
+
+    public String getMethodHeader (String s){
+        return s.split(";")[0];
+    }
+
+    public void updateLastDcl (String s){
+        this.mainProgramDcl = s;
     }
 
     /**
