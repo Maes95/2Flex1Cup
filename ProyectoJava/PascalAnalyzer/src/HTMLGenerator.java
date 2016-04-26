@@ -12,7 +12,7 @@ public class HTMLGenerator {
 
     public int identLevel = 0;
 
-    static String cabeceraHastaBody =   "<!DOCTYPE html>\n" +
+    final String CABECERA_HASTA_BODY =   "<!DOCTYPE html>\n" +
                                         "<html>\n" +
                                         "<head>\n" +
                                         "<title>EjemploHTML.pl</title>\n" +
@@ -24,10 +24,8 @@ public class HTMLGenerator {
                                         "</head>\n\n" +
                                         "<body>\n";
 
-    static String cierreHTML =  "\n</body>\n" +
+    final String CIERRE_HTML =  "\n</body>\n" +
                                 "</html>";
-
-    String innerHTML;
 
     public String nameProgram;
     public String mainProgram;
@@ -37,15 +35,10 @@ public class HTMLGenerator {
 
     public HTMLGenerator (){
         this.methods = new ArrayList<>();
-        this.innerHTML = "";
-    }
-
-    public void pushHTML (String... arrayHtml){
-        innerHTML =  String.join(" ", arrayHtml) + innerHTML;
     }
 
     public void closeHTML (){
-        String s = cabeceraHastaBody + generateIndexPart() + generateMethodsPart() + generateMainProgramPart() + cierreHTML;
+        String s = CABECERA_HASTA_BODY + generateIndexPart() + generateMethodsPart() + generateMainProgramPart() + CIERRE_HTML;
         createHtml(s);
     }
 
@@ -115,7 +108,7 @@ public class HTMLGenerator {
         String s = "<a name='ProgPpal'>\n" +
                    "<h2>Programa Principal</h2>\n";
         s += this.mainProgramDcl;
-        s += "<span class='palres'>begin</span>\n";
+        s += "<br/><span class='palres'>begin</span>\n";
         s += this.mainProgram;
         s += "<span class='palres'>end</span>.<br/>\n";
         s += "<a href='#ProgPpal'>Inicio del programa principal</a><br/>\n" +

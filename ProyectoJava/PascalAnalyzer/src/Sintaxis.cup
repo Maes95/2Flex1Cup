@@ -165,12 +165,12 @@ SIMPVALUE::= decimal_value:dv    {: pushRegla("SIMVALUE <%" + dv + "%>" );
           ;
 
 DEFVAR::= var DEFVARLIST:defvarlist semicolons {: pushRegla("DEFVAR <%var DEFVARLIST ;%>");
-                                                  RESULT = htmlGenerator.getReservedWord("var") + defvarlist + ";";:};
+                                                  RESULT = htmlGenerator.getReservedWord("var ") + defvarlist + "; ";:};
 
 DEFVARLIST::= VARLIST:varlist colons ALLTYPES:alltypes                                   {: pushRegla("DEFVARLIST <%VARLIST : ALLTYPES%>");
-                                                                                            RESULT = varlist + ":" + alltypes;:}
+                                                                                            RESULT = varlist + " : " + alltypes;:}
              | DEFVARLIST:defvarlist semicolons VARLIST:varlist colons ALLTYPES:alltypes {: pushRegla("DEFVARLIST <%DEFVARLIST ; VARLIST : ALLTYPES%>");
-                                                                                            RESULT = defvarlist + ";" + varlist + ":" + alltypes;:}
+                                                                                            RESULT = defvarlist + "; " + varlist + " : " + alltypes;:}
              ;
 
 VARLIST::= identifier:i1                         {: pushRegla("VARLIST <%" + i1 + "%>");
@@ -199,11 +199,11 @@ FORMAL_PARAM::= VARLIST:varlist colons ALLTYPES:alltypes                        
                ;
 
 TBAS::= int_name    {: pushRegla("TBAS <%INTEGER%>");
-                       RESULT = htmlGenerator.getReservedWord("INTEGER");:}
+                       RESULT = htmlGenerator.getReservedWord(" INTEGER");:}
         | real_name {: pushRegla("TBAS <%REAL%>");
-                       RESULT = htmlGenerator.getReservedWord("REAL");:}
+                       RESULT = htmlGenerator.getReservedWord(" REAL");:}
         | char_name {: pushRegla("TBAS <%CHAR%>");
-                       RESULT = htmlGenerator.getReservedWord("CHARACTER");:}
+                       RESULT = htmlGenerator.getReservedWord(" CHARACTER");:}
         ;
 
 SENT::= ASIG:asig semicolons              {: pushRegla("SENT <%ASIG ;%>");
@@ -223,12 +223,12 @@ SENT::= ASIG:asig semicolons              {: pushRegla("SENT <%ASIG ;%>");
         ;
 
 ASIG::= ID:id asig EXP:exp {: pushRegla("ASIG <%ID := EXP%>");
-                              RESULT = id + ":=" + exp;:};
+                              RESULT = id + " := " + exp;:};
 
 ID::= identifier:i1                                                    {: pushRegla("ID <%"+i1+"%>");
                                                                           RESULT = htmlGenerator.getIdent(i1);:}
       | identifier:i4 open_square_bracket EXP:exp close_square_bracket {: pushRegla("ID <%"+i4+" [ EXP ]%>");
-                                                                          RESULT = htmlGenerator.getIdent(i4) + "[" + exp + "]";:}
+                                                                          RESULT = htmlGenerator.getIdent(i4) + "[ " + exp + " ]";:}
       | identifier:i2 point identifier:i3                              {: pushRegla("ID <%"+i2+" . "+i3+"%>");
                                                                           RESULT = htmlGenerator.getIdent(i2) + "." + htmlGenerator.getIdent(i3);:}
       ;
@@ -251,15 +251,15 @@ OPCOMP::= comparator_op:op {: pushRegla("OPCOMP <%"+op+"%>");
                               RESULT = op;:};
 
 OPARIT::= plus       {: pushRegla("OPARIT <%+%>");
-                        RESULT = "+";:}
+                        RESULT = " + ";:}
           | minus    {: pushRegla("OPARIT <%-%>");
-                        RESULT = "-";:}
+                        RESULT = " - ";:}
           | product  {: pushRegla("OPARIT <%*%>");
-                        RESULT = "*";:}
+                        RESULT = " * ";:}
           | div_op   {: pushRegla("OPARIT <%div%>");
-                        RESULT = "div";:}
+                        RESULT = " div ";:}
           | mod_op   {: pushRegla("OPARIT <%mod%>");
-                        RESULT = "mod";:}
+                        RESULT = " mod ";:}
           ;
 
 
@@ -286,7 +286,7 @@ FACTOR::= SIMPVALUE:simpvalue                                                {: 
 SUBPARAMLIST::=                                              {: pushRegla("SUBPARAMLIST <%lambda%>");
                                                                 RESULT = "";:}
                 | open_bracket EXPLIST:explist close_bracket {: pushRegla("SUBPARAMLIST <%( EXPLIST )%>");
-                                                                RESULT = "(" + explist + ")";:}
+                                                                RESULT = " (" + explist + ") ";:}
                 ;
 
 EXPLIST::= EXP:exp                        {: pushRegla("EXPLIST <%EXP%>");
@@ -317,20 +317,20 @@ DCL_BLQ::= DEFCTE:defcte     {: pushRegla("DCL_BLQ <%DEFCTE%>");
 /* ------------ SINTAXIS ESTRUCTURAS DE DATOS  ----------- */
 
 DEFTYPE ::= type TYPELIST:typelist {: pushRegla("DEFTYPE <%type TYPELIST%>");
-                                      RESULT = htmlGenerator.getReservedWord("type") + typelist;:};
+                                      RESULT = htmlGenerator.getReservedWord("type ") + typelist;:};
 
 TYPELIST ::= identifier:i1 equal UDTYPE:udtype semicolons                       {: pushRegla("TYPELIST <%"+i1+" = UDTYPE ;%>");
-                                                                                   RESULT = htmlGenerator.getIdent(i1) + "=" + udtype + ";";:}
+                                                                                   RESULT = htmlGenerator.getIdent(i1) + " = " + udtype + ";";:}
               | identifier:i2 equal UDTYPE:udtype semicolons TYPELIST:typelist  {: pushRegla("TYPELIST <%"+i2+" = UDTYPE ; TYPELIST%>");
-                                                                                   RESULT = htmlGenerator.getIdent(i2) + "=" + udtype + ";" + typelist;:}
+                                                                                   RESULT = htmlGenerator.getIdent(i2) + " = " + udtype + ";" + typelist;:}
               ;
 
 UDTYPE ::= array open_square_bracket SIMPVALUE:simpvalue1 two_points SIMPVALUE:simpvalue2 close_square_bracket of ALLTYPES:alltypes {:
                     pushRegla("UDTYPE <%array [ SIMPVALUE .. SIMPVALUE ] of ALLTYPES%>");
-                    RESULT = htmlGenerator.getReservedWord("array") + "[" + simpvalue1 + ".." + simpvalue2 + "]" + htmlGenerator.getReservedWord("of") + alltypes;:}
+                    RESULT = htmlGenerator.getReservedWord("array ") + "[ " + simpvalue1 + " .. " + simpvalue2 + " ]" + htmlGenerator.getReservedWord(" of ") + alltypes;:}
               | record DEFVARLIST:defvarlist end {:
                     pushRegla("UDTYPE <%record DEFVARLIST end%>");
-                    RESULT = htmlGenerator.getReservedWord("record") + defvarlist + htmlGenerator.getReservedWord("end");:}
+                    RESULT = htmlGenerator.getReservedWord("record ") + defvarlist + htmlGenerator.getReservedWord("end");:}
               ;
 
 ALLTYPES ::= TBAS:tbas          {: pushRegla("ALLTYPES <%TBAS%>");
@@ -344,18 +344,18 @@ ALLTYPES ::= TBAS:tbas          {: pushRegla("ALLTYPES <%TBAS%>");
                          /* SENTENCIA IF */
 
 COND ::= if_t EXP:exp then_t SENT:sent ELSECOND:elsecond {: pushRegla("COND <%if EXP then SENT ELSECOND%>");
-                                                            RESULT = htmlGenerator.getReservedWord("if") + exp + htmlGenerator.getReservedWord("then") + sent + elsecond;:};
+                                                            RESULT = htmlGenerator.getReservedWord("if ") + exp + htmlGenerator.getReservedWord(" then ") + sent + elsecond;:};
 
 ELSECOND ::=                    {: pushRegla("ELSECOND <%lambda%>");
                                    RESULT = "";:}
             | else_t SENT:sent  {: pushRegla("ELSECOND <%else SENT%>");
-                                   RESULT = htmlGenerator.getReservedWord("else") + sent;:}
+                                   RESULT = htmlGenerator.getReservedWord("else ") + sent;:}
             ;
 
                         /* SENTENCIA WHILE */
 
 WLOOP ::= while_t EXP:exp do_t SENT:sent {: pushRegla("WLOOP <%while EXP do SENT%>");
-                                            RESULT = htmlGenerator.getReservedWord("while") + exp + htmlGenerator.getReservedWord("do") + sent;:};
+                                            RESULT = htmlGenerator.getReservedWord("while ") + exp + htmlGenerator.getReservedWord(" do ") + sent;:};
 
                         /* SENTENCIA FOR  */
 
@@ -370,7 +370,7 @@ CASE ::= case_t EXP:exp of CASELIST:caselist end {: pushRegla("CASE <%case EXP o
                                                     caselist + htmlGenerator.getReservedWord("end");:};
 
 CASELIST ::= EXP:exp colons SENT:sent                     {: pushRegla("CASELIST <%EXP : SENT%>");
-                                                             RESULT = exp + ":" + sent;:}
+                                                             RESULT = exp + " : " + sent;:}
              | EXP:exp colons SENT:sent CASELIST:caselist {: pushRegla("CASELIST <%EXP : SENT CASELIST%>");
-                                                             RESULT = exp + ":" + sent + caselist;:}
+                                                             RESULT = exp + " : " + sent + caselist;:}
              ;
