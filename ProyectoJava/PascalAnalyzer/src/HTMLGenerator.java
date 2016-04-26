@@ -31,10 +31,13 @@ public class HTMLGenerator {
     public String mainProgram;
     public String mainProgramDcl;
 
+    public boolean sentCond; // Indica si se esta dentro de una sentencia de control de flujo
+
     ArrayList<String> methods;
 
     public HTMLGenerator (){
         this.methods = new ArrayList<>();
+        this.sentCond = false;
     }
 
     public void closeHTML (){
@@ -55,6 +58,14 @@ public class HTMLGenerator {
         return "<div style='text-indent: " + this.identLevel + "cm'>" + s + "</div>\n";
     }
 
+    public String getSent (String s, boolean sentCond){
+        if(sentCond){
+          this.sentCond = false;
+          return "<div style='text-indent: " + (this.identLevel + 1) + "cm'>" + s + "</div>\n";
+        }
+        return getSent(s);
+    }
+
     public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
         String f = "<a name='" + id + "'>" + this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";" + "</br>" + blq + "\n";
         this.methods.add(f);
@@ -69,6 +80,10 @@ public class HTMLGenerator {
 
     public String getReservedWord (String t){
         return "<span class='palres'>" + t + "</span>";
+    }
+
+    public String getReservedWordIdent (String t){
+        return getSent(getReservedWord(t));
     }
 
     public void getMainProgram(String s){

@@ -7,28 +7,28 @@
 public class sym {
   /* terminals */
   public static final int program = 2;
-  public static final int or_op = 44;
+  public static final int or_op = 43;
   public static final int function = 16;
   public static final int if_t = 7;
-  public static final int plus = 38;
+  public static final int plus = 37;
   public static final int colons = 23;
-  public static final int array = 46;
-  public static final int minus = 39;
+  public static final int array = 45;
+  public static final int minus = 38;
   public static final int asig = 24;
   public static final int for_t = 11;
   public static final int comma = 26;
-  public static final int identifier = 37;
+  public static final int identifier = 47;
   public static final int begin = 3;
   public static final int end = 4;
   public static final int equal = 25;
   public static final int comparator_op = 32;
-  public static final int two_points = 45;
+  public static final int two_points = 44;
   public static final int var = 5;
   public static final int EOF = 0;
-  public static final int mod_op = 42;
+  public static final int mod_op = 41;
   public static final int error = 1;
   public static final int open_bracket = 28;
-  public static final int and_op = 43;
+  public static final int and_op = 42;
   public static final int procedure = 17;
   public static final int not_op = 33;
   public static final int decimal_value = 34;
@@ -36,9 +36,9 @@ public class sym {
   public static final int while_t = 10;
   public static final int int_name = 19;
   public static final int char_name = 21;
-  public static final int product = 40;
+  public static final int product = 39;
   public static final int of = 15;
-  public static final int record = 47;
+  public static final int record = 46;
   public static final int real_name = 20;
   public static final int open_square_bracket = 30;
   public static final int semicolons = 22;
@@ -47,7 +47,7 @@ public class sym {
   public static final int case_t = 14;
   public static final int else_t = 9;
   public static final int then_t = 8;
-  public static final int div_op = 41;
+  public static final int div_op = 40;
   public static final int close_square_bracket = 31;
   public static final int do_t = 13;
   public static final int to = 12;
@@ -92,7 +92,6 @@ public class sym {
   "decimal_value",
   "hexadecimal_value",
   "string_literal",
-  "identifier",
   "plus",
   "minus",
   "product",
@@ -102,7 +101,8 @@ public class sym {
   "or_op",
   "two_points",
   "array",
-  "record"
+  "record",
+  "identifier"
   };
 }
 
