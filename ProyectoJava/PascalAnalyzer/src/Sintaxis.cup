@@ -112,6 +112,7 @@ precedence left else_t;
 /* ------------ SINTAXIS BÁSICA  ----------- */
 
 PRG::= program identifier:i1 semicolons BLQ:blq point {: mostrarArbol("PRG <%program "+i1+" ; BLQ .%>");
+                                                         htmlGenerator.nameProgram = i1;
                                                          htmlGenerator.closeHTML("program", htmlGenerator.getIdent(i1), ";", (String)blq, ".");:};
 BLQ::= DCLLIST:dcllist begin{:htmlGenerator.identLevel++;:} SENTLIST:sentlist end
                                                       {: htmlGenerator.identLevel--;
@@ -178,7 +179,7 @@ VARLIST::= identifier:i1                         {: pushRegla("VARLIST <%" + i1 
 
 DEFPROC::=  procedure identifier:i1 FORMAL_PARAMLIST:formal_paramlist semicolons BLQ:blq semicolons {:
                     pushRegla("DEFPROC <%procedure "+ i1 +" FORMAL_PARAMLIST ; BLQ ;%>");
-                    RESULT = "procedure" + htmlGenerator.getIdent(i1) + formal_paramlist + ";" + blq + ";";:};
+                    RESULT = htmlGenerator.getProc(i2, formal_paramlist, blq);:};
 DEFFUN::=  function identifier:i2 FORMAL_PARAMLIST:formal_paramlist colons ALLTYPES:alltypes semicolons BLQ:blq semicolons {:
                     pushRegla("DEFFUN <%function "+i2+" FORMAL_PARAMLIST : ALLTYPES ; BLQ ;%>");
                     RESULT = htmlGenerator.getFunc(i2, formal_paramlist, alltypes, blq);:};

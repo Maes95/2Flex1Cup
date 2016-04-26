@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.ArrayList;
 
 public class HTMLGenerator {
 
@@ -27,6 +28,10 @@ public class HTMLGenerator {
 
     String innerHTML;
 
+    public String nameProgram;
+
+    ArrayList<String> methods;
+
     public HTMLGenerator (){
         this.innerHTML = "";
     }
@@ -36,13 +41,14 @@ public class HTMLGenerator {
     }
 
     public String closeHTML (String... prgSentence){
-        //push Lista de FUNCIONES
         pushHTML(prgSentence);
-        System.out.println(cabeceraHastaBody + innerHTML + cierreHTML);
-        createHtml(cabeceraHastaBody + innerHTML + cierreHTML);
-        return cabeceraHastaBody + innerHTML + cierreHTML;
+        String s = cabeceraHastaBody + generateIndexPart() + generateMethodsPart() + generateMainProgramPart() + cierreHTML;
+        System.out.println(s);
+        createHtml(s);
+        return s;
     }
 
+    //AUXILIAR METHODS TO GET HTML ELEMENTS
     public String getIdent (String s){
         return "<span class='ident'>" + s + "</span>";
     }
@@ -52,7 +58,47 @@ public class HTMLGenerator {
     }
 
     public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
-        return "<a name='" + id + "'> <span class='palres'>function </span> " + id + " " + formal_paramlist + ":" + alltypes + "</br>" + blq;
+        String f = "<a name='" + id + "'> <span class='palres'>function </span> " + id + " " + formal_paramlist + ":" + alltypes + "</br>" + blq;
+        this.methods.add(f);
+        return f;
+    }
+
+    public String getProc(String id, String formal_paramlist, String blq) {
+        String p = "<a name='" + id + "'> <span class='palres'>procedure </span> " + id + " " + formal_paramlist + ";"  + "</br>" + blq;
+        this.methods.add(p);
+        return p;
+    }
+
+
+
+    //METHODS TO GENERATE MAIN STRUCTURES IN HTML
+    public String generateIndexPart(){
+        String s = "<a name='inicio'>\n" +
+                    "<h1>Programa: " + this.nameProgram + "</h1>\n" +
+        <H2>Funciones y procedimientos</H2>
+        <UL>
+        <LI><A HREF="#areaCuadrado">function areaCuadrado ( lado: REAL ) : REAL </A></LI>
+        <LI><A HREF="#intercambioEntero">procedure intercambio ( v1, v2: INTEGER ) </A></LI>
+        <LI><A HREF="#ProgPpal">Programa princial</A></LI>
+        </UL>
+        <HR/>
+
+        return s;
+    }
+
+    public String generateMethodsPart(){
+        return null;
+    }
+
+    public String generateMainProgramPart(){
+        return null;
+    }
+
+
+    //ELIMINATE TAGS IN AN HTML ELEMENT (just plain text)
+    public String deleteTags (String s){
+        s = s.replaceAll("<[^>]*>", "");
+        return s;
     }
 
     /**
