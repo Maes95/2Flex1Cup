@@ -11,8 +11,12 @@ public class HTMLGenerator {
 
     public int identLevel = 0;
 
-    private final String CIERRE_HTML =  "\n</body>\n" +
-                                "</html>";
+    private final String CIERRE_HTML =  "</div>\n" +
+                                        "</div>\n" +
+                                        "</div>\n" +
+                                        "<div class='row' style='height: 5em;'></div>\n\n" +
+                                        "</body>\n" +
+                                        "</html>";
     
     
     private final String CABECERA_HASTA_BODY;
@@ -35,21 +39,21 @@ public class HTMLGenerator {
         System.out.println(this.fileName);
         this.fileName = this.fileName.replaceAll("(src/|.txt)", "");
         
-        this.CABECERA_HASTA_BODY = "<!DOCTYPE html>\n" +
-                                        "<html>\n" +
-                                        "<head>\n" +
-                                        "<title>"+this.fileName+"</title>\n" +
-                                        "<style>\n" +
-                                        ".cte {color:rgb(19,189,72);}\n" +
-                                        ".ident {color:rgb(55,40,244);}\n" +
-                                        ".palres {color:rgb(0,0,0);font-weight:bold;}\n" +
-                                        "</style>\n" +
-                                        "</head>\n\n" +
-                                        "<body>\n";
+        this.CABECERA_HASTA_BODY =  "<!DOCTYPE html>\n" +
+                                    "<html>\n" +
+                                    "<head>\n" +
+                                    "<title>"+this.fileName+"</title>\n" +
+                                    this.getStyleAndLibraries() +
+                                    "</head>\n\n" +
+                                    "<body>\n" +
+                                    "<div class='row' style='height: 5em;'></div>\n" +
+                                    "<div class='row'>\n" +
+                                    "<div class='col-md-8 col-md-offset-2'>\n" +
+                                    "<div class='ui raised segments'>\n";
     }
 
     public void closeHTML (){
-        String s = CABECERA_HASTA_BODY + generateIndexPart() + generateMethodsPart() + generateMainProgramPart() + CIERRE_HTML;
+        String s = CABECERA_HASTA_BODY + generateIndexPart() + generateMainProgramPart() + generateMethodsPart() + CIERRE_HTML;
         createHtml(s);
     }
 
@@ -101,34 +105,39 @@ public class HTMLGenerator {
 
     //METHODS TO GENERATE MAIN STRUCTURES IN HTML
     public String generateIndexPart(){
-        String s = "<a name='inicio'>\n" +
+        String s = "<div class='ui center aligned segment secondary'>" +
+                   "<a name='inicio'>\n" +
                    "<h1>Programa: " + this.nameProgram + "</h1>\n" +
+                   "</div>" +
+                   "<div class='ui segment'>" +
                    "<h2>Funciones y procedimientos</h2>\n" +
                    "<ul>\n";
-        for (String m : this.methods){
+        s += "<li><a href='#ProgPpal'>Programa principal</a></li>\n";
+        for (String m : this.methods) {
             String simpleM = deleteTags(m);
             s += "<li><a href='#" + getMethodName(simpleM) + "'>" + getMethodHeader(simpleM) + "</a></li>\n";
         }
-        s += "<li><a href='#ProgPpal'>Programa princial</a></li>\n" +
-             "</ul>\n" +
-             "<hr/>\n\n";
+        s+=  "</ul>\n" +
+             "</div>\n\n";
         return s;
     }
 
     public String generateMethodsPart(){
         String s = "";
         for (String m : this.methods){
+            s += "<div class='ui segment'>";
             String tagsDeleted = deleteTags(m);
             s +=  m + "<br/>\n" +
                  "<a href='#" + getMethodName(tagsDeleted) + "'>Inicio de rutina</a><br/>\n" +
-                 "<a href='#inicio'>Inicio de programa</a><br/>\n"+
-                 "<hr/>\n\n";
+                 "<a href='#inicio'>Inicio de programa</a><br/>\n" +
+                 "</div>\n\n";
         }
         return s;
     }
 
     public String generateMainProgramPart(){
-        String s = "<a name='ProgPpal'>\n" +
+        String s = "<div class='ui segment'>" +
+                   "<a name='ProgPpal'>\n" +
                    "<h2>Programa Principal</h2>\n";
         s += this.mainProgramDcl;
         s += "<br/><span class='palres'>begin</span>\n";
@@ -136,7 +145,8 @@ public class HTMLGenerator {
         s += "<span class='palres'>end</span>.<br/>\n";
         s += "<a href='#ProgPpal'>Inicio del programa principal</a><br/>\n" +
              "<a href='#inicio'>Inicio de programa</a>\n" +
-             "<br/>\n\n";
+             "<br/>\n" +
+             "</div>\n\n";
         return s;
     }
 
@@ -182,5 +192,20 @@ public class HTMLGenerator {
                 System.out.println("Mensaje error cierre fichero: " + ex3.getMessage());
             }
         }
+    }
+
+    private String getStyleAndLibraries(){
+        String style =  "<!-- Bootstrap -->" +
+                        "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">\n" +
+                        "<!-- Semantic UI -->\n" +
+                        "<link rel=\"stylesheet\" href=\"https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css\">\n" +
+                        "<style>\n" +
+                        "body {height: 100%;}\n" +
+                        ".cte {color:rgb(19,189,72);}\n" +
+                        ".ident {color:rgb(55,40,244);}\n" +
+                        ".palres {color:rgb(0,0,0);font-weight:bold;}\n" +
+                        "a[name] {text-decoration: none !important;}" +
+                        "</style>\n";
+        return style;
     }
 }
