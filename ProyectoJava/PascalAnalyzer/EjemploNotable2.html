@@ -52,18 +52,18 @@ v2: INTEGER)</a></li>
 <span class='ident'>valor2</span> : <span class='palres'> INTEGER</span>; </div>
 <span class='palres'>begin</span>
 <div style='text-indent: 1cm'><a href='#medida'>medida</a> := <span class='cte'>$4.A</span>;</div>
-<div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a><><a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 2cm'><a href='#valor1'>valor1</a> := <span class='cte'>2</span>;</div>
+<div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a> <> <a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 2cm'><a href='#valor1'>valor1</a> := <span class='cte'>2</span>;</div>
 <div style='text-indent: 1cm'><span class='palres'>else </span></div>
 <div style='text-indent: 2cm'><a href='#valor1'>valor1</a> := <span class='cte'>3</span>;</div>
 </div>
-<div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a><><a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 2cm'><a href='#intercambio'>intercambio</a> (<a href='#valor1'>valor1</a>,<a href='#valor2'>valor2</a>) ;</div>
+<div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a> <> <a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 2cm'><a href='#intercambio'>intercambio</a> (<a href='#valor1'>valor1</a>,<a href='#valor2'>valor2</a>) ;</div>
 </div>
 <div style='text-indent: 1cm'><a href='#valor1'>valor1</a> := <span class='cte'>-3</span>;</div>
 <div style='text-indent: 1cm'><a href='#valor2'>valor2</a> := <span class='cte'>$F6</span>;</div>
-<div style='text-indent: 1cm'><span class='palres'>while </span><a href='#medida'>medida</a><<a href='#valor1'>valor1</a><span class='palres'> do </span><div style='text-indent: 2cm'><a href='#medida'>medida</a> := <a href='#areaCuadrado'>areaCuadrado</a> (<a href='#medida'>medida</a>) ;</div>
+<div style='text-indent: 1cm'><span class='palres'>while </span><a href='#medida'>medida</a> < <a href='#valor1'>valor1</a><span class='palres'> do </span><div style='text-indent: 2cm'><a href='#medida'>medida</a> := <a href='#areaCuadrado'>areaCuadrado</a> (<a href='#medida'>medida</a>) ;</div>
 </div>
 <div style='text-indent: 1cm'><a href='#intercambio'>intercambio</a> (<a href='#valor1'>valor1</a>,<a href='#valor2'>valor2</a>) ;</div>
-<div style='text-indent: 1cm'><span class='palres'>while </span><a href='#medida'>medida</a><<a href='#valor1'>valor1</a><span class='palres'> do </span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a><><a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
+<div style='text-indent: 1cm'><span class='palres'>while </span><a href='#medida'>medida</a> < <a href='#valor1'>valor1</a><span class='palres'> do </span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a> <> <a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
 <div style='text-indent: 2cm'><a href='#aux'>aux</a> := <span class='cte'>0</span>;</div>
 <div style='text-indent: 2cm'><a href='#aux'>aux</a> := <a href='#v1'>v1</a>;</div>
 <div style='text-indent: 2cm'><a href='#v1'>v1</a> := <a href='#v2'>v2</a>;</div>
@@ -98,7 +98,7 @@ v2: INTEGER)</a></li>
 <span class='ident'>v1</span>,<a name='v2'>
 <span class='ident'>v2</span>:<span class='palres'> INTEGER</span>);</br><span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='aux'>
 <span class='ident'>aux</span> : <span class='palres'> INTEGER</span>; </div>
-<span class='palres'>begin</span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a><><a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
+<span class='palres'>begin</span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a> <> <a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
 <div style='text-indent: 2cm'><a href='#aux'>aux</a> := <span class='cte'>0</span>;</div>
 <div style='text-indent: 2cm'><a href='#aux'>aux</a> := <a href='#v1'>v1</a>;</div>
 <div style='text-indent: 2cm'><a href='#v1'>v1</a> := <a href='#v2'>v2</a>;</div>

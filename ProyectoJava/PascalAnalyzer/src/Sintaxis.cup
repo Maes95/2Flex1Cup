@@ -114,8 +114,7 @@ precedence left else_t;
 /* ------------ SINTAXIS BÁSICA  ----------- */
 
 PRG::= program identifier:i1 semicolons BLQ:blq point {: mostrarArbol("PRG <%program "+i1+" ; BLQ .%>");
-                                                         htmlGenerator.nameProgram = i1;
-                                                         htmlGenerator.closeHTML();:};
+                                                         htmlGenerator.closeHTML(i1);:};
 BLQ::= DCLLIST:dcllist begin{:htmlGenerator.indentLevel++;:} SENTLIST:sentlist end
                                                       {: htmlGenerator.indentLevel--;
                                                       pushRegla("BLQ <%DCLLIST begin SENTLIST end%>");

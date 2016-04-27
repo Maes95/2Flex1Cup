@@ -9,7 +9,16 @@ import java.util.ArrayList;
 
 public class HTMLGenerator {
 
-    public int indentLevel = 0;
+  /**
+   *  HTMLGenerator
+   *
+   *  Motivación de la clase:
+   *    - Almacenar recursos reconocidos por CUP
+   *    - Proporcionar métodos de construcción de HTML al CUP
+   *    - Mantener estados del análisis sintáctico
+   *    - Generar a partir de los recursos un HTML final
+   *
+   */
 
     private final String CIERRE_HTML =  "</div>\n" +
                                         "</div>\n" +
@@ -20,18 +29,22 @@ public class HTMLGenerator {
 
 
     private final String CABECERA_HASTA_BODY;
+    private String fileName;        // Nombre del fichero fuente (y de salida)
 
+    // Variables de almacenamiento
 
-    public String nameProgram;
-    public String mainProgram;
-    public String mainProgramDcl;
+    private String mainProgram;      // Programa principal
+    private String mainProgramDcl;   // Declaración del programa principal
+    private ArrayList<String> methods;
 
-    private String fileName;
+    // Variables de estado
 
-    public boolean sentCond; // Indica si se esta dentro de una sentencia de control de flujo
-    public boolean inProcFun;
+    public boolean sentCond;        // Indica si se esta dentro de una sentencia de control de flujo
+    public boolean inProcFun;       // Variable que indica si estamos dentro de un procedimiento o funcion
+    public int indentLevel;         // Nivel de identación actual
+    private boolean openDiv;
 
-    ArrayList<String> methods;
+    // Constructor
 
     public HTMLGenerator (String fileName){
         this.fileName = fileName;
@@ -39,6 +52,8 @@ public class HTMLGenerator {
         this.methods = new ArrayList<>();
         this.sentCond = false;
         this.inProcFun = false;
+        this.indentLevel = 0;
+        this.openDiv = false;
         this.fileName = this.fileName.replaceAll("(src/|.txt)", "");
 
         this.CABECERA_HASTA_BODY =  "<!DOCTYPE html>\n" +
@@ -54,12 +69,42 @@ public class HTMLGenerator {
                                     "<div class='ui raised segments'>\n";
     }
 
-    public void closeHTML (){
-        String s = CABECERA_HASTA_BODY + generateIndexPart() + generateMainProgramPart() + generateMethodsPart() + CIERRE_HTML;
-        createHtml(s);
+
+    /*********************************************************************************************************
+                                           METODOS DE FORMATEO A HTML (CONSTRUCTORES)
+                                       Estos métodos rellenan los parametros de la clase
+     *********************************************************************************************************/
+
+    public void getMainProgram(String s){
+        this.mainProgram = s;
     }
 
-    //AUXILIAR METHODS TO GET HTML ELEMENTS
+    public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
+        String f = "<a name='" + id + "'>" + this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";" + "</br>" + blq + ";\n";
+        this.methods.add(f);
+        return f;
+    }
+
+    public String getProc(String id, String formal_paramlist, String blq) {
+        String p = "<a name='" + id + "'>" + this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";"  + "</br>" + blq + ";\n";
+        this.methods.add(p);
+        return p;
+    }
+
+    /**
+     * Actualiza la lista de declaración del programa principal (declaraciones que no estan incluidas en funciones)
+     */
+
+    public void updateLastDcl (String s){
+        if(!this.inProcFun)
+          this.mainProgramDcl += s;
+    }
+
+    /*********************************************************************************************************
+                                      METODOS DE FORMATEO A HTML (NO CONSTRUCTORES)
+            Estos métodos devuelve bloque HTML a partir del estado del analisis, almacenado en el objeto
+     *********************************************************************************************************/
+
     public String getIdent (String s){
         return "<a href='#" + s +"'>" + s + "</a>";
     }
@@ -80,16 +125,14 @@ public class HTMLGenerator {
         return getSent(s);
     }
 
-    private boolean open = false;
-
     public String getSentOpen (String s){
-        this.open = true;
+        this.openDiv = true;
         return "<div style='text-indent: " + this.indentLevel + "cm'>" + s;
     }
 
     public String getSentClose (String s){
-        if(this.open){
-            this.open = false;
+        if(this.openDiv){
+            this.openDiv = false;
             return s + "</div>\n";
         }
         return s;
@@ -97,18 +140,6 @@ public class HTMLGenerator {
 
     public String getIdentDeclaration (String s) {
         return "<a name='" + s + "'>\n<span class='ident'>" + s + "</span>";
-    }
-
-    public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
-        String f = "<a name='" + id + "'>" + this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";" + "</br>" + blq + ";\n";
-        this.methods.add(f);
-        return f;
-    }
-
-    public String getProc(String id, String formal_paramlist, String blq) {
-        String p = "<a name='" + id + "'>" + this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";"  + "</br>" + blq + ";\n";
-        this.methods.add(p);
-        return p;
     }
 
     public String getReservedWord (String t){
@@ -119,16 +150,49 @@ public class HTMLGenerator {
         return getSent(getReservedWord(t));
     }
 
-    public void getMainProgram(String s){
-        this.mainProgram = s;
+    /*********************************************************************************************************
+                                                METODOS AUXILIARES
+     *********************************************************************************************************/
+
+   /**
+    * Elimina etiquetas HTML
+    */
+
+    public String deleteTags (String s){
+        System.out.println(s);
+        s = s.replaceAll("<[^>]*>", "");
+        return s;
+    }
+
+    /**
+     *  Obtiene el nombre de un método
+     */
+    public String getMethodName (String s){
+        return s.split("\\s+")[1];
+    }
+    /**
+     *  Obtiene la cabecera de un método
+     */
+
+    public String getMethodHeader (String s){
+        return s.split(";")[0];
     }
 
 
-    //METHODS TO GENERATE MAIN STRUCTURES IN HTML
-    public String generateIndexPart(){
+    /*********************************************************************************************************
+                                           METODOS DE CREACION DEL HTML
+             Estos métodos se encargan de generar el html final a partir de los datos almacenados
+     *********************************************************************************************************/
+
+    public void closeHTML (String nameProgram){
+        String s = CABECERA_HASTA_BODY + generateIndexPart(nameProgram) + generateMainProgramPart() + generateMethodsPart() + CIERRE_HTML;
+        createHtml(s);
+    }
+
+    public String generateIndexPart(String nameProgram){
         String s = "<div class='ui center aligned segment secondary'>" +
                    "<a name='inicio'>\n" +
-                   "<h1>Programa: " + this.nameProgram + "</h1>\n" +
+                   "<h1>Programa: " + nameProgram + "</h1>\n" +
                    "</div>" +
                    "<div class='ui segment'>" +
                    "<h2>Funciones y procedimientos</h2>\n" +
@@ -175,29 +239,10 @@ public class HTMLGenerator {
     }
 
 
-    //ELIMINATE TAGS IN AN HTML ELEMENT (just plain text)
-    public String deleteTags (String s){
-        System.out.println(s);
-        s = s.replaceAll("<[^>]*>", "");
-        return s;
-    }
-
-    public String getMethodName (String s){
-        return s.split("\\s+")[1];
-    }
-
-    public String getMethodHeader (String s){
-        return s.split(";")[0];
-    }
-
-    public void updateLastDcl (String s){
-        if(!this.inProcFun)
-          this.mainProgramDcl += s;
-    }
-
     /**
      * Este método creara un archivo html listo para ser visualizado
      */
+
     public void createHtml(String html){
         Writer out = null;
         try {
@@ -218,6 +263,10 @@ public class HTMLGenerator {
             }
         }
     }
+
+    /*********************************************************************************************************
+                                           ESTILOS DEL HTML (CSS)
+     *********************************************************************************************************/
 
     private String getStyleAndLibraries(){
         String style =  "<!-- Bootstrap -->" +
