@@ -39,7 +39,6 @@ public class HTMLGenerator {
         this.methods = new ArrayList<>();
         this.sentCond = false;
         this.inProcFun = false;
-        System.out.println(this.fileName);
         this.fileName = this.fileName.replaceAll("(src/|.txt)", "");
 
         this.CABECERA_HASTA_BODY =  "<!DOCTYPE html>\n" +
@@ -73,6 +72,14 @@ public class HTMLGenerator {
         return "<div style='text-indent: " + this.indentLevel + "cm'>" + s + "</div>\n";
     }
 
+    public String getSent (String s, boolean sentCond){
+        if(sentCond){
+          this.sentCond = false;
+          return "<div style='text-indent: " + (this.indentLevel + 1) + "cm'>" + s + "</div>\n";
+        }
+        return getSent(s);
+    }
+
     private boolean open = false;
 
     public String getSentOpen (String s){
@@ -86,14 +93,6 @@ public class HTMLGenerator {
             return s + "</div>\n";
         }
         return s;
-    }
-
-    public String getSent (String s, boolean sentCond){
-        if(sentCond){
-          this.sentCond = false;
-          return "<div style='text-indent: " + (this.indentLevel + 1) + "cm'>" + s + "</div>\n";
-        }
-        return getSent(s);
     }
 
     public String getIdentDeclaration (String s) {

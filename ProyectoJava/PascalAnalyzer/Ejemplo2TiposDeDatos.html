@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ejemplo2TiposDeDatos</title>
+<!-- Bootstrap --><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<!-- Semantic UI -->
+<link rel="stylesheet" href="https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css">
+<style>
+body {height: 100%; color: white;}
+.ui.segments .segment, .ui.segment {font-size: 15px;}a {color:hsl(220, 14%, 71%);}
+a:hover {color:hsl(220, 14%, 71%);}
+.ui.segments > .segment {border-top: 1px solid hsla(220, 14%, 71%, 0.18);}.cte {color:hsl( 29, 54%, 61%);}
+.ident {color: hsl(207, 82%, 66%);}
+.palres {color:hsl(286, 60%, 67%);}
+body {background-color: hsl(222, 11%, 12%);}.ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}.ui.segment {background-color: hsl(222, 11%, 18%);}.ui.segments .segment, .ui.segment {padding-left: 4em;}a[name] {text-decoration: none !important;}</style>
+</head>
+
+<body>
+<div class='row' style='height: 5em;'></div>
+<div class='row'>
+<div class='col-md-8 col-md-offset-2'>
+<div class='ui raised segments'>
+<div class='ui center aligned segment secondary'><a name='inicio'>
+<h1>Programa: Ejemplo2TiposDeDatos</h1>
+</div><div class='ui segment'><h2>Funciones y procedimientos</h2>
+<ul>
+<li><a href='#ProgPpal'>Programa principal</a></li>
+</ul>
+</div>
+
+<div class='ui segment'><a name='ProgPpal'>
+<h2>Programa Principal</h2>
+<span class='palres'>type </span><div style='text-indent: 1cm'><a name='TVector'>
+<span class='ident'>TVector</span> = <span class='palres'>array </span>[ <span class='cte'>1</span> .. <span class='cte'>25</span> ]<span class='palres'> of </span><span class='palres'> REAL</span>;</div>
+<div style='text-indent: 1cm'><a name='TPunto'>
+<span class='ident'>TPunto</span> = <span class='palres'>record </span><div style='text-indent: 2cm'><a name='coordenadaX'>
+<span class='ident'>coordenadaX</span> : <span class='palres'> INTEGER</span>; </div>
+<div style='text-indent: 2cm'><a name='coordenadaY'>
+<span class='ident'>coordenadaY</span> : <span class='palres'> INTEGER</span>; </div>
+<div style='text-indent: 1cm'><span class='palres'>end</span>;</div>
+</div>
+<span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='valor1'>
+<span class='ident'>valor1</span> : <a href='#TVector'>TVector</a>; </div>
+<div style='text-indent: 1cm'><a name='valor2'>
+<span class='ident'>valor2</span> : <a href='#TPunto'>TPunto</a>; </div>
+<span class='palres'>begin</span>
+<div style='text-indent: 1cm'><a href='#valor1'>valor1</a>[ <span class='cte'>0</span> ] := <span class='cte'>1</span>;</div>
+<div style='text-indent: 1cm'><a href='#valor2'>valor2</a>.<a href='#coordenadaX'>coordenadaX</a> := <span class='cte'>1</span>;</div>
+<div style='text-indent: 1cm'><a href='#valor2'>valor2</a>.<a href='#coordenadaY'>coordenadaY</a> := <span class='cte'>2</span>;</div>
+<span class='palres'>end</span>.<br/>
+<div style='text-align: center;'>
+<a class='mini ui secondary button' style='display: inline-block;' href='#ProgPpal'>Inicio del programa principal</a>
+<a class='mini ui secondary button' style='display: inline-block;' href='#inicio'>Inicio de programa</a>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<div class='row' style='height: 5em;'></div>
+
+</body>
+</html>

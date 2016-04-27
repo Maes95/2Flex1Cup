@@ -255,7 +255,7 @@ OP::= OPCOMP:opcomp   {: pushRegla("OP <%OPCOMP%>");
       ;
 
 OPCOMP::= comparator_op:op {: pushRegla("OPCOMP <%"+op+"%>");
-                              RESULT = op;:};
+                              RESULT = " "+op+" ";:};
 
 OPARIT::= plus       {: pushRegla("OPARIT <%+%>");
                         RESULT = " + ";:}
@@ -271,9 +271,9 @@ OPARIT::= plus       {: pushRegla("OPARIT <%+%>");
 
 
 OPLOG::= and_op    {: pushRegla("OPLOG <%and%>");
-                      RESULT = "and";:}
+                      RESULT = " and ";:}
           | or_op  {: pushRegla("OPLOG <%or%>");
-                      RESULT = "or";:}
+                      RESULT = " or ";:}
           ;
 
 FACTOR::= SIMPVALUE:simpvalue                                                {: pushRegla("FACTOR <%SIMPVALUE%>");
@@ -326,8 +326,8 @@ DCL_BLQ::= DEFCTE:defcte     {: pushRegla("DCL_BLQ <%DEFCTE%>");
 /* ------------ SINTAXIS ESTRUCTURAS DE DATOS  ----------- */
 
 DEFTYPE ::= type {:htmlGenerator.indentLevel++;:}TYPELIST:typelist {: pushRegla("DEFTYPE <%type TYPELIST%>");
-                                      htmlGenerator.indentLevel--;
-                                      RESULT = htmlGenerator.getReservedWord("type ") + typelist;:};
+                                                                      htmlGenerator.indentLevel--;
+                                                                      RESULT = htmlGenerator.getReservedWord("type ") + typelist;:};
 
 TYPELIST ::= identifier:i1 equal UDTYPE:udtype semicolons                       {: pushRegla("TYPELIST <%"+i1+" = UDTYPE ;%>");
                                                                                    RESULT =  htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i1) + " = " + udtype + htmlGenerator.getSentClose(";"));:}
@@ -345,7 +345,7 @@ UDTYPE ::= array open_square_bracket SIMPVALUE:simpvalue1 two_points SIMPVALUE:s
               ;
 
 ALLTYPES ::= TBAS:tbas          {: pushRegla("ALLTYPES <%TBAS%>");
-                                RESULT = tbas;:}
+                                   RESULT = tbas;:}
              | identifier:i  {: pushRegla("ALLTYPES <%"+i+"%>");
                                 RESULT = htmlGenerator.getIdent(i);:}
              ;
@@ -360,28 +360,30 @@ COND ::= if_t EXP:exp then_t {: htmlGenerator.sentCond = true; :} SENT:sent ELSE
 ELSECOND ::=                    {: pushRegla("ELSECOND <%lambda%>");
                                    RESULT = "";:}
             | else_t {: htmlGenerator.sentCond = true; :} SENT:sent  {: pushRegla("ELSECOND <%else SENT%>");
-                                   RESULT = htmlGenerator.getSent(htmlGenerator.getReservedWord("else ")) + sent;:}
+                                                                        RESULT = htmlGenerator.getSent(htmlGenerator.getReservedWord("else ")) + sent;:}
             ;
 
                         /* SENTENCIA WHILE */
 
 WLOOP ::= while_t EXP:exp do_t  {: htmlGenerator.sentCond = true; :} SENT:sent {: pushRegla("WLOOP <%while EXP do SENT%>");
-                                            RESULT = htmlGenerator.getReservedWord("while ") + exp + htmlGenerator.getReservedWord(" do ") + sent;:};
+                                                                                  RESULT = htmlGenerator.getReservedWord("while ") + exp + htmlGenerator.getReservedWord(" do ") + sent;:};
 
                         /* SENTENCIA FOR  */
 
 FLOOP ::= for_t identifier:i1 asig EXP:exp1 to EXP:exp2 do_t {: htmlGenerator.sentCond = true; :} SENT:sent {: pushRegla("FLOOP <%for "+i1+" := EXP to EXP do SENT%>");
-                                                                          RESULT = htmlGenerator.getReservedWord("for") + htmlGenerator.getIdent(i1) +
-                                                                          ":=" + exp1 + htmlGenerator.getReservedWord("to") + exp2 + htmlGenerator.getReservedWord("do") + sent;:};
+                                                                                                               RESULT = htmlGenerator.getReservedWord("for ") + htmlGenerator.getIdent(i1) +
+                                                                                                               ":=" + exp1 + htmlGenerator.getReservedWord(" to ") + exp2 + htmlGenerator.getReservedWord(" do ") + sent;:};
 
                         /* SENTENCIA CASE */
 
-CASE ::= case_t EXP:exp of CASELIST:caselist end {: pushRegla("CASE <%case EXP of CASELIST end%>");
-                                                    RESULT = htmlGenerator.getReservedWord("case") + exp + htmlGenerator.getReservedWord("of") +
-                                                    caselist + htmlGenerator.getReservedWord("end");:};
+CASE ::= case_t EXP:exp of {:htmlGenerator.indentLevel++;:} CASELIST:caselist end {:
+                                                    htmlGenerator.indentLevel--;
+                                                    pushRegla("CASE <%case EXP of CASELIST end%>");
+                                                    RESULT = htmlGenerator.getReservedWord("case ") + exp + htmlGenerator.getReservedWord(" of ") +
+                                                    caselist + htmlGenerator.getSent(htmlGenerator.getReservedWord("end"));:};
 
 CASELIST ::= EXP:exp colons SENT:sent                     {: pushRegla("CASELIST <%EXP : SENT%>");
-                                                             RESULT = exp + " : " + sent;:}
+                                                             RESULT = htmlGenerator.getSent(exp + " : " + htmlGenerator.deleteTags(sent));:}
              | EXP:exp colons SENT:sent CASELIST:caselist {: pushRegla("CASELIST <%EXP : SENT CASELIST%>");
-                                                             RESULT = exp + " : " + sent + caselist;:}
+                                                             RESULT = htmlGenerator.getSent(exp + " : " + htmlGenerator.deleteTags(sent)) + caselist;:}
              ;
