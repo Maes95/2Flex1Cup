@@ -17,33 +17,36 @@ public class HTMLGenerator {
                                         "<div class='row' style='height: 5em;'></div>\n\n" +
                                         "</body>\n" +
                                         "</html>";
-    
-    
+
+
     private final String CABECERA_HASTA_BODY;
 
 
     public String nameProgram;
     public String mainProgram;
     public String mainProgramDcl;
-    
+
     private String fileName;
 
     public boolean sentCond; // Indica si se esta dentro de una sentencia de control de flujo
+    public boolean inProcFun;
 
     ArrayList<String> methods;
 
     public HTMLGenerator (String fileName){
         this.fileName = fileName;
+        this.mainProgramDcl = "";
         this.methods = new ArrayList<>();
         this.sentCond = false;
+        this.inProcFun = false;
         System.out.println(this.fileName);
         this.fileName = this.fileName.replaceAll("(src/|.txt)", "");
-        
+
         this.CABECERA_HASTA_BODY =  "<!DOCTYPE html>\n" +
                                     "<html>\n" +
                                     "<head>\n" +
                                     "<title>"+this.fileName+"</title>\n" +
-                                    this.getStyleAndLibraries() +
+                                    this.getStyleAndLibrariesDark() +
                                     "</head>\n\n" +
                                     "<body>\n" +
                                     "<div class='row' style='height: 5em;'></div>\n" +
@@ -70,6 +73,21 @@ public class HTMLGenerator {
         return "<div style='text-indent: " + this.indentLevel + "cm'>" + s + "</div>\n";
     }
 
+    private boolean open = false;
+
+    public String getSentOpen (String s){
+        this.open = true;
+        return "<div style='text-indent: " + this.indentLevel + "cm'>" + s;
+    }
+
+    public String getSentClose (String s){
+        if(this.open){
+            this.open = false;
+            return s + "</div>\n";
+        }
+        return s;
+    }
+
     public String getSent (String s, boolean sentCond){
         if(sentCond){
           this.sentCond = false;
@@ -83,13 +101,13 @@ public class HTMLGenerator {
     }
 
     public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
-        String f = "<a name='" + id + "'>" + this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";" + "</br>" + blq + "\n";
+        String f = "<a name='" + id + "'>" + this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";" + "</br>" + blq + ";\n";
         this.methods.add(f);
         return f;
     }
 
     public String getProc(String id, String formal_paramlist, String blq) {
-        String p = "<a name='" + id + "'>" + this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";"  + "</br>" + blq + "\n";
+        String p = "<a name='" + id + "'>" + this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";"  + "</br>" + blq + ";\n";
         this.methods.add(p);
         return p;
     }
@@ -133,8 +151,8 @@ public class HTMLGenerator {
             String tagsDeleted = deleteTags(m);
             s +=  m + "<br/>\n" +
                  "<div style='text-align: center;'>\n" +
-                 "<a class='mini ui button' style='display: inline-block;' href='#" + getMethodName(tagsDeleted) + "'>Inicio de rutina</a>\n" +
-                 "<a class='mini ui button' style='display: inline-block;' href='#inicio'>Inicio de programa</a>" +
+                 "<a class='mini ui secondary button' style='display: inline-block;' href='#" + getMethodName(tagsDeleted) + "'>Inicio de rutina</a>\n" +
+                 "<a class='mini ui secondary button' style='display: inline-block;' href='#inicio'>Inicio de programa</a>" +
                  "</div>\n" +
                  "</div>\n\n";
         }
@@ -150,8 +168,8 @@ public class HTMLGenerator {
         s += this.mainProgram;
         s += "<span class='palres'>end</span>.<br/>\n";
         s += "<div style='text-align: center;'>\n" +
-             "<a class='mini ui button' style='display: inline-block;' href='#ProgPpal'>Inicio del programa principal</a>\n" +
-             "<a class='mini ui button' style='display: inline-block;' href='#inicio'>Inicio de programa</a>\n" +
+             "<a class='mini ui secondary button' style='display: inline-block;' href='#ProgPpal'>Inicio del programa principal</a>\n" +
+             "<a class='mini ui secondary button' style='display: inline-block;' href='#inicio'>Inicio de programa</a>\n" +
              "</div>\n" +
              "</div>\n\n";
         return s;
@@ -174,7 +192,8 @@ public class HTMLGenerator {
     }
 
     public void updateLastDcl (String s){
-        this.mainProgramDcl = s;
+        if(!this.inProcFun)
+          this.mainProgramDcl += s;
     }
 
     /**
@@ -211,6 +230,29 @@ public class HTMLGenerator {
                         ".cte {color:rgb(19,189,72);}\n" +
                         ".ident {color:rgb(55,40,244);}\n" +
                         ".palres {color:rgb(0,0,0);font-weight:bold;}\n" +
+                        "a[name] {text-decoration: none !important;}" +
+                        "</style>\n";
+        return style;
+    }
+
+    private String getStyleAndLibrariesDark(){
+        String style =  "<!-- Bootstrap -->" +
+                        "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">\n" +
+                        "<!-- Semantic UI -->\n" +
+                        "<link rel=\"stylesheet\" href=\"https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css\">\n" +
+                        "<style>\n" +
+                        "body {height: 100%; color: white;}\n" +
+                        ".ui.segments .segment, .ui.segment {font-size: 15px;}"+
+                        "a {color:hsl(220, 14%, 71%);}\n" +
+                        "a:hover {color:hsl(220, 14%, 71%);}\n" +
+                        ".ui.segments > .segment {border-top: 1px solid hsla(220, 14%, 71%, 0.18);}"+
+                        ".cte {color:hsl( 29, 54%, 61%);}\n" +
+                        ".ident {color: hsl(207, 82%, 66%);}\n" +
+                        ".palres {color:hsl(286, 60%, 67%);}\n" +
+                        "body {background-color: hsl(222, 11%, 12%);}"+
+                        ".ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}"+
+                        ".ui.segment {background-color: hsl(222, 11%, 18%);}"+
+                        ".ui.segments .segment, .ui.segment {padding-left: 4em;}"+
                         "a[name] {text-decoration: none !important;}" +
                         "</style>\n";
         return style;

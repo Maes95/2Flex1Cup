@@ -21,13 +21,25 @@ begin
 		v2 := aux;
 	end
 end;
+type
+	TVector = array [1..25] of REAL;
+	TPunto = record
+              coordenadaX: INTEGER;
+              coordenadaY: INTEGER
+             end;
+const
+	MAX = 2;
 var
 	medida: REAL;
 	valor1, valor2: INTEGER;
 begin
 	medida := $4.A;
-	if ( v1 <> v2 ) then valor1:= 2;
-	if ( v1 <> v2 ) then intercambio(valor1, valor2); 
+	if ( v1 <> v2 ) then
+		valor1:= 2;
+	else
+		valor1:= 3;
+
+	if ( v1 <> v2 ) then intercambio(valor1, valor2);
 	valor1 := -3;
 	valor2 := $F6;
 	while medida < valor1 do medida := areaCuadrado( medida );

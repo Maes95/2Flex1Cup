@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EjemploNotable2</title>
+<!-- Bootstrap --><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<!-- Semantic UI -->
+<link rel="stylesheet" href="https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css">
+<style>
+body {height: 100%; color: white;}
+.ui.segments .segment, .ui.segment {font-size: 15px;}a {color:hsl(220, 14%, 71%);}
+a:hover {color:hsl(220, 14%, 71%);}
+.ui.segments > .segment {border-top: 1px solid hsla(220, 14%, 71%, 0.18);}.cte {color:hsl( 29, 54%, 61%);}
+.ident {color: hsl(207, 82%, 66%);}
+.palres {color:hsl(286, 60%, 67%);}
+body {background-color: hsl(222, 11%, 12%);}.ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}.ui.segment {background-color: hsl(222, 11%, 18%);}.ui.segments .segment, .ui.segment {padding-left: 4em;}a[name] {text-decoration: none !important;}</style>
+</head>
+
+<body>
+<div class='row' style='height: 5em;'></div>
+<div class='row'>
+<div class='col-md-8 col-md-offset-2'>
+<div class='ui raised segments'>
+<div class='ui center aligned segment secondary'><a name='inicio'>
+<h1>Programa: EjemploNotable</h1>
+</div><div class='ui segment'><h2>Funciones y procedimientos</h2>
+<ul>
+<li><a href='#ProgPpal'>Programa principal</a></li>
+<li><a href='#areaCuadrado'>function areaCuadrado (
+lado: REAL): REAL</a></li>
+<li><a href='#intercambio'>procedure intercambio (
+v1,
+v2: INTEGER)</a></li>
+</ul>
+</div>
+
+<div class='ui segment'><a name='ProgPpal'>
+<h2>Programa Principal</h2>
+<span class='palres'>type </span><div style='text-indent: 1cm'><a name='TVector'>
+<span class='ident'>TVector</span> = <span class='palres'>array </span>[ <span class='cte'>1</span> .. <span class='cte'>25</span> ]<span class='palres'> of </span><span class='palres'> REAL</span>;</div>
+<div style='text-indent: 1cm'><a name='TPunto'>
+<span class='ident'>TPunto</span> = <span class='palres'>record </span><div style='text-indent: 2cm'><a name='coordenadaX'>
+<span class='ident'>coordenadaX</span> : <span class='palres'> INTEGER</span>; </div>
+<div style='text-indent: 2cm'><a name='coordenadaY'>
+<span class='ident'>coordenadaY</span> : <span class='palres'> INTEGER</span>; </div>
+<div style='text-indent: 1cm'><span class='palres'>end</span>;</div>
+</div>
+<span class='palres'>const</span><div style='text-indent: 1cm'><a href='#MAX'>MAX</a>=<span class='cte'>2</span>;</div>
+<span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='medida'>
+<span class='ident'>medida</span> : <span class='palres'> REAL</span>; </div>
+<div style='text-indent: 1cm'><a name='valor1'>
+<span class='ident'>valor1</span>,<a name='valor2'>
+<span class='ident'>valor2</span> : <span class='palres'> INTEGER</span>; </div>
+<span class='palres'>begin</span>
+<div style='text-indent: 1cm'><a href='#medida'>medida</a> := <span class='cte'>$4.A</span>;</div>
+<div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a><><a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 2cm'><a href='#valor1'>valor1</a> := <span class='cte'>2</span>;</div>
+<div style='text-indent: 1cm'><span class='palres'>else </span></div>
+<div style='text-indent: 2cm'><a href='#valor1'>valor1</a> := <span class='cte'>3</span>;</div>
+</div>
+<div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a><><a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 2cm'><a href='#intercambio'>intercambio</a> (<a href='#valor1'>valor1</a>,<a href='#valor2'>valor2</a>) ;</div>
+</div>
+<div style='text-indent: 1cm'><a href='#valor1'>valor1</a> := <span class='cte'>-3</span>;</div>
+<div style='text-indent: 1cm'><a href='#valor2'>valor2</a> := <span class='cte'>$F6</span>;</div>
+<div style='text-indent: 1cm'><span class='palres'>while </span><a href='#medida'>medida</a><<a href='#valor1'>valor1</a><span class='palres'> do </span><div style='text-indent: 2cm'><a href='#medida'>medida</a> := <a href='#areaCuadrado'>areaCuadrado</a> (<a href='#medida'>medida</a>) ;</div>
+</div>
+<div style='text-indent: 1cm'><a href='#intercambio'>intercambio</a> (<a href='#valor1'>valor1</a>,<a href='#valor2'>valor2</a>) ;</div>
+<div style='text-indent: 1cm'><span class='palres'>while </span><a href='#medida'>medida</a><<a href='#valor1'>valor1</a><span class='palres'> do </span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a><><a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
+<div style='text-indent: 2cm'><a href='#aux'>aux</a> := <span class='cte'>0</span>;</div>
+<div style='text-indent: 2cm'><a href='#aux'>aux</a> := <a href='#v1'>v1</a>;</div>
+<div style='text-indent: 2cm'><a href='#v1'>v1</a> := <a href='#v2'>v2</a>;</div>
+<div style='text-indent: 2cm'><a href='#v2'>v2</a> := <a href='#aux'>aux</a>;</div>
+<div style='text-indent: 1cm'><span class='palres'>end</span></div>
+</div>
+</div>
+<span class='palres'>end</span>.<br/>
+<div style='text-align: center;'>
+<a class='mini ui secondary button' style='display: inline-block;' href='#ProgPpal'>Inicio del programa principal</a>
+<a class='mini ui secondary button' style='display: inline-block;' href='#inicio'>Inicio de programa</a>
+</div>
+</div>
+
+<div class='ui segment'><a name='areaCuadrado'><span class='palres'>function </span>areaCuadrado (<a name='lado'>
+<span class='ident'>lado</span>:<span class='palres'> REAL</span>):<span class='palres'> REAL</span>;</br><span class='palres'>type </span><div style='text-indent: 1cm'><a name='miArray'>
+<span class='ident'>miArray</span> = <span class='palres'>array </span>[ <span class='cte'>0</span> .. <span class='cte'>5</span> ]<span class='palres'> of </span><span class='palres'> INTEGER</span>;</div>
+<span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='resultado'>
+<span class='ident'>resultado</span> : <span class='palres'> REAL</span>; </div>
+<span class='palres'>begin</span><div style='text-indent: 1cm'><a href='#resultado'>resultado</a> := <span class='cte'>+0.0</span>;</div>
+<div style='text-indent: 1cm'><a href='#miArray'>miArray</a>[ <span class='cte'>1</span> ] := <span class='cte'>0</span>;</div>
+<div style='text-indent: 1cm'><a href='#resultado'>resultado</a> := <a href='#lado'>lado</a> * <a href='#lado'>lado</a> + <a href='#miArray'>miArray</a>[<span class='cte'>1</span> + <span class='cte'>2</span>];</div>
+<div style='text-indent: 1cm'><a href='#areaCuadrado'>areaCuadrado</a> := <a href='#resultado'>resultado</a>;</div>
+<span class='palres'>end</span>;
+<br/>
+<div style='text-align: center;'>
+<a class='mini ui secondary button' style='display: inline-block;' href='#areaCuadrado'>Inicio de rutina</a>
+<a class='mini ui secondary button' style='display: inline-block;' href='#inicio'>Inicio de programa</a></div>
+</div>
+
+<div class='ui segment'><a name='intercambio'><span class='palres'>procedure </span>intercambio (<a name='v1'>
+<span class='ident'>v1</span>,<a name='v2'>
+<span class='ident'>v2</span>:<span class='palres'> INTEGER</span>);</br><span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='aux'>
+<span class='ident'>aux</span> : <span class='palres'> INTEGER</span>; </div>
+<span class='palres'>begin</span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a><><a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
+<div style='text-indent: 2cm'><a href='#aux'>aux</a> := <span class='cte'>0</span>;</div>
+<div style='text-indent: 2cm'><a href='#aux'>aux</a> := <a href='#v1'>v1</a>;</div>
+<div style='text-indent: 2cm'><a href='#v1'>v1</a> := <a href='#v2'>v2</a>;</div>
+<div style='text-indent: 2cm'><a href='#v2'>v2</a> := <a href='#aux'>aux</a>;</div>
+<div style='text-indent: 1cm'><span class='palres'>end</span></div>
+</div>
+<span class='palres'>end</span>;
+<br/>
+<div style='text-align: center;'>
+<a class='mini ui secondary button' style='display: inline-block;' href='#intercambio'>Inicio de rutina</a>
+<a class='mini ui secondary button' style='display: inline-block;' href='#inicio'>Inicio de programa</a></div>
+</div>
+
+</div>
+</div>
+</div>
+<div class='row' style='height: 5em;'></div>
+
+</body>
+</html>

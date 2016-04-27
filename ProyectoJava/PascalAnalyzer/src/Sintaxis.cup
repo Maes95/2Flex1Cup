@@ -125,7 +125,6 @@ BLQ::= DCLLIST:dcllist begin{:htmlGenerator.indentLevel++;:} SENTLIST:sentlist e
 DCLLIST::=                          {: pushRegla("DCLLIST <%lambda%>");
                                        RESULT = "";:}
           | DCLLIST:dcllist DCL:dcl {: pushRegla("DCLLIST <%DCLLIST DCL%>");
-                                       htmlGenerator.updateLastDcl(dcl);
                                        RESULT = dcllist + (String)dcl;:}
           ;
 
@@ -137,25 +136,29 @@ SENTLIST::= {: htmlGenerator.sentCond = false; :} SENT:sent    {: pushRegla("SEN
           ;
 
 DCL::= DEFCTE:defcte   {: pushRegla("DCL <%DEFCTE%>");
+                          htmlGenerator.updateLastDcl(defcte);
                           RESULT = defcte;:}
       | DEFVAR:defvar  {: pushRegla("DCL <%DEFVAR%>");
+                          htmlGenerator.updateLastDcl(defvar);
                           RESULT = defvar;:}
-      | DEFPROC:defproc {: pushRegla("DCL <%DEFPROC%>");
+      | {: htmlGenerator.inProcFun = true; :}DEFPROC:defproc {: htmlGenerator.inProcFun = false;pushRegla("DCL <%DEFPROC%>");
                            RESULT = defproc;:}
-      | DEFFUN:deffun  {: pushRegla("DCL <%DEFFUN%>");
+      | {: htmlGenerator.inProcFun = true; :}DEFFUN:deffun  {: htmlGenerator.inProcFun = false;pushRegla("DCL <%DEFFUN%>");
                           RESULT = deffun;:}
       | DEFTYPE:deftype {: pushRegla("DCL <%DEFTYPE%>");
+                           htmlGenerator.updateLastDcl(deftype);
                            RESULT = deftype;:}
       | error
       ;
 
-DEFCTE::= const_t CTELIST:ctelist {: pushRegla("DEFCTE <%const CTELIST%>");
-                                     RESULT = htmlGenerator.getReservedWord("const") + ctelist;:};
+DEFCTE::= const_t {:htmlGenerator.indentLevel++;:} CTELIST:ctelist {: htmlGenerator.indentLevel--;
+                                                                      pushRegla("DEFCTE <%const CTELIST%>");
+                                                                      RESULT = htmlGenerator.getReservedWord("const") + ctelist;:};
 
 CTELIST::= identifier:i1 equal SIMPVALUE:simpvalue semicolons {: pushRegla("CTELIST <%" +i1+" = SIMPVALUE ;%>");
-                                                                 RESULT = htmlGenerator.getIdent(i1) + "=" + simpvalue + ";";:}
+                                                                 RESULT = htmlGenerator.getSent(htmlGenerator.getIdent(i1) + "=" + simpvalue + ";");:}
           | CTELIST:ctelist identifier:i2 equal SIMPVALUE:simpvalue semicolons {: pushRegla("CTELIST <%CTELIST "+i2+" = SIMPVALUE ;%>");
-                                                                                  RESULT = (String)ctelist + htmlGenerator.getIdent(i2) + "=" + (String)simpvalue + ";";:}
+                                                                                  RESULT = (String)ctelist + htmlGenerator.getSent(htmlGenerator.getIdent(i2) + "=" + (String)simpvalue + ";");:}
           ;
 
 SIMPVALUE::= decimal_value:dv    {: pushRegla("SIMVALUE <%" + dv + "%>" );
@@ -322,21 +325,23 @@ DCL_BLQ::= DEFCTE:defcte     {: pushRegla("DCL_BLQ <%DEFCTE%>");
 
 /* ------------ SINTAXIS ESTRUCTURAS DE DATOS  ----------- */
 
-DEFTYPE ::= type TYPELIST:typelist {: pushRegla("DEFTYPE <%type TYPELIST%>");
+DEFTYPE ::= type {:htmlGenerator.indentLevel++;:}TYPELIST:typelist {: pushRegla("DEFTYPE <%type TYPELIST%>");
+                                      htmlGenerator.indentLevel--;
                                       RESULT = htmlGenerator.getReservedWord("type ") + typelist;:};
 
 TYPELIST ::= identifier:i1 equal UDTYPE:udtype semicolons                       {: pushRegla("TYPELIST <%"+i1+" = UDTYPE ;%>");
-                                                                                   RESULT = htmlGenerator.getIdentDeclaration(i1) + " = " + udtype + ";";:}
+                                                                                   RESULT =  htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i1) + " = " + udtype + htmlGenerator.getSentClose(";"));:}
               | identifier:i2 equal UDTYPE:udtype semicolons TYPELIST:typelist  {: pushRegla("TYPELIST <%"+i2+" = UDTYPE ; TYPELIST%>");
-                                                                                   RESULT = htmlGenerator.getIdentDeclaration(i2) + " = " + udtype + ";" + typelist;:}
+                                                                                   RESULT =  htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i2) + " = " + udtype + htmlGenerator.getSentClose(";")) + typelist;:}
               ;
 
 UDTYPE ::= array open_square_bracket SIMPVALUE:simpvalue1 two_points SIMPVALUE:simpvalue2 close_square_bracket of ALLTYPES:alltypes {:
                     pushRegla("UDTYPE <%array [ SIMPVALUE .. SIMPVALUE ] of ALLTYPES%>");
                     RESULT = htmlGenerator.getReservedWord("array ") + "[ " + simpvalue1 + " .. " + simpvalue2 + " ]" + htmlGenerator.getReservedWord(" of ") + alltypes;:}
-              | record DEFVARLIST:defvarlist end {:
+              | record {:htmlGenerator.indentLevel++;:}DEFVARLIST:defvarlist end {:
+                    htmlGenerator.indentLevel--;
                     pushRegla("UDTYPE <%record DEFVARLIST end%>");
-                    RESULT = htmlGenerator.getReservedWord("record ") + defvarlist + htmlGenerator.getReservedWord("end");:}
+                    RESULT = htmlGenerator.getReservedWord("record ") + defvarlist + htmlGenerator.getSentOpen(htmlGenerator.getReservedWord("end"));:}
               ;
 
 ALLTYPES ::= TBAS:tbas          {: pushRegla("ALLTYPES <%TBAS%>");
@@ -354,8 +359,8 @@ COND ::= if_t EXP:exp then_t {: htmlGenerator.sentCond = true; :} SENT:sent ELSE
 
 ELSECOND ::=                    {: pushRegla("ELSECOND <%lambda%>");
                                    RESULT = "";:}
-            | else_t SENT:sent  {: pushRegla("ELSECOND <%else SENT%>");
-                                   RESULT = htmlGenerator.getReservedWord("else ") + sent;:}
+            | else_t {: htmlGenerator.sentCond = true; :} SENT:sent  {: pushRegla("ELSECOND <%else SENT%>");
+                                   RESULT = htmlGenerator.getSent(htmlGenerator.getReservedWord("else ")) + sent;:}
             ;
 
                         /* SENTENCIA WHILE */
