@@ -59,7 +59,7 @@ public class HTMLGenerator {
 
     //AUXILIAR METHODS TO GET HTML ELEMENTS
     public String getIdent (String s){
-        return "<span class='ident'>" + s + "</span>";
+        return "<a href='#" + s +"'>" + s + "</a>";
     }
 
     public String getConst (String s){
@@ -76,6 +76,10 @@ public class HTMLGenerator {
           return "<div style='text-indent: " + (this.identLevel + 1) + "cm'>" + s + "</div>\n";
         }
         return getSent(s);
+    }
+
+    public String getIdentDeclaration (String s) {
+        return "<a name='" + s + "'>\n<span class='ident'>" + s + "</span>";
     }
 
     public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
@@ -128,8 +132,10 @@ public class HTMLGenerator {
             s += "<div class='ui segment'>";
             String tagsDeleted = deleteTags(m);
             s +=  m + "<br/>\n" +
-                 "<a href='#" + getMethodName(tagsDeleted) + "'>Inicio de rutina</a><br/>\n" +
-                 "<a href='#inicio'>Inicio de programa</a><br/>\n" +
+                 "<div style='text-align: center;'>\n" +
+                 "<a class='mini ui button' style='display: inline-block;' href='#" + getMethodName(tagsDeleted) + "'>Inicio de rutina</a>\n" +
+                 "<a class='mini ui button' style='display: inline-block;' href='#inicio'>Inicio de programa</a>" +
+                 "</div>\n" +
                  "</div>\n\n";
         }
         return s;
@@ -143,9 +149,10 @@ public class HTMLGenerator {
         s += "<br/><span class='palres'>begin</span>\n";
         s += this.mainProgram;
         s += "<span class='palres'>end</span>.<br/>\n";
-        s += "<a href='#ProgPpal'>Inicio del programa principal</a><br/>\n" +
-             "<a href='#inicio'>Inicio de programa</a>\n" +
-             "<br/>\n" +
+        s += "<div style='text-align: center;'>\n" +
+             "<a class='mini ui button' style='display: inline-block;' href='#ProgPpal'>Inicio del programa principal</a>\n" +
+             "<a class='mini ui button' style='display: inline-block;' href='#inicio'>Inicio de programa</a>\n" +
+             "</div>\n" +
              "</div>\n\n";
         return s;
     }
