@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class HTMLGenerator {
 
-    public int identLevel = 0;
+    public int indentLevel = 0;
 
     private final String CIERRE_HTML =  "</div>\n" +
                                         "</div>\n" +
@@ -67,13 +67,13 @@ public class HTMLGenerator {
     }
 
     public String getSent (String s){
-        return "<div style='text-indent: " + this.identLevel + "cm'>" + s + "</div>\n";
+        return "<div style='text-indent: " + this.indentLevel + "cm'>" + s + "</div>\n";
     }
 
     public String getSent (String s, boolean sentCond){
         if(sentCond){
           this.sentCond = false;
-          return "<div style='text-indent: " + (this.identLevel + 1) + "cm'>" + s + "</div>\n";
+          return "<div style='text-indent: " + (this.indentLevel + 1) + "cm'>" + s + "</div>\n";
         }
         return getSent(s);
     }
@@ -146,7 +146,7 @@ public class HTMLGenerator {
                    "<a name='ProgPpal'>\n" +
                    "<h2>Programa Principal</h2>\n";
         s += this.mainProgramDcl;
-        s += "<br/><span class='palres'>begin</span>\n";
+        s += "<span class='palres'>begin</span>\n";
         s += this.mainProgram;
         s += "<span class='palres'>end</span>.<br/>\n";
         s += "<div style='text-align: center;'>\n" +

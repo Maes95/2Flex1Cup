@@ -33,10 +33,12 @@ v2: INTEGER)</a></li>
 
 <div class='ui segment'><a name='ProgPpal'>
 <h2>Programa Principal</h2>
-<span class='palres'>var </span><a name='medida'>
-<span class='ident'>medida</span> : <span class='palres'> REAL</span>; <a name='valor1'>
+<span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='medida'>
+<span class='ident'>medida</span> : <span class='palres'> REAL</span>; </div>
+<div style='text-indent: 1cm'><a name='valor1'>
 <span class='ident'>valor1</span>,<a name='valor2'>
-<span class='ident'>valor2</span> : <span class='palres'> INTEGER</span>; <br/><span class='palres'>begin</span>
+<span class='ident'>valor2</span> : <span class='palres'> INTEGER</span>; </div>
+<span class='palres'>begin</span>
 <div style='text-indent: 1cm'><a href='#medida'>medida</a> := <span class='cte'>$4.A</span>;</div>
 <div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a><><a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 2cm'><a href='#valor1'>valor1</a> := <span class='cte'>2</span>;</div>
 </div>
@@ -64,8 +66,9 @@ v2: INTEGER)</a></li>
 
 <div class='ui segment'><a name='areaCuadrado'><span class='palres'>function </span>areaCuadrado (<a name='lado'>
 <span class='ident'>lado</span>:<span class='palres'> REAL</span>):<span class='palres'> REAL</span>;</br><span class='palres'>type </span><a name='miArray'>
-<span class='ident'>miArray</span> = <span class='palres'>array </span>[ <span class='cte'>0</span> .. <span class='cte'>5</span> ]<span class='palres'> of </span><span class='palres'> INTEGER</span>;<span class='palres'>var </span><a name='resultado'>
-<span class='ident'>resultado</span> : <span class='palres'> REAL</span>; <br/><span class='palres'>begin</span><div style='text-indent: 1cm'><a href='#resultado'>resultado</a> := <span class='cte'>+0.0</span>;</div>
+<span class='ident'>miArray</span> = <span class='palres'>array </span>[ <span class='cte'>0</span> .. <span class='cte'>5</span> ]<span class='palres'> of </span><span class='palres'> INTEGER</span>;<span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='resultado'>
+<span class='ident'>resultado</span> : <span class='palres'> REAL</span>; </div>
+<span class='palres'>begin</span><div style='text-indent: 1cm'><a href='#resultado'>resultado</a> := <span class='cte'>+0.0</span>;</div>
 <div style='text-indent: 1cm'><a href='#miArray'>miArray</a>[ <span class='cte'>1</span> ] := <span class='cte'>0</span>;</div>
 <div style='text-indent: 1cm'><a href='#resultado'>resultado</a> := <a href='#lado'>lado</a> * <a href='#lado'>lado</a> + <a href='#miArray'>miArray</a>[<span class='cte'>1</span> + <span class='cte'>2</span>];</div>
 <div style='text-indent: 1cm'><a href='#areaCuadrado'>areaCuadrado</a> := <a href='#resultado'>resultado</a>;</div>
@@ -78,8 +81,9 @@ v2: INTEGER)</a></li>
 
 <div class='ui segment'><a name='intercambio'><span class='palres'>procedure </span>intercambio (<a name='v1'>
 <span class='ident'>v1</span>,<a name='v2'>
-<span class='ident'>v2</span>:<span class='palres'> INTEGER</span>);</br><span class='palres'>var </span><a name='aux'>
-<span class='ident'>aux</span> : <span class='palres'> INTEGER</span>; <br/><span class='palres'>begin</span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a><><a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
+<span class='ident'>v2</span>:<span class='palres'> INTEGER</span>);</br><span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='aux'>
+<span class='ident'>aux</span> : <span class='palres'> INTEGER</span>; </div>
+<span class='palres'>begin</span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a><><a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
 <div style='text-indent: 2cm'><a href='#aux'>aux</a> := <span class='cte'>0</span>;</div>
 <div style='text-indent: 2cm'><a href='#aux'>aux</a> := <a href='#v1'>v1</a>;</div>
 <div style='text-indent: 2cm'><a href='#v1'>v1</a> := <a href='#v2'>v2</a>;</div>

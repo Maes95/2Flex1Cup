@@ -116,11 +116,11 @@ precedence left else_t;
 PRG::= program identifier:i1 semicolons BLQ:blq point {: mostrarArbol("PRG <%program "+i1+" ; BLQ .%>");
                                                          htmlGenerator.nameProgram = i1;
                                                          htmlGenerator.closeHTML();:};
-BLQ::= DCLLIST:dcllist begin{:htmlGenerator.identLevel++;:} SENTLIST:sentlist end
-                                                      {: htmlGenerator.identLevel--;
+BLQ::= DCLLIST:dcllist begin{:htmlGenerator.indentLevel++;:} SENTLIST:sentlist end
+                                                      {: htmlGenerator.indentLevel--;
                                                       pushRegla("BLQ <%DCLLIST begin SENTLIST end%>");
                                                       htmlGenerator.getMainProgram(sentlist);
-                                                      RESULT = dcllist + "<br/>" + htmlGenerator.getReservedWord("begin") + sentlist + htmlGenerator.getReservedWord("end");:};
+                                                      RESULT = dcllist + htmlGenerator.getReservedWord("begin") + sentlist + htmlGenerator.getReservedWord("end");:};
 
 DCLLIST::=                          {: pushRegla("DCLLIST <%lambda%>");
                                        RESULT = "";:}
@@ -166,13 +166,15 @@ SIMPVALUE::= decimal_value:dv    {: pushRegla("SIMVALUE <%" + dv + "%>" );
                                     RESULT = htmlGenerator.getConst(sl);:}
           ;
 
-DEFVAR::= var DEFVARLIST:defvarlist semicolons {: pushRegla("DEFVAR <%var DEFVARLIST ;%>");
-                                                  RESULT = htmlGenerator.getReservedWord("var ") + defvarlist + "; ";:};
+DEFVAR::= var {:htmlGenerator.indentLevel++;:} DEFVARLIST:defvarlist semicolons {:
+                                                  htmlGenerator.indentLevel--;
+                                                  pushRegla("DEFVAR <%var DEFVARLIST ;%>");
+                                                  RESULT = htmlGenerator.getReservedWord("var <br/>") + defvarlist;:};
 
 DEFVARLIST::= VARLIST:varlist colons ALLTYPES:alltypes                                   {: pushRegla("DEFVARLIST <%VARLIST : ALLTYPES%>");
-                                                                                            RESULT = varlist + " : " + alltypes;:}
+                                                                                            RESULT = htmlGenerator.getSent(varlist + " : " + alltypes + "; ");:}
              | DEFVARLIST:defvarlist semicolons VARLIST:varlist colons ALLTYPES:alltypes {: pushRegla("DEFVARLIST <%DEFVARLIST ; VARLIST : ALLTYPES%>");
-                                                                                            RESULT = defvarlist + "; " + varlist + " : " + alltypes;:}
+                                                                                            RESULT = defvarlist + htmlGenerator.getSent(varlist + " : " + alltypes + "; ");:}
              ;
 
 VARLIST::= identifier:i1                         {: pushRegla("VARLIST <%" + i1 + "%>");
@@ -299,8 +301,8 @@ EXPLIST::= EXP:exp                        {: pushRegla("EXPLIST <%EXP%>");
 
 PROC_CALL::= identifier:i1 SUBPARAMLIST:subparamlist {: pushRegla("PROC_CALL <%"+i1+" SUBPARAMLIST%>");
                                                         RESULT = htmlGenerator.getIdent(i1) + (String)subparamlist;:};
-EXEBLQ::= DCLLIST_BLQ:dcllist_blq begin {:htmlGenerator.identLevel++;:} SENTLIST:sentlist end {:
-                                                                 htmlGenerator.identLevel--;
+EXEBLQ::= DCLLIST_BLQ:dcllist_blq begin {:htmlGenerator.indentLevel++;:} SENTLIST:sentlist end {:
+                                                                 htmlGenerator.indentLevel--;
                                                                  pushRegla("EXEBLQ <%DCLLIST_BLQ begin SENTLIST end%>");
                                                                  RESULT = dcllist_blq + htmlGenerator.getReservedWordIdent("begin") + sentlist + htmlGenerator.getReservedWordIdent("end");:};
 
