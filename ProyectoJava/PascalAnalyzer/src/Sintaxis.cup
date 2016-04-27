@@ -155,7 +155,7 @@ DEFCTE::= const_t {:htmlGenerator.indentLevel++;:} CTELIST:ctelist {: htmlGenera
                                                                       RESULT = htmlGenerator.getReservedWord("const") + ctelist;:};
 
 CTELIST::= identifier:i1 equal SIMPVALUE:simpvalue semicolons {: pushRegla("CTELIST <%" +i1+" = SIMPVALUE ;%>");
-                                                                 RESULT = htmlGenerator.getSent(htmlGenerator.getIdent(i1) + "=" + simpvalue + ";");:}
+                                                                 RESULT = htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i1) + "=" + simpvalue + ";");:}
           | CTELIST:ctelist identifier:i2 equal SIMPVALUE:simpvalue semicolons {: pushRegla("CTELIST <%CTELIST "+i2+" = SIMPVALUE ;%>");
                                                                                   RESULT = (String)ctelist + htmlGenerator.getSent(htmlGenerator.getIdent(i2) + "=" + (String)simpvalue + ";");:}
           ;
