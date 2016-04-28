@@ -44,7 +44,8 @@ v2: INTEGER)</a></li>
 <span class='ident'>coordenadaY</span> : <span class='palres'> INTEGER</span>; </div>
 <div style='text-indent: 1cm'><span class='palres'>end</span>;</div>
 </div>
-<span class='palres'>const</span><div style='text-indent: 1cm'><a href='#MAX'>MAX</a>=<span class='cte'>2</span>;</div>
+<span class='palres'>const</span><div style='text-indent: 1cm'><a name='MAX'>
+<span class='ident'>MAX</span>=<span class='cte'>2</span>;</div>
 <span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='medida'>
 <span class='ident'>medida</span> : <span class='palres'> REAL</span>; </div>
 <div style='text-indent: 1cm'><a name='valor1'>
@@ -52,7 +53,7 @@ v2: INTEGER)</a></li>
 <span class='ident'>valor2</span> : <span class='palres'> INTEGER</span>; </div>
 <span class='palres'>begin</span>
 <div style='text-indent: 1cm'><a href='#medida'>medida</a> := <span class='cte'>$4.A</span>;</div>
-<div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a> <> <a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 2cm'><a href='#valor1'>valor1</a> := <span class='cte'>2</span>;</div>
+<div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1'>v1</a> <> <a href='#v2'>v2</a>)<span class='palres'> then </span><div style='text-indent: 2cm'><a href='#valor1'>valor1</a> := <a href='#MAX'>MAX</a> div <span class='cte'>2</span>;</div>
 <div style='text-indent: 1cm'><span class='palres'>else </span></div>
 <div style='text-indent: 2cm'><a href='#valor1'>valor1</a> := <span class='cte'>3</span>;</div>
 </div>

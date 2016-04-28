@@ -1,7 +1,7 @@
 program Ejemplo2TiposDeDatos;
 
 type
-	TVector = array [1..25] of REAL;
+	TVector = array [25..25] of REAL;
 	TPunto = record
               coordenadaX: INTEGER;
               coordenadaY: INTEGER
@@ -16,7 +16,7 @@ begin
   valor1[0] := 1;
 
   (* PROBAMOS LOS REGISTROS *)
-  
+
   valor2.coordenadaX := 1;
   valor2.coordenadaY := 2;
 

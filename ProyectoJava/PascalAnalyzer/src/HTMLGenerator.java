@@ -37,6 +37,8 @@ public class HTMLGenerator {
     private String mainProgramDcl;   // Declaración del programa principal
     private ArrayList<String> methods;
 
+
+
     // Variables de estado
 
     public boolean sentCond;        // Indica si se esta dentro de una sentencia de control de flujo
@@ -95,6 +97,7 @@ public class HTMLGenerator {
 
     /**
      * Actualiza la lista de declaración del programa principal (declaraciones que no estan incluidas en funciones)
+     * @param s
      */
 
     public void updateLastDcl (String s){
@@ -116,15 +119,11 @@ public class HTMLGenerator {
     }
 
     public String getSent (String s){
-        return "<div style='text-indent: " + this.indentLevel + "cm'>" + s + "</div>\n";
-    }
-
-    public String getSent (String s, boolean sentCond){
-        if(sentCond){
+        if(this.sentCond){
           this.sentCond = false;
           return "<div style='text-indent: " + (this.indentLevel + 1) + "cm'>" + s + "</div>\n";
         }
-        return getSent(s);
+        return "<div style='text-indent: " + this.indentLevel + "cm'>" + s + "</div>\n";
     }
 
     public String getSentOpen (String s){
@@ -150,6 +149,10 @@ public class HTMLGenerator {
 
     public String getReservedWordIdent (String t){
         return getSent(getReservedWord(t));
+    }
+
+    public String getError(String t){
+      return "<span style='display: inherit;'class='error'>" + t + "</span>";
     }
 
     /*********************************************************************************************************
@@ -180,6 +183,28 @@ public class HTMLGenerator {
         return s.split(";")[0];
     }
 
+    public String checkBool(String exp){
+      return exp;
+    }
+
+    public String checkAsig(String id, String exp){
+      String s = id + " := " + exp;
+      return s;
+    }
+
+    public String checkRange(String simpvalue1, String simpvalue2){
+      String s = simpvalue1+ " .. " +simpvalue2;
+      try{
+            int v1 = Integer.parseInt(simpvalue1);
+            int v2 = Integer.parseInt(simpvalue2);
+            if(v1 <= v2){
+              return this.getError(s); // Orden incorrecto
+            }
+            return  s;
+      }catch(NumberFormatException e){
+            return this.getError(s);   // No numerico
+      }
+    }
 
     /*********************************************************************************************************
                                            METODOS DE CREACION DEL HTML
@@ -291,6 +316,7 @@ public class HTMLGenerator {
                         ".cte {color:hsl( 29, 54%, 61%);}" +
                         ".ident {color: hsl(207, 82%, 66%);}" +
                         ".palres {color:hsl(286, 60%, 67%);}" +
+                        errorStyle+
                         "body {background-color: hsl(222, 11%, 12%);}"+
                         ".ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}"+
                         ".ui.segment {background-color: hsl(222, 11%, 18%) !important;}"+
@@ -328,5 +354,16 @@ public class HTMLGenerator {
                          "</script>\n";
         return scripts;
     }
+    private final String errorStyle = ".error{display: inherit;"
+                                    +"color: #db2828 !important;"
+                                    +"background-color: #ffe8e6;"
+                                    +"padding: 0.2em;"
+                                    +"border-radius: .28571429rem;"
+                                    +"box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;"
+                                +"}"
+
+                                +"span.error > span {"
+                                +"color: #db2828;"
+                                +"}";
 
 }
