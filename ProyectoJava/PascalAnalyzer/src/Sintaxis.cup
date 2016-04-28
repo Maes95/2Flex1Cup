@@ -227,7 +227,7 @@ SENT::= ASIG:asig semicolons              {: pushRegla("SENT <%ASIG ;%>");
                                              RESULT = htmlGenerator.getSent(wloop);:}
         | FLOOP:floop                     {: pushRegla("SENT <%FLOOP%>");
                                              RESULT = htmlGenerator.getSent(floop);:}
-        | CASE:case_t                       {: pushRegla("SENT <%CASE%>");
+        | CASE:case_t                     {: pushRegla("SENT <%CASE%>");
                                              RESULT = htmlGenerator.getSent(case_t);:}
         ;
 

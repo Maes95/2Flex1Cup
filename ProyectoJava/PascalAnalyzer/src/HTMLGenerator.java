@@ -158,7 +158,7 @@ public class HTMLGenerator {
      *********************************************************************************************************/
 
     public String getIdent (String s){
-        return "<a href='#" + s +"'>" + s + "</a>";
+        return "<a href='#" + s + this.currentMethod.name + "'>" + s + "</a>";
     }
 
     public String getConst (String s){
@@ -187,7 +187,7 @@ public class HTMLGenerator {
     }
 
     public String getIdentDeclaration (String s) {
-        return "<a name='" + s + "'>\n<span class='ident'>" + s + "</span>";
+        return "<a name='" + s + this.currentMethod.name +"'>\n<span class='ident'>" + s + "</span>";
     }
 
     public String getReservedWord (String t){
