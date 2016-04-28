@@ -63,7 +63,7 @@ public class HTMLGenerator {
                                     "<head>\n" +
                                     "<title>"+this.fileName+"</title>\n" +
                                     this.getLibraries() +
-                                    "\n<style id='style-light'>" + this.getStyleLight() + "</style>\n" +
+                                    this.getInitialStyle() +
                                     this.getScripts() +
                                     "</head>\n\n" +
                                     "<body>\n" +
@@ -393,6 +393,10 @@ public class HTMLGenerator {
     /*********************************************************************************************************
                                            ESTILOS DEL HTML (CSS)
      *********************************************************************************************************/
+
+    private String getInitialStyle(){ //Por defecto a 'style-light'
+        return "\n<style id='style-light'>" + this.getStyleLight() + "</style>\n";
+    }
 
     private String getStyleLight(){
         String style =  "body {height: 100%;}" +
