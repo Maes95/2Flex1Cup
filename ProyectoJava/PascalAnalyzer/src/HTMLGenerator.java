@@ -5,10 +5,34 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class HTMLGenerator {
+    
+    public class ItemHTML{
+        String text;
+        String html;
+        public ItemHTML(String text, Method method,HTMLGenerator myGenerator) throws Exception{
+            this.text = text;
+            this.html = (String) method.invoke(myGenerator, text);
+        }
+    } 
+    
 
+    public class PMethod extends ItemHTML{
+        String name;
+        ArrayList<String> variables;
+
+        public PMethod(String text, Method method, HTMLGenerator myGenerator) throws Exception{
+            super(text, method, myGenerator);
+            this.variables = new ArrayList<>();
+        }
+        
+    }
+    
+   
   /**
    *  HTMLGenerator
    *
@@ -36,6 +60,8 @@ public class HTMLGenerator {
     private String mainProgram;      // Programa principal
     private String mainProgramDcl;   // Declaración del programa principal
     private ArrayList<String> methods;
+    
+    
 
     // Variables de estado
 
@@ -93,6 +119,7 @@ public class HTMLGenerator {
 
     /**
      * Actualiza la lista de declaración del programa principal (declaraciones que no estan incluidas en funciones)
+     * @param s
      */
 
     public void updateLastDcl (String s){
@@ -114,15 +141,11 @@ public class HTMLGenerator {
     }
 
     public String getSent (String s){
-        return "<div style='text-indent: " + this.indentLevel + "cm'>" + s + "</div>\n";
-    }
-
-    public String getSent (String s, boolean sentCond){
-        if(sentCond){
+        if(this.sentCond){
           this.sentCond = false;
           return "<div style='text-indent: " + (this.indentLevel + 1) + "cm'>" + s + "</div>\n";
         }
-        return getSent(s);
+        return "<div style='text-indent: " + this.indentLevel + "cm'>" + s + "</div>\n";
     }
 
     public String getSentOpen (String s){
@@ -148,6 +171,10 @@ public class HTMLGenerator {
 
     public String getReservedWordIdent (String t){
         return getSent(getReservedWord(t));
+    }
+
+    public String getError(String t){
+      return "<span style='display: inherit;'class='error'>" + t + "</span>";
     }
 
     /*********************************************************************************************************
@@ -178,6 +205,28 @@ public class HTMLGenerator {
         return s.split(";")[0];
     }
 
+    public String checkBool(String exp){
+      return exp;
+    }
+
+    public String checkAsig(String id, String exp){
+      String s = id + " := " + exp;
+      return s;
+    }
+
+    public String checkRange(String simpvalue1, String simpvalue2){
+      String s = simpvalue1+ " .. " +simpvalue2;
+      try{
+            int v1 = Integer.parseInt(simpvalue1);
+            int v2 = Integer.parseInt(simpvalue2);
+            if(v1 <= v2){
+              return this.getError(s); // Orden incorrecto
+            }
+            return  s;
+      }catch(NumberFormatException e){
+            return this.getError(s);   // No numerico
+      }
+    }
 
     /*********************************************************************************************************
                                            METODOS DE CREACION DEL HTML
@@ -305,4 +354,17 @@ public class HTMLGenerator {
                         "</style>\n";
         return style;
     }
+
+    private final String errorStyle = ".error{display: inherit;"
+                                    +"color: #db2828 !important;"
+                                    +"background-color: #ffe8e6;"
+                                    +"padding: 0.2em;"
+                                    +"border-radius: .28571429rem;"
+                                    +"box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;"
+                                +"}"
+
+                                +"span.error > span {"
+                                +"color: #db2828;"
+                                +"}";
+
 }

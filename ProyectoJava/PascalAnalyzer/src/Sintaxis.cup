@@ -213,9 +213,9 @@ TBAS::= int_name    {: pushRegla("TBAS <%INTEGER%>");
         ;
 
 SENT::= ASIG:asig semicolons              {: pushRegla("SENT <%ASIG ;%>");
-                                             RESULT = htmlGenerator.getSent(asig + ";", htmlGenerator.sentCond);:}
+                                             RESULT = htmlGenerator.getSent(asig + ";");:}
         | PROC_CALL:proc_call semicolons  {: pushRegla("SENT <%PROC_CALL ;%>");
-                                             RESULT = htmlGenerator.getSent(proc_call + ";", htmlGenerator.sentCond);:}
+                                             RESULT = htmlGenerator.getSent(proc_call + ";");:}
         | EXEBLQ:exeblq                   {: pushRegla("SENT <%EXEBLQ%>");
                                              RESULT = exeblq;:}
         | COND:cond                       {: pushRegla("SENT <%COND%>");
@@ -229,7 +229,7 @@ SENT::= ASIG:asig semicolons              {: pushRegla("SENT <%ASIG ;%>");
         ;
 
 ASIG::= ID:id asig EXP:exp {: pushRegla("ASIG <%ID := EXP%>");
-                              RESULT = id + " := " + exp;:};
+                              RESULT = htmlGenerator.checkAsig(id,exp);:};
 
 ID::= identifier:i1                                                    {: pushRegla("ID <%"+i1+"%>");
                                                                           RESULT = htmlGenerator.getIdent(i1);:}
@@ -336,7 +336,7 @@ TYPELIST ::= identifier:i1 equal UDTYPE:udtype semicolons                       
 
 UDTYPE ::= array open_square_bracket SIMPVALUE:simpvalue1 two_points SIMPVALUE:simpvalue2 close_square_bracket of ALLTYPES:alltypes {:
                     pushRegla("UDTYPE <%array [ SIMPVALUE .. SIMPVALUE ] of ALLTYPES%>");
-                    RESULT = htmlGenerator.getReservedWord("array ") + "[ " + simpvalue1 + " .. " + simpvalue2 + " ]" + htmlGenerator.getReservedWord(" of ") + alltypes;:}
+                    RESULT = htmlGenerator.getReservedWord("array ") + "[ " + htmlGenerator.checkRange(simpvalue1,simpvalue2) + " ]" + htmlGenerator.getReservedWord(" of ") + alltypes;:}
               | record {:htmlGenerator.indentLevel++;:}DEFVARLIST:defvarlist end {:
                     htmlGenerator.indentLevel--;
                     pushRegla("UDTYPE <%record DEFVARLIST end%>");
@@ -354,7 +354,7 @@ ALLTYPES ::= TBAS:tbas          {: pushRegla("ALLTYPES <%TBAS%>");
                          /* SENTENCIA IF */
 
 COND ::= if_t EXP:exp then_t {: htmlGenerator.sentCond = true; :} SENT:sent ELSECOND:elsecond {: pushRegla("COND <%if EXP then SENT ELSECOND%>");
-                                                            RESULT = htmlGenerator.getReservedWord("if ") + exp + htmlGenerator.getReservedWord(" then ") + sent + elsecond;:};
+                                                            RESULT = htmlGenerator.getReservedWord("if ") + htmlGenerator.checkBool(exp) + htmlGenerator.getReservedWord(" then ") + sent + elsecond;:};
 
 ELSECOND ::=                    {: pushRegla("ELSECOND <%lambda%>");
                                    RESULT = "";:}
