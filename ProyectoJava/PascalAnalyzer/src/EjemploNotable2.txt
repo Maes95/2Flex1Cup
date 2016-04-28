@@ -1,14 +1,25 @@
 program EjemploNotable;
 function areaCuadrado ( lado: REAL ) : REAL ;
-type miArray = array [ 0 .. 5 ] of INTEGER ;
+type miArray = array [ 10 .. 5 ] of INTEGER ;
+var
+	resultado: REAL;
+        unArray: miArray;
+        otroArray: miArray;
+begin
+	resultado := +0.0;
+	unArray[1] := 0;
+	resultado := lado * lado + miArray[ 1 + 2 ];
+        unArray :=  otroArray;
+	areaCuadrado := resultado;
+end;
+
+function unaFuncion ( lado: REAL ) : REAL ;
 var
 	resultado: REAL;
 begin
 	resultado := +0.0;
-	miArray[1] := 0;
-	resultado := lado * lado + miArray[ 1 + 2 ];
-	areaCuadrado := resultado;
 end;
+
 procedure intercambio ( v1, v2: INTEGER )  ;
 var
 	aux: INTEGER;

@@ -17,7 +17,7 @@ action code {:
   // ACTION CODE
   // Codigo para métodos
   public void pushRegla(String cadena){
-    System.out.println(cadena);
+    //System.out.println(cadena);
     Regla regla = new Regla(cadena);
     stack.push(regla);
   }
@@ -30,7 +30,7 @@ action code {:
                       +"|                    ARBOL SINTACTICO GENERADO                      |\n"
                       +"---------------------------------------------------------------------\n");
     System.out.println("_" + regla.antecedente);
-    Regla.printSyntacticTree(stack, ""); // Pinta el arbol sintáctico (ver clase "Regla")
+    //Regla.printSyntacticTree(stack, ""); // Pinta el arbol sintáctico (ver clase "Regla")
   }
 
 :};
@@ -115,7 +115,7 @@ precedence left else_t;
 
 PRG::= program identifier:i1 semicolons BLQ:blq point {: mostrarArbol("PRG <%program "+i1+" ; BLQ .%>");
                                                          htmlGenerator.closeHTML(i1);:};
-BLQ::= DCLLIST:dcllist begin{:htmlGenerator.indentLevel++;:} SENTLIST:sentlist end
+BLQ::= DCLLIST:dcllist begin{: htmlGenerator.indentLevel++;:} SENTLIST:sentlist end
                                                       {: htmlGenerator.indentLevel--;
                                                       pushRegla("BLQ <%DCLLIST begin SENTLIST end%>");
                                                       htmlGenerator.getMainProgram(sentlist);
@@ -140,7 +140,7 @@ DCL::= DEFCTE:defcte   {: pushRegla("DCL <%DEFCTE%>");
       | DEFVAR:defvar  {: pushRegla("DCL <%DEFVAR%>");
                           htmlGenerator.updateLastDcl(defvar);
                           RESULT = defvar;:}
-      | {: htmlGenerator.inProcFun = true; :}DEFPROC:defproc {: htmlGenerator.inProcFun = false;pushRegla("DCL <%DEFPROC%>");
+      | {: htmlGenerator.inProcFun = true; :}DEFPROC:defproc {: htmlGenerator.inProcFun = false;pushRegla("DCL <%DEFPROC%>"); // TODO
                            RESULT = defproc;:}
       | {: htmlGenerator.inProcFun = true; :}DEFFUN:deffun  {: htmlGenerator.inProcFun = false;pushRegla("DCL <%DEFFUN%>");
                           RESULT = deffun;:}
@@ -150,7 +150,7 @@ DCL::= DEFCTE:defcte   {: pushRegla("DCL <%DEFCTE%>");
       | error
       ;
 
-DEFCTE::= const_t {:htmlGenerator.indentLevel++;:} CTELIST:ctelist {: htmlGenerator.indentLevel--;
+DEFCTE::= const_t {: htmlGenerator.indentLevel++;:} CTELIST:ctelist {: htmlGenerator.indentLevel--;
                                                                       pushRegla("DEFCTE <%const CTELIST%>");
                                                                       RESULT = htmlGenerator.getReservedWord("const") + ctelist;:};
 
@@ -174,8 +174,10 @@ DEFVAR::= var {:htmlGenerator.indentLevel++;:} DEFVARLIST:defvarlist semicolons 
                                                   RESULT = htmlGenerator.getReservedWord("var <br/>") + defvarlist;:};
 
 DEFVARLIST::= VARLIST:varlist colons ALLTYPES:alltypes                                   {: pushRegla("DEFVARLIST <%VARLIST : ALLTYPES%>");
+                                                                                            htmlGenerator.pushVar(varlist, alltypes);
                                                                                             RESULT = htmlGenerator.getSent(varlist + " : " + alltypes + "; ");:}
              | DEFVARLIST:defvarlist semicolons VARLIST:varlist colons ALLTYPES:alltypes {: pushRegla("DEFVARLIST <%DEFVARLIST ; VARLIST : ALLTYPES%>");
+                                                                                            htmlGenerator.pushVar(varlist, alltypes);
                                                                                             RESULT = defvarlist + htmlGenerator.getSent(varlist + " : " + alltypes + "; ");:}
              ;
 
@@ -185,10 +187,11 @@ VARLIST::= identifier:i1                         {: pushRegla("VARLIST <%" + i1 
                                                     RESULT = htmlGenerator.getIdentDeclaration(i2) + "," + varlist;:}
            ;
 
-DEFPROC::=  procedure identifier:i1 FORMAL_PARAMLIST:formal_paramlist semicolons BLQ:blq semicolons {:
+DEFPROC::=  procedure identifier:i1 {: htmlGenerator.addMethod(i1); :}FORMAL_PARAMLIST:formal_paramlist semicolons BLQ:blq semicolons {:
                     pushRegla("DEFPROC <%procedure "+ i1 +" FORMAL_PARAMLIST ; BLQ ;%>");
                     RESULT = htmlGenerator.getProc(i1, formal_paramlist, blq);:};
-DEFFUN::=  function identifier:i2 FORMAL_PARAMLIST:formal_paramlist colons ALLTYPES:alltypes semicolons BLQ:blq semicolons {:
+
+DEFFUN::=  function identifier:i2 {: htmlGenerator.addMethod(i2); :}FORMAL_PARAMLIST:formal_paramlist colons ALLTYPES:alltypes semicolons BLQ:blq semicolons {:
                     pushRegla("DEFFUN <%function "+i2+" FORMAL_PARAMLIST : ALLTYPES ; BLQ ;%>");
                     RESULT = htmlGenerator.getFunc(i2, formal_paramlist, alltypes, blq);:};
 
@@ -329,8 +332,10 @@ DEFTYPE ::= type {:htmlGenerator.indentLevel++;:}TYPELIST:typelist {: pushRegla(
                                                                       RESULT = htmlGenerator.getReservedWord("type ") + typelist;:};
 
 TYPELIST ::= identifier:i1 equal UDTYPE:udtype semicolons                       {: pushRegla("TYPELIST <%"+i1+" = UDTYPE ;%>");
+                                                                                   htmlGenerator.pushType(i1);
                                                                                    RESULT =  htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i1) + " = " + udtype + htmlGenerator.getSentClose(";"));:}
               | identifier:i2 equal UDTYPE:udtype semicolons TYPELIST:typelist  {: pushRegla("TYPELIST <%"+i2+" = UDTYPE ; TYPELIST%>");
+                                                                                   htmlGenerator.pushType(i2);
                                                                                    RESULT =  htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i2) + " = " + udtype + htmlGenerator.getSentClose(";")) + typelist;:}
               ;
 

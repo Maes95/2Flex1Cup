@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HTMLGenerator {
 
@@ -35,9 +35,8 @@ public class HTMLGenerator {
 
     private String mainProgram;      // Programa principal
     private String mainProgramDcl;   // Declaración del programa principal
-    private ArrayList<String> methods;
-
-
+    public HashMap<String, Method> methods;
+    public Method currentMethod;
 
     // Variables de estado
 
@@ -49,12 +48,13 @@ public class HTMLGenerator {
     // Constructor
 
     public HTMLGenerator (String fileName){
+        this.currentMethod = new Method("Principal", null);
         this.fileName = fileName;
         this.mainProgramDcl = "";
-        this.methods = new ArrayList<>();
+        this.methods = new HashMap<>();
+        this.indentLevel = 0;
         this.sentCond = false;
         this.inProcFun = false;
-        this.indentLevel = 0;
         this.openDiv = false;
         this.fileName = this.fileName.replaceAll("(src/|.txt)", "");
 
@@ -82,17 +82,64 @@ public class HTMLGenerator {
     public void getMainProgram(String s){
         this.mainProgram = s;
     }
+    
+   /**
+     * Comienza el ámbito de un procedimiento o función
+     * @param name
+     */
 
-    public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
-        String f = "<a name='" + id + "'>" + this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";" + "</br>" + blq + ";\n";
-        this.methods.add(f);
-        return f;
+    public void addMethod(String name){
+        Method newFunc = new Method(name, this.currentMethod);
+        this.methods.put(newFunc.name, newFunc);
+        this.currentMethod = newFunc;
+    }
+    
+   /**
+     * El ambito de función actual volverá a ser el del padre
+     */
+
+    public void backMethod(){
+        // El main nunca llegaria aqui, solo se llega tras reconocer un método
+        this.currentMethod = this.currentMethod.padre;
     }
 
+   /**
+     * Termina el ámbito de una función
+     * @param id
+     * @param formal_paramlist
+     * @param alltypes
+     * @param blq
+     * @return 
+     */
+    
+    public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
+        String html = "<a name='" + id + "'>" + this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";" + "</br>" + blq + ";\n";    
+        this.currentMethod.setCabecera(html);  
+        
+        // COMPROBAR QUE ALMENOS HAY UNA ASIGNACIÓN AL NOMBRE DE LA FUNCION
+        if(!this.currentMethod.variables.contains(this.currentMethod.name)){
+            html = getErrorFunc(html);
+        }
+        this.currentMethod.html = html;
+        
+        backMethod();
+        return html; // SOLO PARA METODOS DENTRO DE METODOS
+    }
+    
+   /**
+     * Termina el ámbito de un procedimiento
+     * @param id
+     * @param formal_paramlist
+     * @param blq
+     * @return 
+     */
+
     public String getProc(String id, String formal_paramlist, String blq) {
-        String p = "<a name='" + id + "'>" + this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";"  + "</br>" + blq + ";\n";
-        this.methods.add(p);
-        return p;
+        String html = "<a name='" + id + "'>" + this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";"  + "</br>" + blq + ";\n";
+        this.currentMethod.html = html;
+        this.currentMethod.setCabecera(html);
+        backMethod();
+        return html; // SOLO PARA METODOS DENTRO DE METODOS
     }
 
     /**
@@ -152,7 +199,11 @@ public class HTMLGenerator {
     }
 
     public String getError(String t){
-      return "<span style='display: inherit;'class='error'>" + t + "</span>";
+      return "<span class='error'>" + t + "</span>";
+    }
+    
+    public String getErrorFunc(String t){
+      return "<div class='error'>" + t + "</div>";
     }
 
     /*********************************************************************************************************
@@ -161,16 +212,17 @@ public class HTMLGenerator {
 
    /**
     * Elimina etiquetas HTML
+     * @param s
     */
 
-    public String deleteTags (String s){
-        System.out.println(s);
+    public static String deleteTags (String s){
         s = s.replaceAll("<[^>]*>", "");
         return s;
     }
 
     /**
      *  Obtiene el nombre de un método
+     * @param s
      */
     public String getMethodName (String s){
         return s.split("\\s+")[1];
@@ -179,29 +231,75 @@ public class HTMLGenerator {
      *  Obtiene la cabecera de un método
      */
 
+    /**
+     * Obtiene la cabecera de un método
+     * @param s
+     */
     public String getMethodHeader (String s){
         return s.split(";")[0];
     }
 
+    /*********************************************************************************************************
+                                              METODOS DE COMPROBACIÓN
+     *********************************************************************************************************/
+    
+    /**
+     *  Introduce una o varias variables en el método actual con su respectivo tipo
+     * @param varlist
+     * @param alltypes
+     */
+    
+    public void pushVar(String varlist, String alltypes){
+        String varlistClean = deleteTags(varlist);
+        String alltypesClean = deleteTags(alltypes);
+        for(String var : varlistClean.split(",")){
+            this.currentMethod.defVariables.put(var.trim(),alltypesClean);
+        }
+    }
+    
+    /**
+     *  Introduce un tipo en la declaración de tipos de un método
+     * @param type
+     */
+    
+    public void pushType(String type){
+        this.currentMethod.defTypes.add(type);
+    }
+    
     public String checkBool(String exp){
-      return exp;
+      return exp; // POR HACER
     }
 
     public String checkAsig(String id, String exp){
-      String s = id + " := " + exp;
-      return s;
+        String s = id + " := " + exp;
+        //
+           this.currentMethod.variables.add(deleteTags(id));
+        //
+        String type = this.currentMethod.defVariables.get(deleteTags(id));
+        if( type != null && this.currentMethod.defTypes.contains(type)){
+            this.currentMethod.errores.add("Asignación incorrecta de registro o matriz, deben asignarse elemento a elemento");
+            return this.getError(s);
+        }
+        return s;
+    }
+
+    public String checkInt(String n){
+        return n; // POR HACER
     }
 
     public String checkRange(String simpvalue1, String simpvalue2){
       String s = simpvalue1+ " .. " +simpvalue2;
+      String msg = "Declaracion inválida de array en el método "+this.currentMethod.name;
       try{
-            int v1 = Integer.parseInt(simpvalue1);
-            int v2 = Integer.parseInt(simpvalue2);
-            if(v1 <= v2){
+            int v1 = Integer.parseInt(deleteTags(simpvalue1));
+            int v2 = Integer.parseInt(deleteTags(simpvalue2));
+            if(v1 > v2){
+              this.currentMethod.errores.add(" "+v2+" debe ser mayor que "+v1);
               return this.getError(s); // Orden incorrecto
             }
             return  s;
       }catch(NumberFormatException e){
+            this.currentMethod.errores.add(" los indices deben ser números enteros");
             return this.getError(s);   // No numerico
       }
     }
@@ -226,9 +324,8 @@ public class HTMLGenerator {
                    "<h2>Funciones y procedimientos</h2>\n" +
                    "<ul>\n";
         s += "<li><a href='#ProgPpal'>Programa principal</a></li>\n";
-        for (String m : this.methods) {
-            String simpleM = deleteTags(m);
-            s += "<li><a href='#" + getMethodName(simpleM) + "'>" + getMethodHeader(simpleM) + "</a></li>\n";
+        for (Method m : this.methods.values()) {
+            s += "<li><a href='#" + m.name + "'>" + m.cabecera + "</a></li>\n";
         }
         s+=  "</ul>\n" +
              "</div>\n\n";
@@ -237,12 +334,12 @@ public class HTMLGenerator {
 
     public String generateMethodsPart(){
         String s = "";
-        for (String m : this.methods){
+        for (Method m : this.methods.values()) {
+            if("Principal".equals(m.name)) continue;
             s += "<div class='ui segment'>";
-            String tagsDeleted = deleteTags(m);
-            s +=  m + "<br/>\n" +
+            s +=  m.html + "<br/>\n" +
                  "<div style='text-align: center;'>\n" +
-                 "<a class='mini ui secondary button' style='display: inline-block;' href='#" + getMethodName(tagsDeleted) + "'>Inicio de rutina</a>\n" +
+                 "<a class='mini ui secondary button' style='display: inline-block;' href='#" + m.name + "'>Inicio de rutina</a>\n" +
                  "<a class='mini ui secondary button' style='display: inline-block;' href='#inicio'>Inicio de programa</a>" +
                  "</div>\n" +
                  "</div>\n\n";
@@ -269,6 +366,7 @@ public class HTMLGenerator {
 
     /**
      * Este método creara un archivo html listo para ser visualizado
+     * @param html
      */
 
     public void createHtml(String html){
@@ -302,6 +400,7 @@ public class HTMLGenerator {
                         ".cte {color:rgb(19,189,72);}" +
                         ".ident {color:rgb(55,40,244);}" +
                         ".palres {color:rgb(0,0,0);font-weight:bold;}" +
+                        errorStyle+
                         ".ui.segments .segment, .ui.segment {padding-left: 2em;}"+
                         "a[name] {text-decoration: none !important;}";
         return style;
@@ -354,15 +453,14 @@ public class HTMLGenerator {
                          "</script>\n";
         return scripts;
     }
-    private final String errorStyle = ".error{display: inherit;"
-                                    +"color: #db2828 !important;"
+    private final String errorStyle = ".error{color: #db2828 !important;"
                                     +"background-color: #ffe8e6;"
                                     +"padding: 0.2em;"
                                     +"border-radius: .28571429rem;"
                                     +"box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;"
                                 +"}"
 
-                                +"span.error > span {"
+                                +"span.error * {"
                                 +"color: #db2828;"
                                 +"}";
 

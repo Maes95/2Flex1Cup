@@ -2,17 +2,15 @@
 <html>
 <head>
 <title>Ejemplo2TiposDeDatos</title>
-<!-- Bootstrap --><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Bootstrap -->
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7' crossorigin='anonymous'>
 <!-- Semantic UI -->
-<link rel="stylesheet" href="https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css">
-<style>
-body {height: 100%; color: white;}
-.ui.segments .segment, .ui.segment {font-size: 15px;}a {color:hsl(220, 14%, 71%);}
-a:hover {color:hsl(220, 14%, 71%);}
-.ui.segments > .segment {border-top: 1px solid hsla(220, 14%, 71%, 0.18);}.cte {color:hsl( 29, 54%, 61%);}
-.ident {color: hsl(207, 82%, 66%);}
-.palres {color:hsl(286, 60%, 67%);}
-body {background-color: hsl(222, 11%, 12%);}.ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}.ui.segment {background-color: hsl(222, 11%, 18%);}.ui.segments .segment, .ui.segment {padding-left: 4em;}a[name] {text-decoration: none !important;}</style>
+<link rel='stylesheet' href='https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css'>
+
+<style id='style-light'>body {height: 100%;}.ui.segments .segment, .ui.segment {font-size: 15px;}.cte {color:rgb(19,189,72);}.ident {color:rgb(55,40,244);}.palres {color:rgb(0,0,0);font-weight:bold;}.error{display: inherit;color: #db2828 !important;background-color: #ffe8e6;padding: 0.2em;border-radius: .28571429rem;box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;}span.error > span {color: #db2828;}.ui.segments .segment, .ui.segment {padding-left: 2em;}a[name] {text-decoration: none !important;}</style>
+
+<script>var activeStyle=true;function changeActiveStyle(b){activeStyle = !activeStyle;var sL = document.getElementById('style-light');var sD = document.getElementById('style-dark');if (b) {sD.parentNode.removeChild(sD); var s = document.createElement('style'); s.id='style-light'; s.type = 'text/css'; s.appendChild(document.createTextNode('body {height: 100%;}.ui.segments .segment, .ui.segment {font-size: 15px;}.cte {color:rgb(19,189,72);}.ident {color:rgb(55,40,244);}.palres {color:rgb(0,0,0);font-weight:bold;}.error{display: inherit;color: #db2828 !important;background-color: #ffe8e6;padding: 0.2em;border-radius: .28571429rem;box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;}span.error > span {color: #db2828;}.ui.segments .segment, .ui.segment {padding-left: 2em;}a[name] {text-decoration: none !important;}')); document.head.appendChild(s);}else {sL.parentNode.removeChild(sL); var s = document.createElement('style'); s.id='style-dark'; s.type = 'text/css'; s.appendChild(document.createTextNode('body {height: 100%; color: white;}.ui.segments .segment, .ui.segment {font-size: 15px;}a {color:hsl(220, 14%, 71%);}a:hover {color:hsl(220, 14%, 71%);}.ui.segments > .segment {border-top: 1px solid hsla(220, 14%, 71%, 0.18);}.cte {color:hsl( 29, 54%, 61%);}.ident {color: hsl(207, 82%, 66%);}.palres {color:hsl(286, 60%, 67%);}.error{display: inherit;color: #db2828 !important;background-color: #ffe8e6;padding: 0.2em;border-radius: .28571429rem;box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;}span.error > span {color: #db2828;}body {background-color: hsl(222, 11%, 12%);}.ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}.ui.segment {background-color: hsl(222, 11%, 18%) !important;}.ui.segments .segment, .ui.segment {padding-left: 2em;}.ui.raised.segments {border: 1px solid rgb(54, 57, 65);}a[name] {text-decoration: none !important;}')); document.head.appendChild(s);}}</script>
 </head>
 
 <body>
@@ -20,8 +18,9 @@ body {background-color: hsl(222, 11%, 12%);}.ui.center.aligned.segment.secondary
 <div class='row'>
 <div class='col-md-8 col-md-offset-2'>
 <div class='ui raised segments'>
-<div class='ui center aligned segment secondary'><a name='inicio'>
-<h1>Programa: Ejemplo2TiposDeDatos</h1>
+<div class='ui segment secondary row'><div class='col-md-9'><a name='inicio'>
+<h1>Programa: Ejemplo2TiposDeDatos</h1></div>
+<div class='col-md-3'><a class='mini ui secondary button pull-right' onclick='changeActiveStyle(!activeStyle)'>Cambiar tema</a></div>
 </div><div class='ui segment'><h2>Funciones y procedimientos</h2>
 <ul>
 <li><a href='#ProgPpal'>Programa principal</a></li>
