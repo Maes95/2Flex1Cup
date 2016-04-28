@@ -5,34 +5,10 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class HTMLGenerator {
     
-    public class ItemHTML{
-        String text;
-        String html;
-        public ItemHTML(String text, Method method,HTMLGenerator myGenerator) throws Exception{
-            this.text = text;
-            this.html = (String) method.invoke(myGenerator, text);
-        }
-    } 
-    
-
-    public class PMethod extends ItemHTML{
-        String name;
-        ArrayList<String> variables;
-
-        public PMethod(String text, Method method, HTMLGenerator myGenerator) throws Exception{
-            super(text, method, myGenerator);
-            this.variables = new ArrayList<>();
-        }
-        
-    }
-    
-   
   /**
    *  HTMLGenerator
    *
