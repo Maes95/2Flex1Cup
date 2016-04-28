@@ -31,7 +31,7 @@ const
 	MAX = 2;
 var
 	medida: REAL;
-	valor1, valor2: INTEGER;
+	valor1, valor2, v1, v2: INTEGER;
 begin
 	medida := $4.A;
 	if ( v1 <> v2 ) then
