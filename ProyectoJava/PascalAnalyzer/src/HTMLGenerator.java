@@ -60,8 +60,8 @@ public class HTMLGenerator {
                                     "<html>\n" +
                                     "<head>\n" +
                                     "<title>"+this.fileName+"</title>\n" +
-                                    this.getLibreries() +
-                                    "<style id='style-light'>" + this.getStyleLight() + "</style>" +
+                                    this.getLibraries() +
+                                    "\n<style id='style-light'>" + this.getStyleLight() + "</style>\n" +
                                     this.getScripts() +
                                     "</head>\n\n" +
                                     "<body>\n" +
@@ -295,6 +295,7 @@ public class HTMLGenerator {
                         ".ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}"+
                         ".ui.segment {background-color: hsl(222, 11%, 18%) !important;}"+
                         ".ui.segments .segment, .ui.segment {padding-left: 2em;}"+
+                        ".ui.raised.segments {border: 1px solid rgb(54, 57, 65);}" +
                         "a[name] {text-decoration: none !important;}";
         return style;
     }
@@ -303,8 +304,8 @@ public class HTMLGenerator {
                                             LIBRERIAS
      *********************************************************************************************************/
 
-    private String getLibreries(){
-        String scripts =    "<!-- Bootstrap -->" +
+    private String getLibraries(){
+        String scripts =    "\n<!-- Bootstrap -->\n" +
                             "<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7' crossorigin='anonymous'>\n" +
                             "<!-- Semantic UI -->\n" +
                             "<link rel='stylesheet' href='https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css'>\n";
@@ -316,13 +317,15 @@ public class HTMLGenerator {
      *********************************************************************************************************/
 
     private String getScripts(){
-        String scripts = "<script>var activeStyle=true;" +
+        String scripts = "\n<script>" +
+                         "var activeStyle=true;" +
                          "function changeActiveStyle(b){" +
                          "activeStyle = !activeStyle;" +
                          "var sL = document.getElementById('style-light');" +
                          "var sD = document.getElementById('style-dark');" +
                          "if (b) {sD.parentNode.removeChild(sD); var s = document.createElement('style'); s.id='style-light'; s.type = 'text/css'; s.appendChild(document.createTextNode('" + this.getStyleLight() + "')); document.head.appendChild(s);}" +
-                         "else {sL.parentNode.removeChild(sL); var s = document.createElement('style'); s.id='style-dark'; s.type = 'text/css'; s.appendChild(document.createTextNode('" + this.getStyleDark() + "')); document.head.appendChild(s);}}</script>\n";
+                         "else {sL.parentNode.removeChild(sL); var s = document.createElement('style'); s.id='style-dark'; s.type = 'text/css'; s.appendChild(document.createTextNode('" + this.getStyleDark() + "')); document.head.appendChild(s);}}" +
+                         "</script>\n";
         return scripts;
     }
 
