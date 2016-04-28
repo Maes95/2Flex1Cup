@@ -60,7 +60,9 @@ public class HTMLGenerator {
                                     "<html>\n" +
                                     "<head>\n" +
                                     "<title>"+this.fileName+"</title>\n" +
-                                    this.getStyleAndLibrariesDark() +
+                                    this.getLibreries() +
+                                    "<style id='style-light'>" + this.getStyleLight() + "</style>" +
+                                    this.getScripts() +
                                     "</head>\n\n" +
                                     "<body>\n" +
                                     "<div class='row' style='height: 5em;'></div>\n" +
@@ -190,9 +192,10 @@ public class HTMLGenerator {
     }
 
     public String generateIndexPart(String nameProgram){
-        String s = "<div class='ui center aligned segment secondary'>" +
-                   "<a name='inicio'>\n" +
-                   "<h1>Programa: " + nameProgram + "</h1>\n" +
+        String s = "<div class='ui segment secondary row'>" +
+                   "<div class='col-md-9'><a name='inicio'>\n" +
+                   "<h1>Programa: " + nameProgram + "</h1></div>\n" +
+                   "<div class='col-md-3'><a class='mini ui secondary button pull-right' onclick='changeActiveStyle(!activeStyle)'>Cambiar tema</a></div>\n" +
                    "</div>" +
                    "<div class='ui segment'>" +
                    "<h2>Funciones y procedimientos</h2>\n" +
@@ -268,41 +271,59 @@ public class HTMLGenerator {
                                            ESTILOS DEL HTML (CSS)
      *********************************************************************************************************/
 
-    private String getStyleAndLibraries(){
-        String style =  "<!-- Bootstrap -->" +
-                        "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">\n" +
-                        "<!-- Semantic UI -->\n" +
-                        "<link rel=\"stylesheet\" href=\"https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css\">\n" +
-                        "<style>\n" +
-                        "body {height: 100%;}\n" +
-                        ".cte {color:rgb(19,189,72);}\n" +
-                        ".ident {color:rgb(55,40,244);}\n" +
-                        ".palres {color:rgb(0,0,0);font-weight:bold;}\n" +
-                        "a[name] {text-decoration: none !important;}" +
-                        "</style>\n";
+    private String getStyleLight(){
+        String style =  "body {height: 100%;}" +
+                        ".ui.segments .segment, .ui.segment {font-size: 15px;}"+
+                        ".cte {color:rgb(19,189,72);}" +
+                        ".ident {color:rgb(55,40,244);}" +
+                        ".palres {color:rgb(0,0,0);font-weight:bold;}" +
+                        ".ui.segments .segment, .ui.segment {padding-left: 2em;}"+
+                        "a[name] {text-decoration: none !important;}";
         return style;
     }
 
-    private String getStyleAndLibrariesDark(){
-        String style =  "<!-- Bootstrap -->" +
-                        "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">\n" +
-                        "<!-- Semantic UI -->\n" +
-                        "<link rel=\"stylesheet\" href=\"https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css\">\n" +
-                        "<style>\n" +
-                        "body {height: 100%; color: white;}\n" +
+    private String getStyleDark(){
+        String style =  "body {height: 100%; color: white;}" +
                         ".ui.segments .segment, .ui.segment {font-size: 15px;}"+
-                        "a {color:hsl(220, 14%, 71%);}\n" +
-                        "a:hover {color:hsl(220, 14%, 71%);}\n" +
+                        "a {color:hsl(220, 14%, 71%);}" +
+                        "a:hover {color:hsl(220, 14%, 71%);}" +
                         ".ui.segments > .segment {border-top: 1px solid hsla(220, 14%, 71%, 0.18);}"+
-                        ".cte {color:hsl( 29, 54%, 61%);}\n" +
-                        ".ident {color: hsl(207, 82%, 66%);}\n" +
-                        ".palres {color:hsl(286, 60%, 67%);}\n" +
+                        ".cte {color:hsl( 29, 54%, 61%);}" +
+                        ".ident {color: hsl(207, 82%, 66%);}" +
+                        ".palres {color:hsl(286, 60%, 67%);}" +
                         "body {background-color: hsl(222, 11%, 12%);}"+
                         ".ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}"+
-                        ".ui.segment {background-color: hsl(222, 11%, 18%);}"+
-                        ".ui.segments .segment, .ui.segment {padding-left: 4em;}"+
-                        "a[name] {text-decoration: none !important;}" +
-                        "</style>\n";
+                        ".ui.segment {background-color: hsl(222, 11%, 18%) !important;}"+
+                        ".ui.segments .segment, .ui.segment {padding-left: 2em;}"+
+                        "a[name] {text-decoration: none !important;}";
         return style;
     }
+
+    /*********************************************************************************************************
+                                            LIBRERIAS
+     *********************************************************************************************************/
+
+    private String getLibreries(){
+        String scripts =    "<!-- Bootstrap -->" +
+                            "<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7' crossorigin='anonymous'>\n" +
+                            "<!-- Semantic UI -->\n" +
+                            "<link rel='stylesheet' href='https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css'>\n";
+        return scripts;
+    }
+
+    /*********************************************************************************************************
+                                            SCRIPTS
+     *********************************************************************************************************/
+
+    private String getScripts(){
+        String scripts = "<script>var activeStyle=true;" +
+                         "function changeActiveStyle(b){" +
+                         "activeStyle = !activeStyle;" +
+                         "var sL = document.getElementById('style-light');" +
+                         "var sD = document.getElementById('style-dark');" +
+                         "if (b) {sD.parentNode.removeChild(sD); var s = document.createElement('style'); s.id='style-light'; s.type = 'text/css'; s.appendChild(document.createTextNode('" + this.getStyleLight() + "')); document.head.appendChild(s);}" +
+                         "else {sL.parentNode.removeChild(sL); var s = document.createElement('style'); s.id='style-dark'; s.type = 'text/css'; s.appendChild(document.createTextNode('" + this.getStyleDark() + "')); document.head.appendChild(s);}}</script>\n";
+        return scripts;
+    }
+
 }
