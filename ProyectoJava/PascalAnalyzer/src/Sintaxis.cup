@@ -115,7 +115,7 @@ DCL::= DEFCTE:defcte   {:
       | DEFVAR:defvar  {:
                           htmlGenerator.updateLastDcl(defvar);
                           RESULT = defvar;:}
-      | DEFPROC:defproc {:  // TODO
+      | DEFPROC:defproc {:
                            RESULT = defproc;:}
       | DEFFUN:deffun  {:
                           RESULT = deffun;:}
@@ -226,7 +226,7 @@ EXPLIST::= EXP:exp                        {: RESULT = exp.html;:}
           | EXP:exp comma EXPLIST:explist {: RESULT = exp.html + "," + explist;:}
           ;
 
-PROC_CALL::= identifier:i1 SUBPARAMLIST:subparamlist {: RESULT = htmlGenerator.getIdent(i1) + (String)subparamlist;:};
+PROC_CALL::= identifier:i1 SUBPARAMLIST:subparamlist {: RESULT = htmlGenerator.getIdentOfMethod(i1) + (String)subparamlist;:};
 EXEBLQ::= DCLLIST_BLQ:dcllist_blq begin {:htmlGenerator.indentLevel++;:} SENTLIST:sentlist end {:htmlGenerator.indentLevel--;
                                           RESULT = dcllist_blq + htmlGenerator.getReservedWordIdent("begin") + sentlist + htmlGenerator.getReservedWordIdent("end");:};
 

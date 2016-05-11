@@ -1,4 +1,4 @@
-![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png) Analizador Lexico-Sintactico Pascal  1.0.0 
+![alt tag](http://icons.iconarchive.com/icons/fatcow/farm-fresh/32/page-white-code-red-icon.png) Analizador Lexico-Sintactico Pascal  2.0.0 
 =========================================
 Archivos  
 ------------------------
