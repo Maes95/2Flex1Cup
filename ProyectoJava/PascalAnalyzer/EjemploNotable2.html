@@ -92,14 +92,16 @@ lado: REAL): REAL</a></li>
 <span class='palres'><div style='text-indent: 0cm'>var</div>
 </span><div style='text-indent: 1cm'><a name='auxintercambio'>
 <span class='ident'>aux</span> : <span class='palres'> INTEGER</span>; </div>
-<span class='palres'>begin</span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1intercambio'>v1</a> <> <a href='#v2intercambio'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
+<span class='palres'><div style='text-indent: 0cm'>begin</div>
+</span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1intercambio'>v1</a> <> <a href='#v2intercambio'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
 <div style='text-indent: 2cm'><a href='#auxintercambio'>aux</a> := <span class='cte'>0</span>;</div>
 <div style='text-indent: 2cm'><a href='#auxintercambio'>aux</a> := <a href='#v1intercambio'>v1</a>;</div>
 <div style='text-indent: 2cm'><a href='#v1intercambio'>v1</a> := <a href='#v2intercambio'>v2</a>;</div>
 <div style='text-indent: 2cm'><a href='#v2intercambio'>v2</a> := <a href='#auxintercambio'>aux</a>;</div>
 <div style='text-indent: 1cm'><span class='palres'>end</span></div>
 </div>
-<span class='palres'>end</span>;
+<span class='palres'><div style='text-indent: 0cm'>end;</div>
+</span>
 <br/>
 <div style='text-align: center;'>
 <a class='mini ui secondary button' style='display: inline-block;' href='#intercambio'>Inicio de rutina</a>
@@ -113,15 +115,19 @@ lado: REAL): REAL</a></li>
 <span class='palres'><div style='text-indent: 1cm'>var</div>
 </span><div style='text-indent: 2cm'><a name='resultadounaFuncion2'>
 <span class='ident'>resultado</span> : <span class='palres'> REAL</span>; </div>
-<span class='palres'>begin</span><div style='text-indent: 2cm'><a href='#resultadounaFuncion2'>resultado</a> := <span class='cte'>+0.0</span>;</div>
+<span class='palres'><div style='text-indent: 1cm'>begin</div>
+</span><div style='text-indent: 2cm'><a href='#resultadounaFuncion2'>resultado</a> := <span class='cte'>+0.0</span>;</div>
 <div style='text-indent: 2cm'><a href='#ladounaFuncion2'>lado</a> := <span class='cte'>1</span>;</div>
-<div style='text-indent: 2cm'><span class='error'>unaFuncion2 := ?</span></div><span class='palres'>end</span>;
+<div style='text-indent: 2cm'><span class='error'>unaFuncion2 := ?</span></div><span class='palres'><div style='text-indent: 1cm'>end;</div>
+</span>
 <span class='palres'><div style='text-indent: 0cm'>var</div>
 </span><div style='text-indent: 1cm'><a name='resultadounaFuncion'>
 <span class='ident'>resultado</span> : <span class='palres'> REAL</span>; </div>
-<span class='palres'>begin</span><div style='text-indent: 1cm'><a href='#resultadounaFuncion'>resultado</a> := <span class='cte'>+0.0</span>;</div>
+<span class='palres'><div style='text-indent: 0cm'>begin</div>
+</span><div style='text-indent: 1cm'><a href='#resultadounaFuncion'>resultado</a> := <span class='cte'>+0.0</span>;</div>
 <div style='text-indent: 1cm'><a href='#ladounaFuncion'>lado</a> := <span class='cte'>2</span>;</div>
-<div style='text-indent: 1cm'><span class='error'>unaFuncion := ?</span></div><span class='palres'>end</span>;
+<div style='text-indent: 1cm'><span class='error'>unaFuncion := ?</span></div><span class='palres'><div style='text-indent: 0cm'>end;</div>
+</span>
 <br/>
 <div style='text-align: center;'>
 <a class='mini ui secondary button' style='display: inline-block;' href='#unaFuncion'>Inicio de rutina</a>
@@ -140,12 +146,14 @@ lado: REAL): REAL</a></li>
 <span class='ident'>unArray</span> : <a href='#miArrayareaCuadrado'>miArray</a>; </div>
 <div style='text-indent: 1cm'><a name='otroArrayareaCuadrado'>
 <span class='ident'>otroArray</span> : <a href='#miArrayareaCuadrado'>miArray</a>; </div>
-<span class='palres'>begin</span><div style='text-indent: 1cm'><a href='#resultadoareaCuadrado'>resultado</a> := <span class='cte'>+0.0</span>;</div>
+<span class='palres'><div style='text-indent: 0cm'>begin</div>
+</span><div style='text-indent: 1cm'><a href='#resultadoareaCuadrado'>resultado</a> := <span class='cte'>+0.0</span>;</div>
 <div style='text-indent: 1cm'><a href='#unArrayareaCuadrado'>unArray</a>[ <span class='cte'>1</span> ] := <span class='cte'>0</span>;</div>
 <div style='text-indent: 1cm'><a href='#resultadoareaCuadrado'>resultado</a> := <a href='#ladoareaCuadrado'>lado</a> * <a href='#ladoareaCuadrado'>lado</a> + <a href='#miArrayareaCuadrado'>miArray</a>[<span class='cte'>1</span> + <span class='cte'>2</span>];</div>
 <div style='text-indent: 1cm'><span class='error'><a href='#unArrayareaCuadrado'>unArray</a> := <a href='#otroArrayareaCuadrado'>otroArray</a></span>;</div>
 <div style='text-indent: 1cm'><a href='#areaCuadradoareaCuadrado'>areaCuadrado</a> := <a href='#resultadoareaCuadrado'>resultado</a>;</div>
-<span class='palres'>end</span>;
+<span class='palres'><div style='text-indent: 0cm'>end;</div>
+</span>
 <br/>
 <div style='text-align: center;'>
 <a class='mini ui secondary button' style='display: inline-block;' href='#areaCuadrado'>Inicio de rutina</a>
