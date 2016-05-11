@@ -9,31 +9,9 @@ init with {:
   System.out.println("---------------------------------------------------------------------\n"
                     +"|       ANALIZADOR LEXICO Y SINTACTICO PARA LEGUAJE PASCAL          |\n"
                     +"---------------------------------------------------------------------\n");
-  this.stack = new Stack<>();
   this.htmlGenerator = new HTMLGenerator(this.fileName);
 :};
 
-action code {:
-  // ACTION CODE
-  // Codigo para métodos
-  public void pushRegla(String cadena){
-    //System.out.println(cadena);
-    Regla regla = new Regla(cadena);
-    stack.push(regla);
-  }
-
-  public void mostrarArbol(String cadena){
-    System.out.println(cadena + "\n");
-    Regla regla = new Regla(cadena);
-    stack.push(regla);
-    System.out.println("---------------------------------------------------------------------\n"
-                      +"|                    ARBOL SINTACTICO GENERADO                      |\n"
-                      +"---------------------------------------------------------------------\n");
-    System.out.println("_" + regla.antecedente);
-    //Regla.printSyntacticTree(stack, ""); // Pinta el arbol sintáctico (ver clase "Regla")
-  }
-
-:};
 
 /* ------------ CODIGO AÑADIDO PARA MOSTRAR ERRORES ----------- */
 
@@ -113,281 +91,206 @@ precedence left else_t;
 
 /* ------------ SINTAXIS BÁSICA  ----------- */
 
-PRG::= program identifier:i1 semicolons BLQ:blq point {: mostrarArbol("PRG <%program "+i1+" ; BLQ .%>");
-                                                         htmlGenerator.closeHTML(i1);:};
+PRG::= program identifier:i1 semicolons BLQ:blq point {: htmlGenerator.closeHTML(i1);:};
 BLQ::= DCLLIST:dcllist begin{: htmlGenerator.indentLevel++;:} SENTLIST:sentlist end
                                                       {: htmlGenerator.indentLevel--;
-                                                      pushRegla("BLQ <%DCLLIST begin SENTLIST end%>");
-                                                      htmlGenerator.getMainProgram(sentlist);
-                                                      RESULT = dcllist + htmlGenerator.getReservedWord("begin") + sentlist + htmlGenerator.getReservedWord("end");:};
 
-DCLLIST::=                          {: pushRegla("DCLLIST <%lambda%>");
+                                                      htmlGenerator.getMainProgram(sentlist);
+                                                      RESULT = dcllist + htmlGenerator.getReservedWord("begin") + htmlGenerator.checkReturnParam(sentlist) + htmlGenerator.getReservedWord("end");:};
+
+DCLLIST::=                          {:
                                        RESULT = "";:}
-          | DCLLIST:dcllist DCL:dcl {: pushRegla("DCLLIST <%DCLLIST DCL%>");
+          | DCLLIST:dcllist DCL:dcl {:
                                        RESULT = dcllist + (String)dcl;:}
           ;
 
-SENTLIST::= {: htmlGenerator.sentCond = false; :} SENT:sent    {: pushRegla("SENTLIST <%SENT%>"); // Hay mas de una sentencia
+SENTLIST::= {: htmlGenerator.sentCond = false; :} SENT:sent    {:  // Hay mas de una sentencia
                                                                   RESULT = sent;:}
-          | SENTLIST:sentlist SENT:sent {: pushRegla("SENTLIST <%SENTLIST SENT%>");
+          | SENTLIST:sentlist SENT:sent {:
                                            RESULT = sentlist + (String)sent;:}
           | error
           ;
 
-DCL::= DEFCTE:defcte   {: pushRegla("DCL <%DEFCTE%>");
+DCL::= DEFCTE:defcte   {:
                           htmlGenerator.updateLastDcl(defcte);
                           RESULT = defcte;:}
-      | DEFVAR:defvar  {: pushRegla("DCL <%DEFVAR%>");
+      | DEFVAR:defvar  {:
                           htmlGenerator.updateLastDcl(defvar);
                           RESULT = defvar;:}
-      | {: htmlGenerator.inProcFun = true; :}DEFPROC:defproc {: htmlGenerator.inProcFun = false;pushRegla("DCL <%DEFPROC%>"); // TODO
+      | DEFPROC:defproc {:  // TODO
                            RESULT = defproc;:}
-      | {: htmlGenerator.inProcFun = true; :}DEFFUN:deffun  {: htmlGenerator.inProcFun = false;pushRegla("DCL <%DEFFUN%>");
+      | DEFFUN:deffun  {:
                           RESULT = deffun;:}
-      | DEFTYPE:deftype {: pushRegla("DCL <%DEFTYPE%>");
+      | DEFTYPE:deftype {:
                            htmlGenerator.updateLastDcl(deftype);
                            RESULT = deftype;:}
       | error
       ;
 
 DEFCTE::= const_t {: htmlGenerator.indentLevel++;:} CTELIST:ctelist {: htmlGenerator.indentLevel--;
-                                                                      pushRegla("DEFCTE <%const CTELIST%>");
-                                                                      RESULT = htmlGenerator.getReservedWord("const") + ctelist;:};
+                                                                       RESULT = htmlGenerator.getReservedWord(htmlGenerator.getSent("const")) + ctelist;:};
 
-CTELIST::= identifier:i1 equal SIMPVALUE:simpvalue semicolons {: pushRegla("CTELIST <%" +i1+" = SIMPVALUE ;%>");
-                                                                 RESULT = htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i1) + "=" + simpvalue + ";");:}
-          | CTELIST:ctelist identifier:i2 equal SIMPVALUE:simpvalue semicolons {: pushRegla("CTELIST <%CTELIST "+i2+" = SIMPVALUE ;%>");
-                                                                                  RESULT = (String)ctelist + htmlGenerator.getSent(htmlGenerator.getIdent(i2) + "=" + (String)simpvalue + ";");:}
+CTELIST::= identifier:i1 equal SIMPVALUE:simpvalue semicolons {: RESULT = htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i1) + "=" + simpvalue + ";");:}
+          | CTELIST:ctelist identifier:i2 equal SIMPVALUE:simpvalue semicolons {: RESULT = (String)ctelist + htmlGenerator.getSent(htmlGenerator.getIdent(i2) + "=" + (String)simpvalue + ";");:}
           ;
 
-SIMPVALUE::= decimal_value:dv    {: pushRegla("SIMVALUE <%" + dv + "%>" );
-                                    RESULT = htmlGenerator.getConst(dv);:}
-          | hexadecimal_value:hv {: pushRegla("SIMVALUE <%" + hv + "%>");
-                                    RESULT = htmlGenerator.getConst(hv);:}
-          | string_literal:sl    {: pushRegla("SIMVALUE <%" + sl + "%>");
-                                    RESULT = htmlGenerator.getConst(sl);:}
+SIMPVALUE::= decimal_value:dv    {: RESULT = htmlGenerator.getConst(dv);:}
+          | hexadecimal_value:hv {: RESULT = htmlGenerator.getConst(hv);:}
+          | string_literal:sl    {: RESULT = htmlGenerator.getConst("'"+sl+"''");:}
           ;
 
-DEFVAR::= var {:htmlGenerator.indentLevel++;:} DEFVARLIST:defvarlist semicolons {:
-                                                  htmlGenerator.indentLevel--;
-                                                  pushRegla("DEFVAR <%var DEFVARLIST ;%>");
-                                                  RESULT = htmlGenerator.getReservedWord("var <br/>") + defvarlist;:};
+DEFVAR::= var {:htmlGenerator.indentLevel++;:} DEFVARLIST:defvarlist semicolons {: htmlGenerator.indentLevel--; RESULT = htmlGenerator.getReservedWord(htmlGenerator.getSent("var")) + defvarlist;:};
 
-DEFVARLIST::= VARLIST:varlist colons ALLTYPES:alltypes                                   {: pushRegla("DEFVARLIST <%VARLIST : ALLTYPES%>");
-                                                                                            htmlGenerator.pushVar(varlist, alltypes);
+DEFVARLIST::= VARLIST:varlist colons ALLTYPES:alltypes                                   {: htmlGenerator.pushVar(varlist, alltypes);
                                                                                             RESULT = htmlGenerator.getSent(varlist + " : " + alltypes + "; ");:}
-             | DEFVARLIST:defvarlist semicolons VARLIST:varlist colons ALLTYPES:alltypes {: pushRegla("DEFVARLIST <%DEFVARLIST ; VARLIST : ALLTYPES%>");
-                                                                                            htmlGenerator.pushVar(varlist, alltypes);
+             | DEFVARLIST:defvarlist semicolons VARLIST:varlist colons ALLTYPES:alltypes {: htmlGenerator.pushVar(varlist, alltypes);
                                                                                             RESULT = defvarlist + htmlGenerator.getSent(varlist + " : " + alltypes + "; ");:}
              ;
 
-VARLIST::= identifier:i1                         {: pushRegla("VARLIST <%" + i1 + "%>");
-                                                    RESULT = htmlGenerator.getIdentDeclaration(i1);:}
-           | identifier:i2 comma VARLIST:varlist {: pushRegla("VARLIST <%"+ i2 +" , VARLIST%>");
-                                                    RESULT = htmlGenerator.getIdentDeclaration(i2) + "," + varlist;:}
+VARLIST::= identifier:i1                         {: RESULT = htmlGenerator.getIdentDeclaration(i1);:}
+           | identifier:i2 comma VARLIST:varlist {: RESULT = htmlGenerator.getIdentDeclaration(i2) + "," + varlist;:}
            ;
 
-DEFPROC::=  procedure identifier:i1 {: htmlGenerator.addMethod(i1); :}FORMAL_PARAMLIST:formal_paramlist semicolons BLQ:blq semicolons {:
-                    pushRegla("DEFPROC <%procedure "+ i1 +" FORMAL_PARAMLIST ; BLQ ;%>");
+DEFPROC::=  procedure identifier:i1 {: htmlGenerator.addMethod(i1, false); :}FORMAL_PARAMLIST:formal_paramlist semicolons BLQ:blq semicolons {:
+
                     RESULT = htmlGenerator.getProc(i1, formal_paramlist, blq);:};
 
-DEFFUN::=  function identifier:i2 {: htmlGenerator.addMethod(i2); :}FORMAL_PARAMLIST:formal_paramlist colons ALLTYPES:alltypes semicolons BLQ:blq semicolons {:
-                    pushRegla("DEFFUN <%function "+i2+" FORMAL_PARAMLIST : ALLTYPES ; BLQ ;%>");
+DEFFUN::=  function identifier:i2 {: htmlGenerator.addMethod(i2, true); :}FORMAL_PARAMLIST:formal_paramlist colons ALLTYPES:alltypes semicolons BLQ:blq semicolons {:
+
                     RESULT = htmlGenerator.getFunc(i2, formal_paramlist, alltypes, blq);:};
 
-FORMAL_PARAMLIST::=                                                        {: pushRegla("FORMAL_PARAMLIST <%lambda%>");
-                                                                              RESULT = "";:}
-                    | open_bracket FORMAL_PARAM:formal_param close_bracket {: pushRegla("FORMAL_PARAMLIST <%( FORMAL_PARAM )%>");
-                                                                              RESULT = "(" + formal_param + ")";:}
+FORMAL_PARAMLIST::=                                                        {: RESULT = "";:}
+                    | open_bracket FORMAL_PARAM:formal_param close_bracket {: RESULT = "(" + formal_param + ")";:}
                     ;
 
-FORMAL_PARAM::= VARLIST:varlist colons ALLTYPES:alltypes                                       {: pushRegla("FORMAL_PARAM <%VARLIST : ALLTYPES%>");
-                                                                                                  RESULT = varlist + ":" + alltypes;:}
-               | VARLIST:varlist colons ALLTYPES:alltypes semicolons FORMAL_PARAM:formal_param {: pushRegla("FORMAL_PARAM <%VARLIST : ALLTYPES ; FORMAL_PARAM%>");
-                                                                                                  RESULT = varlist + ":" + alltypes + ";" + formal_param;:}
+FORMAL_PARAM::= VARLIST:varlist colons ALLTYPES:alltypes                                       {: RESULT = varlist + ":" + alltypes;:}
+               | VARLIST:varlist colons ALLTYPES:alltypes semicolons FORMAL_PARAM:formal_param {: RESULT = varlist + ":" + alltypes + ";" + formal_param;:}
                ;
 
-TBAS::= int_name    {: pushRegla("TBAS <%INTEGER%>");
+TBAS::= int_name    {:
                        RESULT = htmlGenerator.getReservedWord(" INTEGER");:}
-        | real_name {: pushRegla("TBAS <%REAL%>");
+        | real_name {:
                        RESULT = htmlGenerator.getReservedWord(" REAL");:}
-        | char_name {: pushRegla("TBAS <%CHAR%>");
+        | char_name {:
                        RESULT = htmlGenerator.getReservedWord(" CHARACTER");:}
         ;
 
-SENT::= ASIG:asig semicolons              {: pushRegla("SENT <%ASIG ;%>");
-                                             RESULT = htmlGenerator.getSent(asig + ";");:}
-        | PROC_CALL:proc_call semicolons  {: pushRegla("SENT <%PROC_CALL ;%>");
-                                             RESULT = htmlGenerator.getSent(proc_call + ";");:}
-        | EXEBLQ:exeblq                   {: pushRegla("SENT <%EXEBLQ%>");
-                                             RESULT = exeblq;:}
-        | COND:cond                       {: pushRegla("SENT <%COND%>");
-                                             RESULT = htmlGenerator.getSent(cond);:}
-        | WLOOP:wloop                     {: pushRegla("SENT <%WLOOP%>");
-                                             RESULT = htmlGenerator.getSent(wloop);:}
-        | FLOOP:floop                     {: pushRegla("SENT <%FLOOP%>");
-                                             RESULT = htmlGenerator.getSent(floop);:}
-        | CASE:case_t                     {: pushRegla("SENT <%CASE%>");
-                                             RESULT = htmlGenerator.getSent(case_t);:}
+SENT::= ASIG:asig semicolons              {: RESULT = htmlGenerator.getSent(asig + ";");:}
+        | PROC_CALL:proc_call semicolons  {: RESULT = htmlGenerator.getSent(proc_call + ";");:}
+        | EXEBLQ:exeblq                   {: RESULT = exeblq;:}
+        | COND:cond                       {: RESULT = htmlGenerator.getSent(cond);:}
+        | WLOOP:wloop                     {: RESULT = htmlGenerator.getSent(wloop);:}
+        | FLOOP:floop                     {: RESULT = htmlGenerator.getSent(floop);:}
+        | CASE:case_t                     {: RESULT = htmlGenerator.getSent(case_t);:}
         ;
 
-ASIG::= ID:id asig EXP:exp {: pushRegla("ASIG <%ID := EXP%>");
-                              RESULT = htmlGenerator.checkAsig(id,exp);:};
+ASIG::= ID:id asig EXP:exp {: RESULT = htmlGenerator.checkAsig(id,exp);:};
 
-ID::= identifier:i1                                                    {: pushRegla("ID <%"+i1+"%>");
-                                                                          RESULT = htmlGenerator.getIdent(i1);:}
-      | identifier:i4 open_square_bracket EXP:exp close_square_bracket {: pushRegla("ID <%"+i4+" [ EXP ]%>");
-                                                                          RESULT = htmlGenerator.getIdent(i4) + "[ " + exp + " ]";:}
-      | identifier:i2 point identifier:i3                              {: pushRegla("ID <%"+i2+" . "+i3+"%>");
-                                                                          RESULT = htmlGenerator.getIdent(i2) + "." + htmlGenerator.getIdent(i3);:}
+ID::= identifier:i1                                                    {: RESULT = htmlGenerator.getIdent(i1);:}
+      | identifier:i4 open_square_bracket EXP:exp close_square_bracket {: RESULT = htmlGenerator.getIdent(i4) + "[ " + exp + " ]";:}
+      | identifier:i2 point identifier:i3                              {: RESULT = htmlGenerator.getIdent(i2) + "." + htmlGenerator.getIdent(i3);:}
       ;
 
-EXP::= EXP:exp1 OP:op EXP:exp2 {: pushRegla("EXP <%EXP OP EXP%>");
-                                  RESULT = (String)exp1 + op + (String)exp2;:}
-       | FACTOR:factor         {: pushRegla("EXP <%FACTOR%>");
-                                  RESULT = factor;:}
+EXP::= EXP:exp1 OP:op EXP:exp2 {: RESULT = (String)exp1 + op + (String)exp2;:}
+       | FACTOR:factor         {: RESULT = factor;:}
        ;
 
-OP::= OPCOMP:opcomp   {: pushRegla("OP <%OPCOMP%>");
-                         RESULT = opcomp;:}
-      | OPLOG:oplog   {: pushRegla("OP <%OPLOG%>");
-                         RESULT = oplog;:}
-      | OPARIT:oparit {: pushRegla("OP <%OPARIT%>");
-                         RESULT = oparit;:}
+OP::= OPCOMP:opcomp   {: RESULT = opcomp;:}
+      | OPLOG:oplog   {: RESULT = oplog;:}
+      | OPARIT:oparit {: RESULT = oparit;:}
       ;
 
-OPCOMP::= comparator_op:op {: pushRegla("OPCOMP <%"+op+"%>");
-                              RESULT = " "+op+" ";:};
+OPCOMP::= comparator_op:op {: RESULT = " "+op+" ";:};
 
-OPARIT::= plus       {: pushRegla("OPARIT <%+%>");
-                        RESULT = " + ";:}
-          | minus    {: pushRegla("OPARIT <%-%>");
-                        RESULT = " - ";:}
-          | product  {: pushRegla("OPARIT <%*%>");
-                        RESULT = " * ";:}
-          | div_op   {: pushRegla("OPARIT <%div%>");
-                        RESULT = " div ";:}
-          | mod_op   {: pushRegla("OPARIT <%mod%>");
-                        RESULT = " mod ";:}
+OPARIT::= plus       {: RESULT = " + ";:}
+          | minus    {: RESULT = " - ";:}
+          | product  {: RESULT = " * ";:}
+          | div_op   {: RESULT = " div ";:}
+          | mod_op   {: RESULT = " mod ";:}
           ;
 
 
-OPLOG::= and_op    {: pushRegla("OPLOG <%and%>");
-                      RESULT = " and ";:}
-          | or_op  {: pushRegla("OPLOG <%or%>");
-                      RESULT = " or ";:}
+OPLOG::= and_op    {: RESULT = " and ";:}
+          | or_op  {: RESULT = " or ";:}
           ;
 
-FACTOR::= SIMPVALUE:simpvalue                                                {: pushRegla("FACTOR <%SIMPVALUE%>");
-                                                                                RESULT = simpvalue;:}
-          | not_op FACTOR:factor                                             {: pushRegla("FACTOR <%not FACTOR%>");
-                                                                                RESULT = "not" + factor;:}
-          | open_bracket EXP:exp close_bracket                               {: pushRegla("FACTOR <%( EXP )%>");
-                                                                                RESULT = "(" + exp + ")";:}
-          | identifier:i1 SUBPARAMLIST:subparamlist                          {: pushRegla("FACTOR <%"+i1+" SUBPARAMLIST%>");
-                                                                                RESULT = htmlGenerator.getIdent(i1) + (String)subparamlist;:}
-          | identifier:i2 open_square_bracket EXP:exp close_square_bracket   {: pushRegla("FACTOR <%"+i2+" [ EXP ]%>");
-                                                                                RESULT = htmlGenerator.getIdent(i2) + "[" + exp + "]";:}
-          | identifier:i3 point identifier:i4                                {: pushRegla("FACTOR <%"+i3+" . "+i4+"%>");
-                                                                                RESULT = htmlGenerator.getIdent(i3) + "." + htmlGenerator.getIdent(i4);:}
+FACTOR::= SIMPVALUE:simpvalue                                                {: RESULT = simpvalue;:}
+          | not_op FACTOR:factor                                             {: RESULT = "not" + factor;:}
+          | open_bracket EXP:exp close_bracket                               {: RESULT = "(" + exp + ")";:}
+          | identifier:i1 SUBPARAMLIST:subparamlist                          {: RESULT = htmlGenerator.getIdent(i1) + (String)subparamlist;:}
+          | identifier:i2 open_square_bracket EXP:exp close_square_bracket   {: RESULT = htmlGenerator.getIdent(i2) + "[" + exp + "]";:}
+          | identifier:i3 point identifier:i4                                {: RESULT = htmlGenerator.getIdent(i3) + "." + htmlGenerator.getIdent(i4);:}
           ;
 
-SUBPARAMLIST::=                                              {: pushRegla("SUBPARAMLIST <%lambda%>");
-                                                                RESULT = "";:}
-                | open_bracket EXPLIST:explist close_bracket {: pushRegla("SUBPARAMLIST <%( EXPLIST )%>");
-                                                                RESULT = " (" + explist + ") ";:}
+SUBPARAMLIST::=                                              {: RESULT = "";:}
+                | open_bracket EXPLIST:explist close_bracket {: RESULT = " (" + explist + ") ";:}
                 ;
 
-EXPLIST::= EXP:exp                        {: pushRegla("EXPLIST <%EXP%>");
-                                             RESULT = exp;:}
-          | EXP:exp comma EXPLIST:explist {: pushRegla("EXPLIST <%EXP , EXPLIST%>");
-                                             RESULT = exp + "," + explist;:}
+EXPLIST::= EXP:exp                        {: RESULT = exp;:}
+          | EXP:exp comma EXPLIST:explist {: RESULT = exp + "," + explist;:}
           ;
 
-PROC_CALL::= identifier:i1 SUBPARAMLIST:subparamlist {: pushRegla("PROC_CALL <%"+i1+" SUBPARAMLIST%>");
-                                                        RESULT = htmlGenerator.getIdent(i1) + (String)subparamlist;:};
-EXEBLQ::= DCLLIST_BLQ:dcllist_blq begin {:htmlGenerator.indentLevel++;:} SENTLIST:sentlist end {:
-                                                                 htmlGenerator.indentLevel--;
-                                                                 pushRegla("EXEBLQ <%DCLLIST_BLQ begin SENTLIST end%>");
-                                                                 RESULT = dcllist_blq + htmlGenerator.getReservedWordIdent("begin") + sentlist + htmlGenerator.getReservedWordIdent("end");:};
+PROC_CALL::= identifier:i1 SUBPARAMLIST:subparamlist {: RESULT = htmlGenerator.getIdent(i1) + (String)subparamlist;:};
+EXEBLQ::= DCLLIST_BLQ:dcllist_blq begin {:htmlGenerator.indentLevel++;:} SENTLIST:sentlist end {:htmlGenerator.indentLevel--;
+                                          RESULT = dcllist_blq + htmlGenerator.getReservedWordIdent("begin") + sentlist + htmlGenerator.getReservedWordIdent("end");:};
 
-DCLLIST_BLQ::=                                   {: pushRegla("DCLLIST_BLQ <%lambda%>");
-                                                    RESULT = "";:}
-               | DCLLIST_BLQ:dcllist_blq semicolons DCL_BLQ:dcl_blq  {: pushRegla("DCLLIST_BLQ <%DCLLIST_BLQ ; DCL_BLQ%>");
-                                                                        RESULT = dcllist_blq + ";" + dcl_blq;:}
+DCLLIST_BLQ::=                                   {: RESULT = "";:}
+               | DCLLIST_BLQ:dcllist_blq semicolons DCL_BLQ:dcl_blq  {: RESULT = dcllist_blq + ";" + dcl_blq;:}
                ;
 
-DCL_BLQ::= DEFCTE:defcte     {: pushRegla("DCL_BLQ <%DEFCTE%>");
-                                RESULT = defcte;:}
-           | DEFVAR:defvar   {: pushRegla("DCL_BLQ <%DEFVAR%>");
-                                RESULT = defvar;:}
-           | DEFTYPE:deftype {: pushRegla("DCL_BLQ <%DEFTYPE%>");
-                                RESULT = deftype;:}
+DCL_BLQ::= DEFCTE:defcte     {: RESULT = defcte;:}
+           | DEFVAR:defvar   {: RESULT = defvar;:}
+           | DEFTYPE:deftype {: RESULT = deftype;:}
            ;
 
 /* ------------ SINTAXIS ESTRUCTURAS DE DATOS  ----------- */
 
-DEFTYPE ::= type {:htmlGenerator.indentLevel++;:}TYPELIST:typelist {: pushRegla("DEFTYPE <%type TYPELIST%>");
-                                                                      htmlGenerator.indentLevel--;
-                                                                      RESULT = htmlGenerator.getReservedWord("type ") + typelist;:};
+DEFTYPE ::= type {:htmlGenerator.indentLevel++;:}TYPELIST:typelist {: htmlGenerator.indentLevel--; RESULT = htmlGenerator.getReservedWord(htmlGenerator.getSent("type ")) + typelist;:};
 
-TYPELIST ::= identifier:i1 equal UDTYPE:udtype semicolons                       {: pushRegla("TYPELIST <%"+i1+" = UDTYPE ;%>");
-                                                                                   htmlGenerator.pushType(i1);
+TYPELIST ::= identifier:i1 equal UDTYPE:udtype semicolons                       {: htmlGenerator.pushType(i1);
                                                                                    RESULT =  htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i1) + " = " + udtype + htmlGenerator.getSentClose(";"));:}
-              | identifier:i2 equal UDTYPE:udtype semicolons TYPELIST:typelist  {: pushRegla("TYPELIST <%"+i2+" = UDTYPE ; TYPELIST%>");
-                                                                                   htmlGenerator.pushType(i2);
+              | identifier:i2 equal UDTYPE:udtype semicolons TYPELIST:typelist  {: htmlGenerator.pushType(i2);
                                                                                    RESULT =  htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i2) + " = " + udtype + htmlGenerator.getSentClose(";")) + typelist;:}
               ;
 
 UDTYPE ::= array open_square_bracket SIMPVALUE:simpvalue1 two_points SIMPVALUE:simpvalue2 close_square_bracket of ALLTYPES:alltypes {:
-                    pushRegla("UDTYPE <%array [ SIMPVALUE .. SIMPVALUE ] of ALLTYPES%>");
                     RESULT = htmlGenerator.getReservedWord("array ") + "[ " + htmlGenerator.checkRange(simpvalue1,simpvalue2) + " ]" + htmlGenerator.getReservedWord(" of ") + alltypes;:}
               | record {:htmlGenerator.indentLevel++;:}DEFVARLIST:defvarlist end {:
                     htmlGenerator.indentLevel--;
-                    pushRegla("UDTYPE <%record DEFVARLIST end%>");
                     RESULT = htmlGenerator.getReservedWord("record ") + defvarlist + htmlGenerator.getSentOpen(htmlGenerator.getReservedWord("end"));:}
               ;
 
-ALLTYPES ::= TBAS:tbas          {: pushRegla("ALLTYPES <%TBAS%>");
-                                   RESULT = tbas;:}
-             | identifier:i  {: pushRegla("ALLTYPES <%"+i+"%>");
-                                RESULT = htmlGenerator.getIdent(i);:}
+ALLTYPES ::= TBAS:tbas          {: RESULT = tbas;:}
+             | identifier:i     {: RESULT = htmlGenerator.getIdent(i);:}
              ;
 
 /* ------------ SINTAXIS SENTENCIAS DE CONTROL DE FLUJO  ----------- */
 
                          /* SENTENCIA IF */
 
-COND ::= if_t EXP:exp then_t {: htmlGenerator.sentCond = true; :} SENT:sent ELSECOND:elsecond {: pushRegla("COND <%if EXP then SENT ELSECOND%>");
+COND ::= if_t EXP:exp then_t {: htmlGenerator.sentCond = true; :} SENT:sent ELSECOND:elsecond {:
                                                             RESULT = htmlGenerator.getReservedWord("if ") + htmlGenerator.checkBool(exp) + htmlGenerator.getReservedWord(" then ") + sent + elsecond;:};
 
-ELSECOND ::=                    {: pushRegla("ELSECOND <%lambda%>");
-                                   RESULT = "";:}
-            | else_t {: htmlGenerator.sentCond = true; :} SENT:sent  {: pushRegla("ELSECOND <%else SENT%>");
-                                                                        RESULT = htmlGenerator.getSent(htmlGenerator.getReservedWord("else ")) + sent;:}
+ELSECOND ::=                    {: RESULT = "";:}
+            | else_t {: htmlGenerator.sentCond = true; :} SENT:sent  {: RESULT = htmlGenerator.getSent(htmlGenerator.getReservedWord("else ")) + sent;:}
             ;
 
                         /* SENTENCIA WHILE */
 
-WLOOP ::= while_t EXP:exp do_t  {: htmlGenerator.sentCond = true; :} SENT:sent {: pushRegla("WLOOP <%while EXP do SENT%>");
-                                                                                  RESULT = htmlGenerator.getReservedWord("while ") + exp + htmlGenerator.getReservedWord(" do ") + sent;:};
+WLOOP ::= while_t EXP:exp do_t  {: htmlGenerator.sentCond = true; :} SENT:sent {: RESULT = htmlGenerator.getReservedWord("while ") + exp + htmlGenerator.getReservedWord(" do ") + sent;:};
 
                         /* SENTENCIA FOR  */
 
-FLOOP ::= for_t identifier:i1 asig EXP:exp1 to EXP:exp2 do_t {: htmlGenerator.sentCond = true; :} SENT:sent {: pushRegla("FLOOP <%for "+i1+" := EXP to EXP do SENT%>");
-                                                                                                               RESULT = htmlGenerator.getReservedWord("for ") + htmlGenerator.getIdent(i1) +
+FLOOP ::= for_t identifier:i1 asig EXP:exp1 to EXP:exp2 do_t {: htmlGenerator.sentCond = true; :} SENT:sent {: RESULT = htmlGenerator.getReservedWord("for ") + htmlGenerator.getIdent(i1) +
                                                                                                                ":=" + exp1 + htmlGenerator.getReservedWord(" to ") + exp2 + htmlGenerator.getReservedWord(" do ") + sent;:};
 
                         /* SENTENCIA CASE */
 
 CASE ::= case_t EXP:exp of {:htmlGenerator.indentLevel++;:} CASELIST:caselist end {:
                                                     htmlGenerator.indentLevel--;
-                                                    pushRegla("CASE <%case EXP of CASELIST end%>");
                                                     RESULT = htmlGenerator.getReservedWord("case ") + exp + htmlGenerator.getReservedWord(" of ") +
                                                     caselist + htmlGenerator.getSent(htmlGenerator.getReservedWord("end"));:};
 
-CASELIST ::= EXP:exp colons SENT:sent                     {: pushRegla("CASELIST <%EXP : SENT%>");
-                                                             RESULT = htmlGenerator.getSent(exp + " : " + htmlGenerator.deleteTags(sent));:}
-             | EXP:exp colons SENT:sent CASELIST:caselist {: pushRegla("CASELIST <%EXP : SENT CASELIST%>");
-                                                             RESULT = htmlGenerator.getSent(exp + " : " + htmlGenerator.deleteTags(sent)) + caselist;:}
+CASELIST ::= EXP:exp colons SENT:sent                     {: RESULT = htmlGenerator.getSent(exp + " : " + htmlGenerator.deleteTags(sent));:}
+             | EXP:exp colons SENT:sent CASELIST:caselist {: RESULT = htmlGenerator.getSent(exp + " : " + htmlGenerator.deleteTags(sent)) + caselist;:}
              ;

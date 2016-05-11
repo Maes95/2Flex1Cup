@@ -1,23 +1,31 @@
 program EjemploNotable;
-function areaCuadrado ( lado: REAL ) : REAL ;
-type miArray = array [ 10 .. 5 ] of INTEGER ;
-var
-	resultado: REAL;
-        unArray: miArray;
-        otroArray: miArray;
-begin
-	resultado := +0.0;
-	unArray[1] := 0;
-	resultado := lado * lado + miArray[ 1 + 2 ];
-        unArray :=  otroArray;
-	areaCuadrado := resultado;
-end;
+	function areaCuadrado ( lado: REAL ) : REAL ;
+	type miArray = array [ 10 .. 5 ] of INTEGER ;
+	var
+		resultado: REAL;
+	        unArray: miArray;
+	        otroArray: miArray;
+	begin
+		resultado := +0.0;
+		unArray[1] := 0;
+		resultado := lado * lado + miArray[ 1 + 2 ];
+	        unArray :=  otroArray;
+		areaCuadrado := resultado;
+	end;
 
 function unaFuncion ( lado: REAL ) : REAL ;
+	function unaFuncion2 ( lado: REAL ) : REAL ;
+	var
+		resultado: REAL;
+	begin
+		resultado := +0.0;
+		lado := 1;
+	end;
 var
 	resultado: REAL;
 begin
 	resultado := +0.0;
+	lado := 2;
 end;
 
 procedure intercambio ( v1, v2: INTEGER )  ;
@@ -32,6 +40,7 @@ begin
 		v2 := aux;
 	end
 end;
+
 type
 	TVector = array [1..25] of REAL;
 	TPunto = record
@@ -44,6 +53,7 @@ var
 	medida: REAL;
 	valor1, valor2, v1, v2: INTEGER;
 begin
+	string := 'You''re fsdf';
 	medida := $4.A;
 	if ( v1 <> v2 ) then
 		valor1:= MAX div 2;

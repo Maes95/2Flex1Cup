@@ -281,7 +281,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 <STRING>
     {
       "'"                            { yybegin(YYINITIAL); return symbol(sym.string_literal, string.toString());}
-      "''"	                         { string.append('\'');}
+      "''"	                         { string.append( yytext() );}
       [^\n\r\'\\]+                   { string.append( yytext() ); }
       \\t                            { string.append('\t'); }
       \\\"                           { string.append('\"'); }
