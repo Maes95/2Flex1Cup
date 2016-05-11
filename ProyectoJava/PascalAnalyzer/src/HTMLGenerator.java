@@ -119,6 +119,7 @@ public class HTMLGenerator {
         // COMPROBAR QUE ALMENOS HAY UNA ASIGNACIÓN AL NOMBRE DE LA FUNCION
         if(!this.currentMethod.variables.contains(this.currentMethod.name)){
             html = getErrorFunc(html);
+            this.currentMethod.errores.add("La funcion "+this.currentMethod.name+" no tiene valor de retorno");
         }
         this.currentMethod.html = html;
         
@@ -202,8 +203,11 @@ public class HTMLGenerator {
       return "<span class='error'>" + t + "</span>";
     }
     
-    public String getErrorFunc(String t){
-      return "<div class='error'>" + t + "</div>";
+    public String getErrorFunc(String html){
+      // Sumamos 1 a la identacion porque se aplicará la misma que se aplica sobre el end siguiente (Salimos del bloque)
+      String error = "<div style='text-indent: " + (this.indentLevel+1)+ "cm'><span class='error'>"+this.currentMethod.name+" := ?</span></div>";
+      String errorCode = html.replace("<span class='palres'>end</span>;", error+"<span class='palres'>end</span>;");
+      return errorCode;
     }
 
     /*********************************************************************************************************
@@ -213,6 +217,7 @@ public class HTMLGenerator {
    /**
     * Elimina etiquetas HTML
      * @param s
+     * @return 
     */
 
     public static String deleteTags (String s){
@@ -223,6 +228,7 @@ public class HTMLGenerator {
     /**
      *  Obtiene el nombre de un método
      * @param s
+     * @return 
      */
     public String getMethodName (String s){
         return s.split("\\s+")[1];
@@ -234,6 +240,7 @@ public class HTMLGenerator {
     /**
      * Obtiene la cabecera de un método
      * @param s
+     * @return 
      */
     public String getMethodHeader (String s){
         return s.split(";")[0];
@@ -272,9 +279,9 @@ public class HTMLGenerator {
 
     public String checkAsig(String id, String exp){
         String s = id + " := " + exp;
-        //
-           this.currentMethod.variables.add(deleteTags(id));
-        //
+        // Añade la variable utilizada a la lista de variables
+        this.currentMethod.variables.add(deleteTags(id));
+        
         String type = this.currentMethod.defVariables.get(deleteTags(id));
         if( type != null && this.currentMethod.defTypes.contains(type)){
             this.currentMethod.errores.add("Asignación incorrecta de registro o matriz, deben asignarse elemento a elemento");
@@ -463,7 +470,9 @@ public class HTMLGenerator {
                                     +"border-radius: .28571429rem;"
                                     +"box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;"
                                 +"}"
-
+                                +"div.error * {"
+                                +"color: #db2828;"
+                                +"}"
                                 +"span.error * {"
                                 +"color: #db2828;"
                                 +"}";
