@@ -68,10 +68,10 @@ lado: REAL): REAL</a></li>
 </div>
 <div style='text-indent: 1cm'><a href='#valor1Principal'>valor1</a> := <span class='cte'>-3</span>;</div>
 <div style='text-indent: 1cm'><a href='#valor2Principal'>valor2</a> := <span class='cte'>$F6</span>;</div>
-<div style='text-indent: 1cm'><span class='palres'>while </span><a href='#medidaPrincipal'>medida</a> < <a href='#valor1Principal'>valor1</a><span class='palres'> do </span><div style='text-indent: 2cm'><a href='#medidaPrincipal'>medida</a> := <a href='#areaCuadradoPrincipal'>areaCuadrado</a> (<a href='#medidaPrincipal'>medida</a>) ;</div>
+<div style='text-indent: 1cm'><span class='palres'>while </span><span class='error'><span class='cte'>1</span> + <span class='cte'>2</span></span><span class='palres'> do </span><div style='text-indent: 2cm'><a href='#medidaPrincipal'>medida</a> := <a href='#areaCuadradoPrincipal'>areaCuadrado</a> (<a href='#medidaPrincipal'>medida</a>) ;</div>
 </div>
 <div style='text-indent: 1cm'><a href='#intercambioPrincipal'>intercambio</a> (<a href='#valor1Principal'>valor1</a>,<a href='#valor2Principal'>valor2</a>) ;</div>
-<div style='text-indent: 1cm'><span class='palres'>while </span><a href='#medidaPrincipal'>medida</a> < <a href='#valor1Principal'>valor1</a><span class='palres'> do </span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1Principal'>v1</a> <> <a href='#v2Principal'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
+<div style='text-indent: 1cm'><span class='palres'>while </span><a href='#medidaPrincipal'>medida</a> < <a href='#valor1Principal'>valor1</a><span class='palres'> do </span><div style='text-indent: 1cm'><span class='palres'>if </span><span class='error'>(<span class='cte'>1</span> + <span class='cte'>2</span>)</span><span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
 <div style='text-indent: 2cm'><a href='#auxPrincipal'>aux</a> := <span class='cte'>0</span>;</div>
 <div style='text-indent: 2cm'><a href='#auxPrincipal'>aux</a> := <a href='#v1Principal'>v1</a>;</div>
 <div style='text-indent: 2cm'><a href='#v1Principal'>v1</a> := <a href='#v2Principal'>v2</a>;</div>
@@ -94,6 +94,26 @@ lado: REAL): REAL</a></li>
 <span class='ident'>aux</span> : <span class='palres'> INTEGER</span>; </div>
 <span class='palres'><div style='text-indent: 0cm'>begin</div>
 </span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1intercambio'>v1</a> <> <a href='#v2intercambio'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
+<div style='text-indent: 2cm'><span class='palres'>case </span><span class='error'><a href='#valor3intercambio'>valor3</a></span><span class='palres'> of </span><div style='text-indent: 3cm'><span class='cte'>1</span> : resultado := 1;
+</div>
+<div style='text-indent: 3cm'><span class='cte'>2</span> : resultado := 2;
+</div>
+<div style='text-indent: 3cm'><span class='cte'>3</span> : resultado := 3;
+</div>
+<div style='text-indent: 3cm'><span class='cte'>4</span> : resultado := 4;
+</div>
+<div style='text-indent: 2cm'><span class='palres'>end</span></div>
+</div>
+<div style='text-indent: 2cm'><span class='palres'>case </span><a href='#auxintercambio'>aux</a><span class='palres'> of </span><div style='text-indent: 3cm'><span class='cte'>1</span> : resultado := 1;
+</div>
+<div style='text-indent: 3cm'><span class='cte'>2</span> : resultado := 2;
+</div>
+<div style='text-indent: 3cm'><span class='cte'>3</span> : resultado := 3;
+</div>
+<div style='text-indent: 3cm'><span class='cte'>4</span> : resultado := 4;
+</div>
+<div style='text-indent: 2cm'><span class='palres'>end</span></div>
+</div>
 <div style='text-indent: 2cm'><a href='#auxintercambio'>aux</a> := <span class='cte'>0</span>;</div>
 <div style='text-indent: 2cm'><a href='#auxintercambio'>aux</a> := <a href='#v1intercambio'>v1</a>;</div>
 <div style='text-indent: 2cm'><a href='#v1intercambio'>v1</a> := <a href='#v2intercambio'>v2</a>;</div>
@@ -114,10 +134,23 @@ lado: REAL): REAL</a></li>
 <span class='ident'>lado</span>:<span class='palres'> REAL</span>):<span class='palres'> REAL</span>;</div>
 <span class='palres'><div style='text-indent: 1cm'>var</div>
 </span><div style='text-indent: 2cm'><a name='resultadounaFuncion2'>
-<span class='ident'>resultado</span> : <span class='palres'> REAL</span>; </div>
+<span class='ident'>resultado</span>,<a name='bunaFuncion2'>
+<span class='ident'>b</span> : <span class='palres'> REAL</span>; </div>
+<div style='text-indent: 2cm'><a name='iunaFuncion2'>
+<span class='ident'>i</span> : <span class='palres'> INTEGER</span>; </div>
 <span class='palres'><div style='text-indent: 1cm'>begin</div>
 </span><div style='text-indent: 2cm'><a href='#resultadounaFuncion2'>resultado</a> := <span class='cte'>+0.0</span>;</div>
 <div style='text-indent: 2cm'><a href='#ladounaFuncion2'>lado</a> := <span class='cte'>1</span>;</div>
+<div style='text-indent: 2cm'><span class='palres'>for </span><a href='#iunaFuncion2'>i</a>:=<span class='cte'>1</span><span class='palres'> to </span><span class='cte'>10</span><span class='palres'> do </span><div style='text-indent: 2cm'><span class='palres'>begin</span></div>
+<div style='text-indent: 3cm'><a href='#valor4unaFuncion2'>valor4</a> := <a href='#valor4unaFuncion2'>valor4</a> + <a href='#iunaFuncion2'>i</a>;</div>
+<div style='text-indent: 3cm'><a href='#valor4unaFuncion2'>valor4</a> := <a href='#valor4unaFuncion2'>valor4</a> + <span class='cte'>2</span>;</div>
+<div style='text-indent: 2cm'><span class='palres'>end</span></div>
+</div>
+<div style='text-indent: 2cm'><span class='palres'>for </span><span class='error'><a href='#bunaFuncion2'>b</a></span>:=<span class='cte'>1</span><span class='palres'> to </span><span class='cte'>10</span><span class='palres'> do </span><div style='text-indent: 2cm'><span class='palres'>begin</span></div>
+<div style='text-indent: 3cm'><a href='#valor4unaFuncion2'>valor4</a> := <a href='#valor4unaFuncion2'>valor4</a> + <a href='#iunaFuncion2'>i</a>;</div>
+<div style='text-indent: 3cm'><a href='#valor4unaFuncion2'>valor4</a> := <a href='#valor4unaFuncion2'>valor4</a> + <span class='cte'>2</span>;</div>
+<div style='text-indent: 2cm'><span class='palres'>end</span></div>
+</div>
 <div style='text-indent: 2cm'><span class='error'>unaFuncion2 := ?</span></div><span class='palres'><div style='text-indent: 1cm'>end;</div>
 </span>
 <span class='palres'><div style='text-indent: 0cm'>var</div>

@@ -16,10 +16,22 @@ program EjemploNotable;
 function unaFuncion ( lado: REAL ) : REAL ;
 	function unaFuncion2 ( lado: REAL ) : REAL ;
 	var
-		resultado: REAL;
+		resultado, b: REAL;
+		i: INTEGER;
 	begin
 		resultado := +0.0;
 		lado := 1;
+		for i := 1 to 10 do
+		begin
+		    valor4 := valor4 + i;
+				valor4 := valor4 + 2;
+		end
+
+		for b := 1 to 10 do
+		begin
+				valor4 := valor4 + i;
+				valor4 := valor4 + 2;
+		end
 	end;
 var
 	resultado: REAL;
@@ -34,6 +46,21 @@ var
 begin
 	if ( v1 <> v2 ) then
 	begin
+
+		case valor3 of
+		    1 : resultado := 1;
+		    2 : resultado := 2;
+		    3 : resultado := 3;
+		    4 : resultado := 4;
+		end
+
+		case aux of
+		    1 : resultado := 1;
+		    2 : resultado := 2;
+		    3 : resultado := 3;
+		    4 : resultado := 4;
+		end
+
 		aux := 0;
 		aux := v1;
 		v1 := v2;
@@ -63,10 +90,10 @@ begin
 	if ( v1 <> v2 ) then intercambio(valor1, valor2);
 	valor1 := -3;
 	valor2 := $F6;
-	while medida < valor1 do medida := areaCuadrado( medida );
+	while 1 + 2 do medida := areaCuadrado( medida );
 	intercambio(valor1, valor2);
 	while medida < valor1 do
-	if ( v1 <> v2 ) then
+	if ( 1 + 2 ) then
 	begin
 		aux := 0;
 		aux := v1;
