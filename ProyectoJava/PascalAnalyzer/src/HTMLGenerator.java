@@ -62,6 +62,8 @@ public class HTMLGenerator {
         this.CABECERA_HASTA_BODY =  "<!DOCTYPE html>\n" +
                                     "<html>\n" +
                                     "<head>\n" +
+                                    "<meta charset='UTF-8'/>\n" +
+                                    "<meta name='viewport' content='width=device-width, initial-scale=1'>"+
                                     "<title>"+this.fileName+"</title>\n" +
                                     this.getLibraries() +
                                     this.getInitialStyle() +
@@ -550,9 +552,14 @@ public class HTMLGenerator {
             "    bottom: 100%;" +
             "    left: 50%;" +
             "    margin-left: -60px;" +
+            "    opacity:0;" +
+            "    transition:opacity 0.3s ease-in;" +
+            "    -webkit-transition: opacity 0.3s ease-in;" +
+            "    -moz-transition: opacity 0.3s ease-in;;"+
             "}" +
             ".tooltipSP:hover .tooltiptextSP {" +
-            "    visibility: visible;" +
+            "    visibility: visible;"+
+            "    opacity: 0.9;"+
             "}";
 
     /*********************************************************************************************************
