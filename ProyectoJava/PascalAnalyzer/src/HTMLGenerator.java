@@ -87,7 +87,7 @@ public class HTMLGenerator {
    /**
      * Comienza el ámbito de un procedimiento o función
      * @param name
-     * @param function
+     * @param isFunction
      */
 
     public void addMethod(String name, boolean isFunction){
@@ -150,7 +150,7 @@ public class HTMLGenerator {
      * @param s
      */
 
-    public void updateLastDcl (String s){
+    public void updateLastDcl(String s){
         if(isMain()){
           this.mainProgramDcl += s;
         }
@@ -276,7 +276,7 @@ public class HTMLGenerator {
 
     public void pushVar(String varlist, String alltypes){
         String varlistClean = deleteTags(varlist);
-        String alltypesClean = deleteTags(alltypes);
+        String alltypesClean = deleteTags(alltypes).trim();
         for(String var : varlistClean.split(",")){
             this.currentMethod.defVariables.put(var.trim(),alltypesClean);
         }
@@ -291,8 +291,29 @@ public class HTMLGenerator {
         this.currentMethod.defTypes.add(type);
     }
 
-    public String checkBool(String exp){
-      return exp; // POR HACER
+    public String checkBool(String tipo, String exp){
+      if(!"BOOLEAN".equals(tipo)){
+          this.currentMethod.errores.add("Se esperaba una expresion de tipo booleano");
+          return this.getError(exp);
+      }
+      return exp; 
+    }
+    
+    public String checkInt(String tipo, String exp){
+      if(!"INTEGER".equals(tipo)){
+          String var = deleteTags(exp);
+          if(this.existVar(var)){
+              if("INTEGER".equals(this.currentMethod.defVariables.get(var))){
+                  return exp;  
+              }else{
+                  this.currentMethod.errores.add(var+" variable / expresion no valida");
+                  return this.getError(var); 
+              }
+          }
+          this.currentMethod.errores.add("Se esperaba una expresion de tipo entero");
+          return this.getError(exp);
+      }
+      return exp; 
     }
 
     public String checkAsig(String id, String exp){
@@ -308,8 +329,21 @@ public class HTMLGenerator {
         return s;
     }
 
-    public String checkInt(String n){
-        return n; // POR HACER
+    public String checkIntVar(String n){
+        String s = "<a href='#" + n + this.currentMethod.name + "'>" + n + "</a>";
+        if("INTEGER".equals(this.currentMethod.defVariables.get(n))){
+            return s;
+        }else if(!this.existVar(n)){
+            this.currentMethod.errores.add(n+" variable no definida");
+            return this.getError(s); 
+        }else{
+            this.currentMethod.errores.add(n+" debe ser una variable entera");
+            return this.getError(s); // Orden incorrecto
+        }
+    }
+    
+    public boolean existVar(String s){
+        return this.currentMethod.defVariables.get(s) != null;
     }
 
     public String checkReturnParam(String blq){
