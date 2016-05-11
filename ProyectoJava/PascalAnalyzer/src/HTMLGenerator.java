@@ -165,7 +165,10 @@ public class HTMLGenerator {
         return "<a href='#" + s + this.currentMethod.name + "'>" + s + "</a>";
     }
 
-    public String getIdentOfMethod (String s){
+    public String getIdentOfMethod (String s, String m){
+        if(m==""){
+            return getIdent(s);
+        }
         return "<a href='#" + s +"'>" + s + "</a>";
     }
 
@@ -213,8 +216,8 @@ public class HTMLGenerator {
         return getSent(getReservedWord(t));
     }
 
-    public String getError(String t){
-      return "<span class='error'>" + t + "</span>";
+    public String getError(String t, String msg){
+      return "<span class='error tooltipSP noIndet'>" + t + "<span class='tooltiptextSP noIndent'>" + msg + "</span></span>";
     }
 
 
@@ -256,7 +259,6 @@ public class HTMLGenerator {
 
     /**
      * Devuelve true si es el metodo principal
-     * @param s
      * @return
      */
     public boolean isMain(){
@@ -294,7 +296,7 @@ public class HTMLGenerator {
     public String checkBool(String tipo, String exp){
       if(!"BOOLEAN".equals(tipo)){
           this.currentMethod.errores.add("Se esperaba una expresion de tipo booleano");
-          return this.getError(exp);
+          return this.getError(exp, "Se esperaba una expresion de tipo booleano");
       }
       return exp; 
     }
@@ -307,11 +309,11 @@ public class HTMLGenerator {
                   return exp;  
               }else{
                   this.currentMethod.errores.add(var+" variable / expresion no valida");
-                  return this.getError(var); 
+                  return this.getError(var, var+" variable / expresion no valida");
               }
           }
           this.currentMethod.errores.add("Se esperaba una expresion de tipo entero");
-          return this.getError(exp);
+          return this.getError(exp, "Se esperaba una expresion de tipo entero");
       }
       return exp; 
     }
@@ -324,7 +326,7 @@ public class HTMLGenerator {
         String type = this.currentMethod.defVariables.get(deleteTags(id));
         if( type != null && this.currentMethod.defTypes.contains(type)){
             this.currentMethod.errores.add("Asignación incorrecta de registro o matriz, deben asignarse elemento a elemento");
-            return this.getError(s);
+            return this.getError(s, "Asignación incorrecta de registro o matriz, deben asignarse elemento a elemento");
         }
         return s;
     }
@@ -335,10 +337,10 @@ public class HTMLGenerator {
             return s;
         }else if(!this.existVar(n)){
             this.currentMethod.errores.add(n+" variable no definida");
-            return this.getError(s); 
+            return this.getError(s, n+": variable no definida");
         }else{
             this.currentMethod.errores.add(n+" debe ser una variable entera");
-            return this.getError(s); // Orden incorrecto
+            return this.getError(s, n+" debe ser una variable entera"); // Orden incorrecto
         }
     }
     
@@ -365,12 +367,12 @@ public class HTMLGenerator {
             int v2 = Integer.parseInt(deleteTags(simpvalue2));
             if(v1 > v2){
               this.currentMethod.errores.add(" "+v2+" debe ser mayor que "+v1);
-              return this.getError(s); // Orden incorrecto
+              return this.getError(s,msg + " " + v2+" debe ser mayor que "+v1); // Orden incorrecto
             }
             return  s;
       }catch(NumberFormatException e){
             this.currentMethod.errores.add(" los indices deben ser números enteros");
-            return this.getError(s);   // No numerico
+            return this.getError(s, msg + " los indices deben ser números enteros");   // No numerico
       }
     }
 
@@ -474,8 +476,9 @@ public class HTMLGenerator {
                         ".cte {color:rgb(19,189,72);}" +
                         ".ident {color:rgb(55,40,244);}" +
                         ".palres {color:rgb(0,0,0);font-weight:bold;}" +
-                        errorStyle+
-                        selectionStyle+
+                        errorStyle +
+                        selectionStyle +
+                        tooltipStyle +
                         ".ui.segments .segment, .ui.segment {padding-left: 2em;}"+
                         "a[name] {text-decoration: none !important;}" +
                         ".selected {background-color: gray;}";
@@ -491,8 +494,9 @@ public class HTMLGenerator {
                         ".cte {color:hsl( 29, 54%, 61%);}" +
                         ".ident {color: hsl(207, 82%, 66%);}" +
                         ".palres {color:hsl(286, 60%, 67%);}" +
-                        errorStyle+
-                        selectionStyle+
+                        errorStyle +
+                        selectionStyle +
+                        tooltipStyle +
                         "body {background-color: hsl(222, 11%, 12%);}"+
                         ".ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}"+
                         ".ui.segment {background-color: hsl(222, 11%, 18%) !important;}"+
@@ -527,6 +531,29 @@ public class HTMLGenerator {
             +"span.error * {"
             +"color: #db2828;"
             +"}";
+
+    private final String tooltipStyle = " .tooltipSP {" +
+            "    position: relative;" +
+            "    cursor: pointer;"+
+            "}" +
+            ".noIndent{text-indent: 0cm !important;}"+
+            ".tooltipSP .tooltiptextSP {" +
+            "    visibility: hidden;" +
+            "    width: 120px;" +
+            "    background-color: black;" +
+            "    color: #fff;" +
+            "    text-align: center;" +
+            "    border-radius: 6px;" +
+            "    padding: 5px 0;" +
+            "    position: absolute;" +
+            "    z-index: 1;" +
+            "    bottom: 100%;" +
+            "    left: 50%;" +
+            "    margin-left: -60px;" +
+            "}" +
+            ".tooltipSP:hover .tooltiptextSP {" +
+            "    visibility: visible;" +
+            "}";
 
     /*********************************************************************************************************
                                             LIBRERIAS
