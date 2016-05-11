@@ -24,6 +24,9 @@ public class HTMLGenerator {
                                         "</div>\n" +
                                         "</div>\n" +
                                         "<div class='row' style='height: 5em;'></div>\n\n" +
+                                        "<script>$('a[href^=\"#\"]').click(function(e){ \n   $('.selected').removeClass('selected');\n" +
+                                        "var name = e.target.getAttribute('href').substring(1);\n   $('a[name=\"' + name + '\"]').find('span[class=\"ident\"]').addClass('selected');\n" +
+                                        "$('html, body').animate({scrollTop: $('[name=\"' + name + '\"]').offset().top}, 250);});</script>" +
                                         "</body>\n" +
                                         "</html>";
 
@@ -160,6 +163,10 @@ public class HTMLGenerator {
 
     public String getIdent (String s){
         return "<a href='#" + s + this.currentMethod.name + "'>" + s + "</a>";
+    }
+
+    public String getIdentOfMethod (String s){
+        return "<a href='#" + s +"'>" + s + "</a>";
     }
 
     public String getConst (String s){
@@ -434,8 +441,10 @@ public class HTMLGenerator {
                         ".ident {color:rgb(55,40,244);}" +
                         ".palres {color:rgb(0,0,0);font-weight:bold;}" +
                         errorStyle+
+                        selectionStyle+
                         ".ui.segments .segment, .ui.segment {padding-left: 2em;}"+
-                        "a[name] {text-decoration: none !important;}";
+                        "a[name] {text-decoration: none !important;}" +
+                        ".selected {background-color: gray;}";
         return style;
     }
 
@@ -449,6 +458,7 @@ public class HTMLGenerator {
                         ".ident {color: hsl(207, 82%, 66%);}" +
                         ".palres {color:hsl(286, 60%, 67%);}" +
                         errorStyle+
+                        selectionStyle+
                         "body {background-color: hsl(222, 11%, 12%);}"+
                         ".ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}"+
                         ".ui.segment {background-color: hsl(222, 11%, 18%) !important;}"+
@@ -458,6 +468,32 @@ public class HTMLGenerator {
         return style;
     }
 
+    private final String errorStyle = ".error {color: #db2828 !important;"
+            +"background-color: #ffe8e6;"
+            +"padding: 0.2em;"
+            +"border-radius: .28571429rem;"
+            +"box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;"
+            +"}"
+            +"div.error * {"
+            +"color: #db2828;"
+            +"}"
+            +"span.error * {"
+            +"color: #db2828;"
+            +"}";
+
+    private final String selectionStyle = ".selected {color: #FFFFFF !important;"
+            +"background-color: #828282;"
+            +"padding: 0.2em;"
+            +"border-radius: .28571429rem;"
+            +"box-shadow: 0 0 0 1px #8C8C8C inset,0 0 0 0 transparent;"
+            +"}"
+            +"div.error * {"
+            +"color: #db2828;"
+            +"}"
+            +"span.error * {"
+            +"color: #db2828;"
+            +"}";
+
     /*********************************************************************************************************
                                             LIBRERIAS
      *********************************************************************************************************/
@@ -466,7 +502,9 @@ public class HTMLGenerator {
         String scripts =    "\n<!-- Bootstrap -->\n" +
                             "<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7' crossorigin='anonymous'>\n" +
                             "<!-- Semantic UI -->\n" +
-                            "<link rel='stylesheet' href='https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css'>\n";
+                            "<link rel='stylesheet' href='https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css'>\n"+
+                            "\n<!-- jQuery -->\n" +
+                            "<script src='https://code.jquery.com/jquery-2.2.3.min.js' integrity='sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=' crossorigin='anonymous'></script>";
         return scripts;
     }
 
@@ -486,17 +524,5 @@ public class HTMLGenerator {
                          "</script>\n";
         return scripts;
     }
-    private final String errorStyle = ".error{color: #db2828 !important;"
-                                    +"background-color: #ffe8e6;"
-                                    +"padding: 0.2em;"
-                                    +"border-radius: .28571429rem;"
-                                    +"box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;"
-                                +"}"
-                                +"div.error * {"
-                                +"color: #db2828;"
-                                +"}"
-                                +"span.error * {"
-                                +"color: #db2828;"
-                                +"}";
 
 }
