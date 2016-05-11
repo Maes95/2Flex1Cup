@@ -96,7 +96,7 @@ BLQ::= DCLLIST:dcllist begin{: htmlGenerator.indentLevel++;:} SENTLIST:sentlist 
                                                       {: htmlGenerator.indentLevel--;
 
                                                       htmlGenerator.getMainProgram(sentlist);
-                                                      RESULT = dcllist + htmlGenerator.getReservedWord("begin") + htmlGenerator.checkReturnParam(sentlist) + htmlGenerator.getReservedWord("end");:};
+                                                      RESULT = dcllist + htmlGenerator.getReservedWord(htmlGenerator.getSent("begin")) + htmlGenerator.checkReturnParam(sentlist) + htmlGenerator.getReservedWord(htmlGenerator.getIndentationEnd());:};
 
 DCLLIST::=                          {:
                                        RESULT = "";:}
@@ -152,11 +152,9 @@ VARLIST::= identifier:i1                         {: RESULT = htmlGenerator.getId
            ;
 
 DEFPROC::=  procedure identifier:i1 {: htmlGenerator.addMethod(i1, false); :}FORMAL_PARAMLIST:formal_paramlist semicolons BLQ:blq semicolons {:
-
                     RESULT = htmlGenerator.getProc(i1, formal_paramlist, blq);:};
 
 DEFFUN::=  function identifier:i2 {: htmlGenerator.addMethod(i2, true); :}FORMAL_PARAMLIST:formal_paramlist colons ALLTYPES:alltypes semicolons BLQ:blq semicolons {:
-
                     RESULT = htmlGenerator.getFunc(i2, formal_paramlist, alltypes, blq);:};
 
 FORMAL_PARAMLIST::=                                                        {: RESULT = "";:}

@@ -119,7 +119,7 @@ public class HTMLGenerator {
      */
 
     public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
-        String html = "<a name='" + id + "'>" + getSent(this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";") +blq + ";\n";
+        String html = "<a name='" + id + "'>" + getSent(this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";") +blq + "\n";
         this.currentMethod.setCabecera(html);
         this.currentMethod.html = html;
         backMethod();
@@ -135,7 +135,7 @@ public class HTMLGenerator {
      */
 
     public String getProc(String id, String formal_paramlist, String blq) {
-        String html = "<a name='" + id + "'>" + getSent(this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";")+ blq + ";\n";
+        String html = "<a name='" + id + "'>" + getSent(this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";")+ blq + "\n";
         this.currentMethod.html = html;
         this.currentMethod.setCabecera(html);
         backMethod();
@@ -172,6 +172,13 @@ public class HTMLGenerator {
           return "<div style='text-indent: " + (this.indentLevel + 1) + "cm'>" + s + "</div>\n";
         }
         return "<div style='text-indent: " + this.indentLevel + "cm'>" + s + "</div>\n";
+    }
+
+    public String getIndentationEnd(){
+        if(!sentCond){
+          return getSent("end;");
+        }
+        return getSent("end");
     }
 
     public String getSentOpen (String s){
