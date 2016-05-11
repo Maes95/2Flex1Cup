@@ -36,7 +36,8 @@ lado: REAL): REAL</a></li>
 
 <div class='ui segment'><a name='ProgPpal'>
 <h2>Programa Principal</h2>
-<span class='palres'>type </span><div style='text-indent: 1cm'><a name='TVectorPrincipal'>
+<span class='palres'><div style='text-indent: 0cm'>type </div>
+</span><div style='text-indent: 1cm'><a name='TVectorPrincipal'>
 <span class='ident'>TVector</span> = <span class='palres'>array </span>[ <span class='cte'>1</span> .. <span class='cte'>25</span> ]<span class='palres'> of </span><span class='palres'> REAL</span>;</div>
 <div style='text-indent: 1cm'><a name='TPuntoPrincipal'>
 <span class='ident'>TPunto</span> = <span class='palres'>record </span><div style='text-indent: 2cm'><a name='coordenadaXPrincipal'>
@@ -45,9 +46,11 @@ lado: REAL): REAL</a></li>
 <span class='ident'>coordenadaY</span> : <span class='palres'> INTEGER</span>; </div>
 <div style='text-indent: 1cm'><span class='palres'>end</span>;</div>
 </div>
-<span class='palres'>const</span><div style='text-indent: 1cm'><a name='MAXPrincipal'>
+<span class='palres'><div style='text-indent: 0cm'>const</div>
+</span><div style='text-indent: 1cm'><a name='MAXPrincipal'>
 <span class='ident'>MAX</span>=<span class='cte'>2</span>;</div>
-<span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='medidaPrincipal'>
+<span class='palres'><div style='text-indent: 0cm'>var</div>
+</span><div style='text-indent: 1cm'><a name='medidaPrincipal'>
 <span class='ident'>medida</span> : <span class='palres'> REAL</span>; </div>
 <div style='text-indent: 1cm'><a name='valor1Principal'>
 <span class='ident'>valor1</span>,<a name='valor2Principal'>
@@ -55,6 +58,7 @@ lado: REAL): REAL</a></li>
 <span class='ident'>v1</span>,<a name='v2Principal'>
 <span class='ident'>v2</span> : <span class='palres'> INTEGER</span>; </div>
 <span class='palres'>begin</span>
+<div style='text-indent: 1cm'><a href='#stringPrincipal'>string</a> := <span class='cte'>'You''re fsdf''</span>;</div>
 <div style='text-indent: 1cm'><a href='#medidaPrincipal'>medida</a> := <span class='cte'>$4.A</span>;</div>
 <div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1Principal'>v1</a> <> <a href='#v2Principal'>v2</a>)<span class='palres'> then </span><div style='text-indent: 2cm'><a href='#valor1Principal'>valor1</a> := <a href='#MAXPrincipal'>MAX</a> div <span class='cte'>2</span>;</div>
 <div style='text-indent: 1cm'><span class='palres'>else </span></div>
@@ -82,9 +86,11 @@ lado: REAL): REAL</a></li>
 </div>
 </div>
 
-<div class='ui segment'><a name='intercambio'><span class='palres'>procedure </span>intercambio (<a name='v1intercambio'>
+<div class='ui segment'><a name='intercambio'><div style='text-indent: 0cm'><span class='palres'>procedure </span>intercambio (<a name='v1intercambio'>
 <span class='ident'>v1</span>,<a name='v2intercambio'>
-<span class='ident'>v2</span>:<span class='palres'> INTEGER</span>);</br><span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='auxintercambio'>
+<span class='ident'>v2</span>:<span class='palres'> INTEGER</span>);</div>
+<span class='palres'><div style='text-indent: 0cm'>var</div>
+</span><div style='text-indent: 1cm'><a name='auxintercambio'>
 <span class='ident'>aux</span> : <span class='palres'> INTEGER</span>; </div>
 <span class='palres'>begin</span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1intercambio'>v1</a> <> <a href='#v2intercambio'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
 <div style='text-indent: 2cm'><a href='#auxintercambio'>aux</a> := <span class='cte'>0</span>;</div>
@@ -100,10 +106,21 @@ lado: REAL): REAL</a></li>
 <a class='mini ui secondary button' style='display: inline-block;' href='#inicio'>Inicio de programa</a></div>
 </div>
 
-<div class='ui segment'><a name='unaFuncion'><span class='palres'>function </span>unaFuncion (<a name='ladounaFuncion'>
-<span class='ident'>lado</span>:<span class='palres'> REAL</span>):<span class='palres'> REAL</span>;</br><span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='resultadounaFuncion'>
+<div class='ui segment'><a name='unaFuncion'><div style='text-indent: 0cm'><span class='palres'>function </span>unaFuncion (<a name='ladounaFuncion'>
+<span class='ident'>lado</span>:<span class='palres'> REAL</span>):<span class='palres'> REAL</span>;</div>
+<a name='unaFuncion2'><div style='text-indent: 1cm'><span class='palres'>function </span>unaFuncion2 (<a name='ladounaFuncion2'>
+<span class='ident'>lado</span>:<span class='palres'> REAL</span>):<span class='palres'> REAL</span>;</div>
+<span class='palres'><div style='text-indent: 1cm'>var</div>
+</span><div style='text-indent: 2cm'><a name='resultadounaFuncion2'>
+<span class='ident'>resultado</span> : <span class='palres'> REAL</span>; </div>
+<span class='palres'>begin</span><div style='text-indent: 2cm'><a href='#resultadounaFuncion2'>resultado</a> := <span class='cte'>+0.0</span>;</div>
+<div style='text-indent: 2cm'><a href='#ladounaFuncion2'>lado</a> := <span class='cte'>1</span>;</div>
+<div style='text-indent: 2cm'><span class='error'>unaFuncion2 := ?</span></div><span class='palres'>end</span>;
+<span class='palres'><div style='text-indent: 0cm'>var</div>
+</span><div style='text-indent: 1cm'><a name='resultadounaFuncion'>
 <span class='ident'>resultado</span> : <span class='palres'> REAL</span>; </div>
 <span class='palres'>begin</span><div style='text-indent: 1cm'><a href='#resultadounaFuncion'>resultado</a> := <span class='cte'>+0.0</span>;</div>
+<div style='text-indent: 1cm'><a href='#ladounaFuncion'>lado</a> := <span class='cte'>2</span>;</div>
 <div style='text-indent: 1cm'><span class='error'>unaFuncion := ?</span></div><span class='palres'>end</span>;
 <br/>
 <div style='text-align: center;'>
@@ -111,10 +128,13 @@ lado: REAL): REAL</a></li>
 <a class='mini ui secondary button' style='display: inline-block;' href='#inicio'>Inicio de programa</a></div>
 </div>
 
-<div class='ui segment'><a name='areaCuadrado'><span class='palres'>function </span>areaCuadrado (<a name='ladoareaCuadrado'>
-<span class='ident'>lado</span>:<span class='palres'> REAL</span>):<span class='palres'> REAL</span>;</br><span class='palres'>type </span><div style='text-indent: 1cm'><a name='miArrayareaCuadrado'>
+<div class='ui segment'><a name='areaCuadrado'><div style='text-indent: 0cm'><span class='palres'>function </span>areaCuadrado (<a name='ladoareaCuadrado'>
+<span class='ident'>lado</span>:<span class='palres'> REAL</span>):<span class='palres'> REAL</span>;</div>
+<span class='palres'><div style='text-indent: 0cm'>type </div>
+</span><div style='text-indent: 1cm'><a name='miArrayareaCuadrado'>
 <span class='ident'>miArray</span> = <span class='palres'>array </span>[ <span class='error'><span class='cte'>10</span> .. <span class='cte'>5</span></span> ]<span class='palres'> of </span><span class='palres'> INTEGER</span>;</div>
-<span class='palres'>var <br/></span><div style='text-indent: 1cm'><a name='resultadoareaCuadrado'>
+<span class='palres'><div style='text-indent: 0cm'>var</div>
+</span><div style='text-indent: 1cm'><a name='resultadoareaCuadrado'>
 <span class='ident'>resultado</span> : <span class='palres'> REAL</span>; </div>
 <div style='text-indent: 1cm'><a name='unArrayareaCuadrado'>
 <span class='ident'>unArray</span> : <a href='#miArrayareaCuadrado'>miArray</a>; </div>

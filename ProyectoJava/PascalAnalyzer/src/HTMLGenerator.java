@@ -41,7 +41,6 @@ public class HTMLGenerator {
     // Variables de estado
 
     public boolean sentCond;        // Indica si se esta dentro de una sentencia de control de flujo
-    public boolean inProcFun;       // Variable que indica si estamos dentro de un procedimiento o funcion
     public int indentLevel;         // Nivel de identación actual
     private boolean openDiv;
 
@@ -54,7 +53,6 @@ public class HTMLGenerator {
         this.methods = new HashMap<>();
         this.indentLevel = 0;
         this.sentCond = false;
-        this.inProcFun = false;
         this.openDiv = false;
         this.fileName = this.fileName.replaceAll("(src/|.txt)", "");
 
@@ -82,25 +80,33 @@ public class HTMLGenerator {
     public void getMainProgram(String s){
         this.mainProgram = s;
     }
-    
+
    /**
      * Comienza el ámbito de un procedimiento o función
      * @param name
+     * @param function
      */
 
-    public void addMethod(String name){
+    public void addMethod(String name, boolean isFunction){
         Method newFunc = new Method(name, this.currentMethod);
-        this.methods.put(newFunc.name, newFunc);
+        newFunc.function = isFunction;
+        if(isMain()){
+           this.methods.put(newFunc.name, newFunc);
+        }else{
+           this.indentLevel++;
+        }
         this.currentMethod = newFunc;
     }
-    
+
    /**
      * El ambito de función actual volverá a ser el del padre
      */
 
     public void backMethod(){
+        this.indentLevel= Math.max(0, indentLevel - 1);
         // El main nunca llegaria aqui, solo se llega tras reconocer un método
         this.currentMethod = this.currentMethod.padre;
+
     }
 
    /**
@@ -109,34 +115,27 @@ public class HTMLGenerator {
      * @param formal_paramlist
      * @param alltypes
      * @param blq
-     * @return 
+     * @return
      */
-    
+
     public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
-        String html = "<a name='" + id + "'>" + this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";" + "</br>" + blq + ";\n";    
-        this.currentMethod.setCabecera(html);  
-        
-        // COMPROBAR QUE ALMENOS HAY UNA ASIGNACIÓN AL NOMBRE DE LA FUNCION
-        if(!this.currentMethod.variables.contains(this.currentMethod.name)){
-            html = getErrorFunc(html);
-            this.currentMethod.errores.add("La funcion "+this.currentMethod.name+" no tiene valor de retorno");
-        }
+        String html = "<a name='" + id + "'>" + getSent(this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";") +blq + ";\n";
+        this.currentMethod.setCabecera(html);
         this.currentMethod.html = html;
-        
         backMethod();
         return html; // SOLO PARA METODOS DENTRO DE METODOS
     }
-    
+
    /**
      * Termina el ámbito de un procedimiento
      * @param id
      * @param formal_paramlist
      * @param blq
-     * @return 
+     * @return
      */
 
     public String getProc(String id, String formal_paramlist, String blq) {
-        String html = "<a name='" + id + "'>" + this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";"  + "</br>" + blq + ";\n";
+        String html = "<a name='" + id + "'>" + getSent(this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";")+ blq + ";\n";
         this.currentMethod.html = html;
         this.currentMethod.setCabecera(html);
         backMethod();
@@ -149,8 +148,9 @@ public class HTMLGenerator {
      */
 
     public void updateLastDcl (String s){
-        if(!this.inProcFun)
+        if(isMain()){
           this.mainProgramDcl += s;
+        }
     }
 
     /*********************************************************************************************************
@@ -202,13 +202,7 @@ public class HTMLGenerator {
     public String getError(String t){
       return "<span class='error'>" + t + "</span>";
     }
-    
-    public String getErrorFunc(String html){
-      // Sumamos 1 a la identacion porque se aplicará la misma que se aplica sobre el end siguiente (Salimos del bloque)
-      String error = "<div style='text-indent: " + (this.indentLevel+1)+ "cm'><span class='error'>"+this.currentMethod.name+" := ?</span></div>";
-      String errorCode = html.replace("<span class='palres'>end</span>;", error+"<span class='palres'>end</span>;");
-      return errorCode;
-    }
+
 
     /*********************************************************************************************************
                                                 METODOS AUXILIARES
@@ -217,7 +211,7 @@ public class HTMLGenerator {
    /**
     * Elimina etiquetas HTML
      * @param s
-     * @return 
+     * @return
     */
 
     public static String deleteTags (String s){
@@ -228,7 +222,7 @@ public class HTMLGenerator {
     /**
      *  Obtiene el nombre de un método
      * @param s
-     * @return 
+     * @return
      */
     public String getMethodName (String s){
         return s.split("\\s+")[1];
@@ -240,22 +234,32 @@ public class HTMLGenerator {
     /**
      * Obtiene la cabecera de un método
      * @param s
-     * @return 
+     * @return
      */
     public String getMethodHeader (String s){
         return s.split(";")[0];
     }
 
+    /**
+     * Devuelve true si es el metodo principal
+     * @param s
+     * @return
+     */
+    public boolean isMain(){
+        return this.currentMethod.padre == null;
+    }
+
+
     /*********************************************************************************************************
                                               METODOS DE COMPROBACIÓN
      *********************************************************************************************************/
-    
+
     /**
      *  Introduce una o varias variables en el método actual con su respectivo tipo
      * @param varlist
      * @param alltypes
      */
-    
+
     public void pushVar(String varlist, String alltypes){
         String varlistClean = deleteTags(varlist);
         String alltypesClean = deleteTags(alltypes);
@@ -263,16 +267,16 @@ public class HTMLGenerator {
             this.currentMethod.defVariables.put(var.trim(),alltypesClean);
         }
     }
-    
+
     /**
      *  Introduce un tipo en la declaración de tipos de un método
      * @param type
      */
-    
+
     public void pushType(String type){
         this.currentMethod.defTypes.add(type);
     }
-    
+
     public String checkBool(String exp){
       return exp; // POR HACER
     }
@@ -281,7 +285,7 @@ public class HTMLGenerator {
         String s = id + " := " + exp;
         // Añade la variable utilizada a la lista de variables
         this.currentMethod.variables.add(deleteTags(id));
-        
+
         String type = this.currentMethod.defVariables.get(deleteTags(id));
         if( type != null && this.currentMethod.defTypes.contains(type)){
             this.currentMethod.errores.add("Asignación incorrecta de registro o matriz, deben asignarse elemento a elemento");
@@ -292,6 +296,17 @@ public class HTMLGenerator {
 
     public String checkInt(String n){
         return n; // POR HACER
+    }
+
+    public String checkReturnParam(String blq){
+        // COMPROBAR QUE ALMENOS HAY UNA ASIGNACIÓN AL NOMBRE DE LA FUNCION
+        if(this.currentMethod.function
+                && !this.currentMethod.variables.contains(this.currentMethod.name)){
+            String error = "<div style='text-indent: " + (this.indentLevel+1)+ "cm'><span class='error'>"+this.currentMethod.name+" := ?</span></div>";
+            blq = blq + error;
+            this.currentMethod.errores.add("La funcion "+this.currentMethod.name+" no tiene valor de retorno");
+        }
+        return blq;
     }
 
     public String checkRange(String simpvalue1, String simpvalue2){

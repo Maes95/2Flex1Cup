@@ -20,8 +20,11 @@ public class Method{
     HashMap<String,String> defVariables;
     // Variables usadas
     ArrayList<String> variables;
+    // Indica si es una funcion
+    boolean function;
 
     public Method(String name, Method padre) {
+        this.function = false;
         this.padre = padre;
         this.html = "";
         this.name = name;

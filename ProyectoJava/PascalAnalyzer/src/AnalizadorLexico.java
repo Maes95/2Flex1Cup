@@ -190,13 +190,13 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
     "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24"+
     "\2\25\1\26\1\27\1\1\1\30\1\1\2\0\1\31"+
     "\1\0\1\6\1\32\2\3\1\33\1\34\6\3\1\35"+
-    "\1\3\1\36\4\3\1\37\10\3\1\40\1\41\1\42"+
-    "\1\43\1\44\1\4\1\0\3\3\1\45\1\46\1\3"+
-    "\1\47\1\3\1\50\1\51\1\52\4\3\1\53\5\3"+
-    "\1\31\5\3\1\54\1\3\1\55\1\56\1\57\3\3"+
-    "\1\60\4\3\1\61\1\62\1\63\1\3\1\64\4\3"+
-    "\1\65\3\3\1\66\2\3\1\67\2\3\1\70\1\3"+
-    "\1\71\1\72";
+    "\1\3\1\36\4\3\1\37\10\3\1\40\1\41\1\24"+
+    "\1\42\1\43\1\4\1\0\3\3\1\44\1\45\1\3"+
+    "\1\46\1\3\1\47\1\50\1\51\4\3\1\52\5\3"+
+    "\1\31\5\3\1\53\1\3\1\54\1\55\1\56\3\3"+
+    "\1\57\4\3\1\60\1\61\1\62\1\3\1\63\4\3"+
+    "\1\64\3\3\1\65\2\3\1\66\2\3\1\67\1\3"+
+    "\1\70\1\71";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[154];
@@ -909,237 +909,233 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
           case 1: 
             { /* IGNORAR */
             }
-          case 59: break;
+          case 58: break;
           case 2: 
             { errorLexico("Cadena no valida:  \""+yytext()+
 		                                                              "\" en la linea "+(yyline+1)+", columna "+yycolumn+1);
             }
-          case 60: break;
+          case 59: break;
           case 3: 
             { return symbol(sym.identifier, yytext());
             }
-          case 61: break;
+          case 60: break;
           case 4: 
             { return symbol(sym.decimal_value, yytext());
             }
-          case 62: break;
+          case 61: break;
           case 5: 
             { return symbol(sym.minus, yytext());
             }
-          case 63: break;
+          case 62: break;
           case 6: 
             { return symbol(sym.comparator_op, yytext());
             }
-          case 64: break;
+          case 63: break;
           case 7: 
             { return symbol(sym.equal, yytext());
             }
-          case 65: break;
+          case 64: break;
           case 8: 
             { return symbol(sym.point, yytext());
             }
-          case 66: break;
+          case 65: break;
           case 9: 
             { return symbol(sym.semicolons, yytext());
             }
-          case 67: break;
+          case 66: break;
           case 10: 
             { return symbol(sym.colons, yytext());
             }
-          case 68: break;
+          case 67: break;
           case 11: 
             { return symbol(sym.comma, yytext());
             }
-          case 69: break;
+          case 68: break;
           case 12: 
             { return symbol(sym.open_bracket, yytext());
             }
-          case 70: break;
+          case 69: break;
           case 13: 
             { return symbol(sym.close_bracket, yytext());
             }
-          case 71: break;
+          case 70: break;
           case 14: 
             { return symbol(sym.open_square_bracket, yytext());
             }
-          case 72: break;
+          case 71: break;
           case 15: 
             { return symbol(sym.close_square_bracket, yytext());
             }
-          case 73: break;
+          case 72: break;
           case 16: 
             { return symbol(sym.plus, yytext());
             }
-          case 74: break;
+          case 73: break;
           case 17: 
             { return symbol(sym.product, yytext());
             }
-          case 75: break;
+          case 74: break;
           case 18: 
             { string.setLength(0);
       yybegin(STRING);
             }
-          case 76: break;
+          case 75: break;
           case 19: 
             { yybegin(KEYCOMMENT); inicioComentario = "linea: "+(yyline+1)+", columna: "+yycolumn;
             }
-          case 77: break;
+          case 76: break;
           case 20: 
             { string.append( yytext() );
             }
-          case 78: break;
+          case 77: break;
           case 21: 
             { errorLexico("La cadena de caracteres "+string.toString()+" no se cerro correctamente (Fin de linea encontrado)"); yybegin(YYINITIAL);
             }
-          case 79: break;
+          case 78: break;
           case 22: 
             { yybegin(YYINITIAL); return symbol(sym.string_literal, string.toString());
             }
-          case 80: break;
+          case 79: break;
           case 23: 
             { string.append('\\');
             }
-          case 81: break;
+          case 80: break;
           case 24: 
             { yybegin(YYINITIAL);
             }
-          case 82: break;
+          case 81: break;
           case 25: 
             { return symbol(sym.hexadecimal_value, yytext());
             }
-          case 83: break;
+          case 82: break;
           case 26: 
             { return symbol(sym.two_points, yytext());
             }
-          case 84: break;
+          case 83: break;
           case 27: 
             { return symbol(sym.or_op, yytext());
             }
-          case 85: break;
+          case 84: break;
           case 28: 
             { return symbol(sym.of, yytext());
             }
-          case 86: break;
+          case 85: break;
           case 29: 
             { return symbol(sym.if_t, yytext());
             }
-          case 87: break;
+          case 86: break;
           case 30: 
             { return symbol(sym.do_t, yytext());
             }
-          case 88: break;
+          case 87: break;
           case 31: 
             { return symbol(sym.to, yytext());
             }
-          case 89: break;
+          case 88: break;
           case 32: 
             { return symbol(sym.asig, yytext());
             }
-          case 90: break;
+          case 89: break;
           case 33: 
             { yybegin(BRACKETCOMMENT); inicioComentario = "linea: "+(yyline+1)+", columna: "+yycolumn;
             }
-          case 91: break;
+          case 90: break;
           case 34: 
-            { string.append('\'');
-            }
-          case 92: break;
-          case 35: 
             { string.append('\t');
             }
-          case 93: break;
-          case 36: 
+          case 91: break;
+          case 35: 
             { string.append('\"');
             }
-          case 94: break;
-          case 37: 
+          case 92: break;
+          case 36: 
             { return symbol(sym.and_op, yytext());
             }
-          case 95: break;
-          case 38: 
+          case 93: break;
+          case 37: 
             { return symbol(sym.mod_op, yytext());
             }
-          case 96: break;
-          case 39: 
+          case 94: break;
+          case 38: 
             { return symbol(sym.end, yytext());
             }
-          case 97: break;
-          case 40: 
+          case 95: break;
+          case 39: 
             { return symbol(sym.not_op, yytext());
             }
-          case 98: break;
-          case 41: 
+          case 96: break;
+          case 40: 
             { return symbol(sym.div_op, yytext());
             }
-          case 99: break;
-          case 42: 
+          case 97: break;
+          case 41: 
             { return symbol(sym.var, yytext());
             }
-          case 100: break;
-          case 43: 
+          case 98: break;
+          case 42: 
             { return symbol(sym.for_t, yytext());
             }
-          case 101: break;
-          case 44: 
+          case 99: break;
+          case 43: 
             { return symbol(sym.else_t, yytext());
             }
-          case 102: break;
-          case 45: 
+          case 100: break;
+          case 44: 
             { return symbol(sym.case_t, yytext());
             }
-          case 103: break;
-          case 46: 
+          case 101: break;
+          case 45: 
             { return symbol(sym.then_t, yytext());
             }
-          case 104: break;
-          case 47: 
+          case 102: break;
+          case 46: 
             { return symbol(sym.type, yytext());
             }
-          case 105: break;
-          case 48: 
+          case 103: break;
+          case 47: 
             { return symbol(sym.real_name, yytext());
             }
-          case 106: break;
-          case 49: 
+          case 104: break;
+          case 48: 
             { return symbol(sym.array, yytext());
             }
-          case 107: break;
-          case 50: 
+          case 105: break;
+          case 49: 
             { return symbol(sym.begin, yytext());
             }
-          case 108: break;
-          case 51: 
+          case 106: break;
+          case 50: 
             { return symbol(sym.const_t, yytext());
             }
-          case 109: break;
-          case 52: 
+          case 107: break;
+          case 51: 
             { return symbol(sym.while_t, yytext());
             }
-          case 110: break;
-          case 53: 
+          case 108: break;
+          case 52: 
             { return symbol(sym.record, yytext());
             }
-          case 111: break;
-          case 54: 
+          case 109: break;
+          case 53: 
             { return symbol(sym.program, yytext());
             }
-          case 112: break;
-          case 55: 
+          case 110: break;
+          case 54: 
             { return symbol(sym.int_name, yytext());
             }
-          case 113: break;
-          case 56: 
+          case 111: break;
+          case 55: 
             { return symbol(sym.function, yytext());
             }
-          case 114: break;
-          case 57: 
+          case 112: break;
+          case 56: 
             { return symbol(sym.procedure, yytext());
             }
-          case 115: break;
-          case 58: 
+          case 113: break;
+          case 57: 
             { return symbol(sym.char_name, yytext());
             }
-          case 116: break;
+          case 114: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }
