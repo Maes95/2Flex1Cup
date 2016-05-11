@@ -213,7 +213,7 @@ OPLOG::= and_op    {: RESULT = " and ";:}
 FACTOR::= SIMPVALUE:simpvalue                                                {: RESULT = (Expression) simpvalue; :}
           | not_op FACTOR:factor                                             {: RESULT = new Expression("BOOLEAN","not" + factor.html); :}
           | open_bracket EXP:exp close_bracket                               {: RESULT = new Expression(exp.tipo,"(" + exp.html + ")");:}
-          | identifier:i1 SUBPARAMLIST:subparamlist                          {: RESULT = new Expression("DEFFUN", htmlGenerator.getIdentOfMethod(i1) + (String)subparamlist);:}
+          | identifier:i1 SUBPARAMLIST:subparamlist                          {: RESULT = new Expression("DEFFUN", htmlGenerator.getIdentOfMethod(i1, subparamlist) + (String)subparamlist);:}
           | identifier:i2 open_square_bracket EXP:exp close_square_bracket   {: RESULT = new Expression("ARRAY", htmlGenerator.getIdent(i2) + "[" + exp.html + "]");:}
           | identifier:i3 point identifier:i4                                {: RESULT = new Expression("REGISTRO", htmlGenerator.getIdent(i3) + "." + htmlGenerator.getIdent(i4));:}
           ;
@@ -226,7 +226,7 @@ EXPLIST::= EXP:exp                        {: RESULT = exp.html;:}
           | EXP:exp comma EXPLIST:explist {: RESULT = exp.html + "," + explist;:}
           ;
 
-PROC_CALL::= identifier:i1 SUBPARAMLIST:subparamlist {: RESULT = htmlGenerator.getIdentOfMethod(i1) + (String)subparamlist;:};
+PROC_CALL::= identifier:i1 SUBPARAMLIST:subparamlist {: RESULT = htmlGenerator.getIdentOfMethod(i1, subparamlist) + (String)subparamlist;:};
 EXEBLQ::= DCLLIST_BLQ:dcllist_blq begin {:htmlGenerator.indentLevel++;:} SENTLIST:sentlist end {:htmlGenerator.indentLevel--;
                                           RESULT = dcllist_blq + htmlGenerator.getReservedWordIdent("begin") + sentlist + htmlGenerator.getReservedWordIdent("end");:};
 
