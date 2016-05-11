@@ -392,7 +392,7 @@ public class HTMLGenerator {
         String s = "<div class='ui segment secondary row'>" +
                    "<div class='col-md-9'><a name='inicio'>\n" +
                    "<h1>Programa: " + nameProgram + "</h1></div>\n" +
-                   "<div class='col-md-3'><a class='mini ui secondary button pull-right' onclick='changeActiveStyle(!activeStyle)'>Cambiar tema</a></div>\n" +
+                   "<div class='col-md-3'><a class='git-button pull-right' href='https://github.com/Maes95/2Flex1Cup.git'><img id='img-git' src='http://brandao.io/icon-github.png'></img></a><a class='mini ui secondary button pull-right' onclick='changeActiveStyle(!activeStyle)'>Cambiar tema</a></div>\n" +
                    "</div>" +
                    "<div class='ui segment'>" +
                    "<h2>Funciones y procedimientos</h2>\n" +
@@ -483,7 +483,8 @@ public class HTMLGenerator {
                         tooltipStyle +
                         ".ui.segments .segment, .ui.segment {padding-left: 2em;}"+
                         "a[name] {text-decoration: none !important;}" +
-                        ".selected {background-color: gray;}";
+                        ".selected {background-color: gray;}" +
+                        ".git-button {margin-left: 10px; margin-top: 3px;}";
         return style;
     }
 
@@ -504,7 +505,9 @@ public class HTMLGenerator {
                         ".ui.segment {background-color: hsl(222, 11%, 18%) !important;}"+
                         ".ui.segments .segment, .ui.segment {padding-left: 2em;}"+
                         ".ui.raised.segments {border: 1px solid rgb(54, 57, 65);}" +
-                        "a[name] {text-decoration: none !important;}";
+                        "a[name] {text-decoration: none !important;}" +
+                        ".git-button {margin-left: 10px; margin-top: 3px;}" +
+                        "#img-git {-webkit-filter: brightness(7); filter: brightness(7);}";
         return style;
     }
 
