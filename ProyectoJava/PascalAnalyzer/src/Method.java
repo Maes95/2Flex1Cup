@@ -12,8 +12,6 @@ public class Method{
     
     // Metodo que te declaró en su lista de declaraciones
     Method padre;
-    // Array de errores en el bloque del método
-    ArrayList<String> errores;
     // Tipos definidos en el type del método
     ArrayList<String> defTypes;
     // Mapa de variables declaradas de la funcion
@@ -31,7 +29,6 @@ public class Method{
         this.defTypes = new ArrayList<>();
         this.defVariables = new HashMap<>();
         this.variables = new ArrayList<>();
-        this.errores = new ArrayList<>();
     }
     
     public void setCabecera(String html){

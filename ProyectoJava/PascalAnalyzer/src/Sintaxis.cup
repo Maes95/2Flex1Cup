@@ -94,7 +94,7 @@ BLQ::= DCLLIST:dcllist begin{: htmlGenerator.indentLevel++;:} SENTLIST:sentlist 
                                                       {: htmlGenerator.indentLevel--;
 
                                                       htmlGenerator.getMainProgram(sentlist);
-                                                      RESULT = dcllist + htmlGenerator.getReservedWord(htmlGenerator.getSent("begin")) + htmlGenerator.checkReturnParam(sentlist) + htmlGenerator.getReservedWord(htmlGenerator.getIndentationEnd());:};
+                                                      RESULT = dcllist + htmlGenerator.getReservedWord(htmlGenerator.getIndentBlock("begin")) + htmlGenerator.checkReturnParam(sentlist) + htmlGenerator.getReservedWord(htmlGenerator.getIndentationEnd());:};
 
 DCLLIST::=                          {:
                                        RESULT = "";:}
@@ -126,10 +126,10 @@ DCL::= DEFCTE:defcte   {:
       ;
 
 DEFCTE::= const_t {: htmlGenerator.indentLevel++;:} CTELIST:ctelist {: htmlGenerator.indentLevel--;
-                                                                       RESULT = htmlGenerator.getReservedWord(htmlGenerator.getSent("const")) + ctelist;:};
+                                                                       RESULT = htmlGenerator.getReservedWord(htmlGenerator.getIndentBlock("const")) + ctelist;:};
 
-CTELIST::= identifier:i1 equal SIMPVALUE:simpvalue semicolons {: RESULT = htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i1) + "=" + simpvalue.html + ";");:}
-          | CTELIST:ctelist identifier:i2 equal SIMPVALUE:simpvalue semicolons {: RESULT = (String)ctelist + htmlGenerator.getSent(htmlGenerator.getIdent(i2) + "=" + (String)simpvalue.html + ";");:}
+CTELIST::= identifier:i1 equal SIMPVALUE:simpvalue semicolons {: RESULT = htmlGenerator.getIndentBlock(htmlGenerator.getIdentDeclaration(i1) + "=" + simpvalue.html + ";");:}
+          | CTELIST:ctelist identifier:i2 equal SIMPVALUE:simpvalue semicolons {: RESULT = (String)ctelist + htmlGenerator.getIndentBlock(htmlGenerator.getIdent(i2) + "=" + (String)simpvalue.html + ";");:}
           ;
 
 SIMPVALUE::= decimal_value:dv    {: RESULT = new Expression("INTEGER", htmlGenerator.getConst(dv));:}
@@ -137,12 +137,12 @@ SIMPVALUE::= decimal_value:dv    {: RESULT = new Expression("INTEGER", htmlGener
           | string_literal:sl    {: RESULT = new Expression("STRING", htmlGenerator.getConst("'"+sl+"''"));:}
           ;
 
-DEFVAR::= var {:htmlGenerator.indentLevel++;:} DEFVARLIST:defvarlist semicolons {: htmlGenerator.indentLevel--; RESULT = htmlGenerator.getReservedWord(htmlGenerator.getSent("var")) + defvarlist;:};
+DEFVAR::= var {:htmlGenerator.indentLevel++;:} DEFVARLIST:defvarlist semicolons {: htmlGenerator.indentLevel--; RESULT = htmlGenerator.getReservedWord(htmlGenerator.getIndentBlock("var")) + defvarlist;:};
 
 DEFVARLIST::= VARLIST:varlist colons ALLTYPES:alltypes                                   {: htmlGenerator.pushVar(varlist, alltypes);
-                                                                                            RESULT = htmlGenerator.getSent(varlist + " : " + alltypes + "; ");:}
+                                                                                            RESULT = htmlGenerator.getIndentBlock(varlist + " : " + alltypes + "; ");:}
              | DEFVARLIST:defvarlist semicolons VARLIST:varlist colons ALLTYPES:alltypes {: htmlGenerator.pushVar(varlist, alltypes);
-                                                                                            RESULT = defvarlist + htmlGenerator.getSent(varlist + " : " + alltypes + "; ");:}
+                                                                                            RESULT = defvarlist + htmlGenerator.getIndentBlock(varlist + " : " + alltypes + "; ");:}
              ;
 
 VARLIST::= identifier:i1                         {: RESULT = htmlGenerator.getIdentDeclaration(i1);:}
@@ -171,13 +171,13 @@ TBAS::= int_name    {:
                        RESULT = htmlGenerator.getReservedWord(" CHARACTER");:}
         ;
 
-SENT::= ASIG:asig semicolons              {: RESULT = htmlGenerator.getSent(asig + ";");:}
-        | PROC_CALL:proc_call semicolons  {: RESULT = htmlGenerator.getSent(proc_call + ";");:}
+SENT::= ASIG:asig semicolons              {: RESULT = htmlGenerator.getIndentBlock(asig + ";");:}
+        | PROC_CALL:proc_call semicolons  {: RESULT = htmlGenerator.getIndentBlock(proc_call + ";");:}
         | EXEBLQ:exeblq                   {: RESULT = exeblq;:}
-        | COND:cond                       {: RESULT = htmlGenerator.getSent(cond);:}
-        | WLOOP:wloop                     {: RESULT = htmlGenerator.getSent(wloop);:}
-        | FLOOP:floop                     {: RESULT = htmlGenerator.getSent(floop);:}
-        | CASE:case_t                     {: RESULT = htmlGenerator.getSent(case_t);:}
+        | COND:cond                       {: RESULT = htmlGenerator.getIndentBlock(cond);:}
+        | WLOOP:wloop                     {: RESULT = htmlGenerator.getIndentBlock(wloop);:}
+        | FLOOP:floop                     {: RESULT = htmlGenerator.getIndentBlock(floop);:}
+        | CASE:case_t                     {: RESULT = htmlGenerator.getIndentBlock(case_t);:}
         ;
 
 ASIG::= ID:id asig EXP:exp {: RESULT = htmlGenerator.checkAsig(id,exp.html);:};
@@ -241,12 +241,12 @@ DCL_BLQ::= DEFCTE:defcte     {: RESULT = defcte;:}
 
 /* ------------ SINTAXIS ESTRUCTURAS DE DATOS  ----------- */
 
-DEFTYPE ::= type {:htmlGenerator.indentLevel++;:}TYPELIST:typelist {: htmlGenerator.indentLevel--; RESULT = htmlGenerator.getReservedWord(htmlGenerator.getSent("type ")) + typelist;:};
+DEFTYPE ::= type {:htmlGenerator.indentLevel++;:}TYPELIST:typelist {: htmlGenerator.indentLevel--; RESULT = htmlGenerator.getReservedWord(htmlGenerator.getIndentBlock("type ")) + typelist;:};
 
 TYPELIST ::= identifier:i1 equal UDTYPE:udtype semicolons                       {: htmlGenerator.pushType(i1);
-                                                                                   RESULT =  htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i1) + " = " + udtype + htmlGenerator.getSentClose(";"));:}
+                                                                                   RESULT =  htmlGenerator.getIndentBlock(htmlGenerator.getIdentDeclaration(i1) + " = " + udtype + htmlGenerator.getSentClose(";"));:}
               | identifier:i2 equal UDTYPE:udtype semicolons TYPELIST:typelist  {: htmlGenerator.pushType(i2);
-                                                                                   RESULT =  htmlGenerator.getSent(htmlGenerator.getIdentDeclaration(i2) + " = " + udtype + htmlGenerator.getSentClose(";")) + typelist;:}
+                                                                                   RESULT =  htmlGenerator.getIndentBlock(htmlGenerator.getIdentDeclaration(i2) + " = " + udtype + htmlGenerator.getSentClose(";")) + typelist;:}
               ;
 
 UDTYPE ::= array open_square_bracket SIMPVALUE:simpvalue1 two_points SIMPVALUE:simpvalue2 close_square_bracket of ALLTYPES:alltypes {:
@@ -268,7 +268,7 @@ COND ::= if_t EXP:exp then_t {: htmlGenerator.sentCond = true; :} SENT:sent ELSE
                                                             RESULT = htmlGenerator.getReservedWord("if ") + htmlGenerator.checkBool(exp.tipo, exp.html) + htmlGenerator.getReservedWord(" then ") + sent + elsecond;:};
 
 ELSECOND ::=                    {: RESULT = "";:}
-            | else_t {: htmlGenerator.sentCond = true; :} SENT:sent  {: RESULT = htmlGenerator.getSent(htmlGenerator.getReservedWord("else ")) + sent;:}
+            | else_t {: htmlGenerator.sentCond = true; :} SENT:sent  {: RESULT = htmlGenerator.getIndentBlock(htmlGenerator.getReservedWord("else ")) + sent;:}
             ;
 
                         /* SENTENCIA WHILE */
@@ -285,8 +285,8 @@ FLOOP ::= for_t identifier:i1 asig EXP:exp1 to EXP:exp2 do_t {: htmlGenerator.se
 CASE ::= case_t EXP:exp of {:htmlGenerator.indentLevel++;:} CASELIST:caselist end {:
                                                     htmlGenerator.indentLevel--;
                                                     RESULT = htmlGenerator.getReservedWord("case ") + htmlGenerator.checkInt(exp.tipo, exp.html) + htmlGenerator.getReservedWord(" of ") +
-                                                    caselist + htmlGenerator.getSent(htmlGenerator.getReservedWord("end"));:};
+                                                    caselist + htmlGenerator.getIndentBlock(htmlGenerator.getReservedWord("end"));:};
 
-CASELIST ::= EXP:exp colons SENT:sent                     {: RESULT = htmlGenerator.getSent(htmlGenerator.checkInt(exp.tipo, exp.html) + " : " + htmlGenerator.deleteTags(sent));:}
-             | EXP:exp colons SENT:sent CASELIST:caselist {: RESULT = htmlGenerator.getSent(htmlGenerator.checkInt(exp.tipo, exp.html) + " : " + htmlGenerator.deleteTags(sent)) + caselist;:}
+CASELIST ::= EXP:exp colons SENT:sent                     {: RESULT = htmlGenerator.getIndentBlock(htmlGenerator.checkInt(exp.tipo, exp.html) + " : " + htmlGenerator.deleteTags(sent));:}
+             | EXP:exp colons SENT:sent CASELIST:caselist {: RESULT = htmlGenerator.getIndentBlock(htmlGenerator.checkInt(exp.tipo, exp.html) + " : " + htmlGenerator.deleteTags(sent)) + caselist;:}
              ;

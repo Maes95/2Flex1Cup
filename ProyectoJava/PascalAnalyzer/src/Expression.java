@@ -5,11 +5,10 @@
 public class Expression {
 
     public static HTMLGenerator htmlGenerator;
+    
     private String error = "Expresion con tipos incompatibles: ";
-
     String tipo;
     String html;
-    private boolean comp = false;
 
     public Expression(String op, Expression exp1, Expression exp2){
         this.html = exp1.html + op + exp2.html;
@@ -33,7 +32,6 @@ public class Expression {
             case " or ":
                 return "BOOLEAN";
             default:
-                this.comp = true;
                 return "BOOLEAN";
         }
     }

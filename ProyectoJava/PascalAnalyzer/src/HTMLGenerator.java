@@ -65,9 +65,9 @@ public class HTMLGenerator {
                                     "<meta charset='UTF-8'/>\n" +
                                     "<meta name='viewport' content='width=device-width, initial-scale=1'>"+
                                     "<title>"+this.fileName+"</title>\n" +
-                                    this.getLibraries() +
-                                    this.getInitialStyle() +
-                                    this.getScripts() +
+                                    APIFrontEnd.getLibraries() +
+                                    APIFrontEnd.getInitialStyle() +
+                                    APIFrontEnd.getScripts() +
                                     "</head>\n\n" +
                                     "<body>\n" +
                                     "<div class='row' style='height: 5em;'></div>\n" +
@@ -111,7 +111,6 @@ public class HTMLGenerator {
         this.indentLevel= Math.max(0, indentLevel - 1);
         // El main nunca llegaria aqui, solo se llega tras reconocer un método
         this.currentMethod = this.currentMethod.padre;
-
     }
 
    /**
@@ -124,7 +123,7 @@ public class HTMLGenerator {
      */
 
     public String getFunc(String id, String formal_paramlist, String alltypes, String blq) {
-        String html = "<a name='" + id + "'>" + getSent(this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";") +blq + "\n";
+        String html = "<a name='" + id + "'>" + getIndentBlock(this.getReservedWord("function ") + id + " " + formal_paramlist + ":" + alltypes + ";") +blq + "\n";
         this.currentMethod.setCabecera(html);
         this.currentMethod.html = html;
         backMethod();
@@ -140,7 +139,7 @@ public class HTMLGenerator {
      */
 
     public String getProc(String id, String formal_paramlist, String blq) {
-        String html = "<a name='" + id + "'>" + getSent(this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";")+ blq + "\n";
+        String html = "<a name='" + id + "'>" + getIndentBlock(this.getReservedWord("procedure ") + id + " " + formal_paramlist + ";")+ blq + "\n";
         this.currentMethod.html = html;
         this.currentMethod.setCabecera(html);
         backMethod();
@@ -163,12 +162,12 @@ public class HTMLGenerator {
             Estos métodos devuelve bloque HTML a partir del estado del analisis, almacenado en el objeto
      *********************************************************************************************************/
 
-    public String getIdent (String s){
+    public String getIdent(String s){
         return "<a href='#" + s + this.currentMethod.name + "'>" + s + "</a>";
     }
 
-    public String getIdentOfMethod (String s, String m){
-        if(m==""){
+    public String getIdentOfMethod(String s, String m){
+        if("".equals(m)){
             return getIdent(s);
         }
         return "<a href='#" + s +"'>" + s + "</a>";
@@ -178,19 +177,24 @@ public class HTMLGenerator {
         return "<span class='cte'>" + s + "</span>";
     }
 
-    public String getSent (String s){
+    public String getIndentBlock(String s){
         if(this.sentCond){
           this.sentCond = false;
           return "<div style='text-indent: " + (this.indentLevel + 1) + "cm'>" + s + "</div>\n";
         }
         return "<div style='text-indent: " + this.indentLevel + "cm'>" + s + "</div>\n";
     }
+    
+    /**
+     *  Devuelve un "end;" si no es una declaración de sentencia, "end" en otro caso
+     * @return
+     */
 
     public String getIndentationEnd(){
         if(!sentCond){
-          return getSent("end;");
+          return getIndentBlock("end;");
         }
-        return getSent("end");
+        return getIndentBlock("end");
     }
 
     public String getSentOpen (String s){
@@ -215,8 +219,15 @@ public class HTMLGenerator {
     }
 
     public String getReservedWordIdent (String t){
-        return getSent(getReservedWord(t));
+        return getIndentBlock(getReservedWord(t));
     }
+    
+    /**
+     *  Marca un segmento de codigo el cual es erroneo y le añade un mensaje de error
+     * @param t
+     * @param msg
+     * @return
+     */
 
     public String getError(String t, String msg){
       return "<span class='error tooltipSP noIndet'>" + t + "<span class='tooltiptextSP noIndent'>" + msg + "</span></span>";
@@ -228,10 +239,10 @@ public class HTMLGenerator {
      *********************************************************************************************************/
 
    /**
-    * Elimina etiquetas HTML
+     * Elimina etiquetas HTML
      * @param s
      * @return
-    */
+     */
 
     public static String deleteTags (String s){
         s = s.replaceAll("<[^>]*>", "");
@@ -259,6 +270,12 @@ public class HTMLGenerator {
         return s.split(";")[0];
     }
 
+
+    /*********************************************************************************************************
+                                              METODOS DE COMPROBACIÓN
+     *********************************************************************************************************/
+    
+    
     /**
      * Devuelve true si es el metodo principal
      * @return
@@ -266,12 +283,7 @@ public class HTMLGenerator {
     public boolean isMain(){
         return this.currentMethod.padre == null;
     }
-
-
-    /*********************************************************************************************************
-                                              METODOS DE COMPROBACIÓN
-     *********************************************************************************************************/
-
+    
     /**
      *  Introduce una o varias variables en el método actual con su respectivo tipo
      * @param varlist
@@ -294,14 +306,27 @@ public class HTMLGenerator {
     public void pushType(String type){
         this.currentMethod.defTypes.add(type);
     }
+    
+    /**
+     *  Reconoce y marca como error si una expresion no es de tipo booleano
+     * @param tipo
+     * @param exp
+     * @return 
+     */
 
     public String checkBool(String tipo, String exp){
       if(!"BOOLEAN".equals(tipo)){
-          this.currentMethod.errores.add("Se esperaba una expresion de tipo booleano");
           return this.getError(exp, "Se esperaba una expresion de tipo booleano");
       }
       return exp; 
     }
+    
+    /**
+      *  Reconoce y marca como error si una expresion no es de tipo entero
+      * @param tipo
+      * @param exp
+      * @return 
+      */
     
     public String checkInt(String tipo, String exp){
       if(!"INTEGER".equals(tipo)){
@@ -310,56 +335,83 @@ public class HTMLGenerator {
               if("INTEGER".equals(this.currentMethod.defVariables.get(var))){
                   return exp;  
               }else{
-                  this.currentMethod.errores.add(var+" variable / expresion no valida");
                   return this.getError(var, var+" variable / expresion no valida");
               }
           }
-          this.currentMethod.errores.add("Se esperaba una expresion de tipo entero");
           return this.getError(exp, "Se esperaba una expresion de tipo entero");
       }
       return exp; 
     }
+    
+    /**
+     *  Reconoce y marca como error si una asignacion asigna directamente un registro o una matriz
+     * @param id
+     * @param exp
+     * @return 
+     */
 
     public String checkAsig(String id, String exp){
         String s = id + " := " + exp;
         // Añade la variable utilizada a la lista de variables
         this.currentMethod.variables.add(deleteTags(id));
-
+        // Comprueba si la parte izquierda de la asignación es de un tipo declarado en el ambito del programa o función
         String type = this.currentMethod.defVariables.get(deleteTags(id));
         if( type != null && this.currentMethod.defTypes.contains(type)){
-            this.currentMethod.errores.add("Asignación incorrecta de registro o matriz, deben asignarse elemento a elemento");
             return this.getError(s, "Asignación incorrecta de registro o matriz, deben asignarse elemento a elemento");
         }
         return s;
     }
+    
+    /**
+     *  Comprueba si una variable es de tipo entero
+     * @param n
+     * @return 
+     */
 
     public String checkIntVar(String n){
         String s = "<a href='#" + n + this.currentMethod.name + "'>" + n + "</a>";
         if("INTEGER".equals(this.currentMethod.defVariables.get(n))){
             return s;
         }else if(!this.existVar(n)){
-            this.currentMethod.errores.add(n+" variable no definida");
             return this.getError(s, n+": variable no definida");
         }else{
-            this.currentMethod.errores.add(n+" debe ser una variable entera");
             return this.getError(s, n+" debe ser una variable entera"); // Orden incorrecto
         }
     }
     
+    /**
+     *  Devuelve si una variable existe o no
+     * @param s
+     * @return 
+     */
+    
     public boolean existVar(String s){
         return this.currentMethod.defVariables.get(s) != null;
     }
-
+    
+    /**
+     *  Comprueba si una funcion devuelve un valor (asignado en la parte izquierda)
+     * @param blq
+     * @return 
+     */
+    
     public String checkReturnParam(String blq){
         // COMPROBAR QUE ALMENOS HAY UNA ASIGNACIÓN AL NOMBRE DE LA FUNCION
         if(this.currentMethod.function
                 && !this.currentMethod.variables.contains(this.currentMethod.name)){
-            String error = "<div style='text-indent: " + (this.indentLevel+1)+ "cm'><span class='error'>"+this.currentMethod.name+" := ?</span></div>";
-            blq = blq + error;
-            this.currentMethod.errores.add("La funcion "+this.currentMethod.name+" no tiene valor de retorno");
+            this.indentLevel++;
+            blq = blq + getIndentBlock(getError(this.currentMethod.name+" := ?","Falta valor de retorno para la función"));
+            this.indentLevel--;
         }
         return blq;
     }
+    
+    /**
+     *  Comprueba que dos numeros forman un rango creciente
+     * @param simpvalue1
+     * @param simpvalue2
+     * @return 
+     */
 
     public String checkRange(String simpvalue1, String simpvalue2){
       String s = simpvalue1+ " .. " +simpvalue2;
@@ -368,12 +420,10 @@ public class HTMLGenerator {
             int v1 = Integer.parseInt(deleteTags(simpvalue1));
             int v2 = Integer.parseInt(deleteTags(simpvalue2));
             if(v1 > v2){
-              this.currentMethod.errores.add(" "+v2+" debe ser mayor que "+v1);
               return this.getError(s,msg + " " + v2+" debe ser mayor que "+v1); // Orden incorrecto
             }
             return  s;
       }catch(NumberFormatException e){
-            this.currentMethod.errores.add(" los indices deben ser números enteros");
             return this.getError(s, msg + " los indices deben ser números enteros");   // No numerico
       }
     }
@@ -463,137 +513,4 @@ public class HTMLGenerator {
             }
         }
     }
-
-    /*********************************************************************************************************
-                                           ESTILOS DEL HTML (CSS)
-     *********************************************************************************************************/
-
-    private String getInitialStyle(){ //Por defecto a 'style-light'
-        return "\n<style id='style-light'>" + this.getStyleLight() + "</style>\n";
-    }
-
-    private String getStyleLight(){
-        String style =  "body {height: 100%;}" +
-                        ".ui.segments .segment, .ui.segment {font-size: 15px;}"+
-                        ".cte {color:rgb(19,189,72);}" +
-                        ".ident {color:rgb(55,40,244);}" +
-                        ".palres {color:rgb(0,0,0);font-weight:bold;}" +
-                        errorStyle +
-                        selectionStyle +
-                        tooltipStyle +
-                        ".ui.segments .segment, .ui.segment {padding-left: 2em;}"+
-                        "a[name] {text-decoration: none !important;}" +
-                        ".selected {background-color: gray;}" +
-                        ".git-button {margin-left: 10px; margin-top: 3px;}";
-        return style;
-    }
-
-    private String getStyleDark(){
-        String style =  "body {height: 100%; color: white;}" +
-                        ".ui.segments .segment, .ui.segment {font-size: 15px;}"+
-                        "a {color:hsl(220, 14%, 71%);}" +
-                        "a:hover {color:hsl(220, 14%, 71%);}" +
-                        ".ui.segments > .segment {border-top: 1px solid hsla(220, 14%, 71%, 0.18);}"+
-                        ".cte {color:hsl( 29, 54%, 61%);}" +
-                        ".ident {color: hsl(207, 82%, 66%);}" +
-                        ".palres {color:hsl(286, 60%, 67%);}" +
-                        errorStyle +
-                        selectionStyle +
-                        tooltipStyle +
-                        "body {background-color: hsl(222, 11%, 12%);}"+
-                        ".ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}"+
-                        ".ui.segment {background-color: hsl(222, 11%, 18%) !important;}"+
-                        ".ui.segments .segment, .ui.segment {padding-left: 2em;}"+
-                        ".ui.raised.segments {border: 1px solid rgb(54, 57, 65);}" +
-                        "a[name] {text-decoration: none !important;}" +
-                        ".git-button {margin-left: 10px; margin-top: 3px;}" +
-                        "#img-git {-webkit-filter: brightness(7); filter: brightness(7);}";
-        return style;
-    }
-
-    private final String errorStyle = ".error {color: #db2828 !important;"
-            +"background-color: #ffe8e6;"
-            +"padding: 0.2em;"
-            +"border-radius: .28571429rem;"
-            +"box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;"
-            +"}"
-            +"div.error * {"
-            +"color: #db2828;"
-            +"}"
-            +"span.error * {"
-            +"color: #db2828;"
-            +"}";
-
-    private final String selectionStyle = ".selected {color: #FFFFFF !important;"
-            +"background-color: #828282;"
-            +"padding: 0.2em;"
-            +"border-radius: .28571429rem;"
-            +"box-shadow: 0 0 0 1px #8C8C8C inset,0 0 0 0 transparent;"
-            +"}"
-            +"div.error * {"
-            +"color: #db2828;"
-            +"}"
-            +"span.error * {"
-            +"color: #db2828;"
-            +"}";
-
-    private final String tooltipStyle = " .tooltipSP {" +
-            "    position: relative;" +
-            "    cursor: pointer;"+
-            "}" +
-            ".noIndent{text-indent: 0cm !important;}"+
-            ".tooltipSP .tooltiptextSP {" +
-            "    visibility: hidden;" +
-            "    width: 120px;" +
-            "    background-color: black;" +
-            "    color: #fff;" +
-            "    text-align: center;" +
-            "    border-radius: 6px;" +
-            "    padding: 5px 0;" +
-            "    position: absolute;" +
-            "    z-index: 1;" +
-            "    bottom: 100%;" +
-            "    left: 50%;" +
-            "    margin-left: -60px;" +
-            "    opacity:0;" +
-            "    transition:opacity 0.3s ease-in;" +
-            "    -webkit-transition: opacity 0.3s ease-in;" +
-            "    -moz-transition: opacity 0.3s ease-in;;"+
-            "}" +
-            ".tooltipSP:hover .tooltiptextSP {" +
-            "    visibility: visible;"+
-            "    opacity: 0.9;"+
-            "}";
-
-    /*********************************************************************************************************
-                                            LIBRERIAS
-     *********************************************************************************************************/
-
-    private String getLibraries(){
-        String scripts =    "\n<!-- Bootstrap -->\n" +
-                            "<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7' crossorigin='anonymous'>\n" +
-                            "<!-- Semantic UI -->\n" +
-                            "<link rel='stylesheet' href='https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css'>\n"+
-                            "\n<!-- jQuery -->\n" +
-                            "<script src='https://code.jquery.com/jquery-2.2.3.min.js' integrity='sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=' crossorigin='anonymous'></script>";
-        return scripts;
-    }
-
-    /*********************************************************************************************************
-                                            SCRIPTS
-     *********************************************************************************************************/
-
-    private String getScripts(){
-        String scripts = "\n<script>" +
-                         "var activeStyle=true;" +
-                         "function changeActiveStyle(b){" +
-                         "activeStyle = !activeStyle;" +
-                         "var sL = document.getElementById('style-light');" +
-                         "var sD = document.getElementById('style-dark');" +
-                         "if (b) {sD.parentNode.removeChild(sD); var s = document.createElement('style'); s.id='style-light'; s.type = 'text/css'; s.appendChild(document.createTextNode('" + this.getStyleLight() + "')); document.head.appendChild(s);}" +
-                         "else {sL.parentNode.removeChild(sL); var s = document.createElement('style'); s.id='style-dark'; s.type = 'text/css'; s.appendChild(document.createTextNode('" + this.getStyleDark() + "')); document.head.appendChild(s);}}" +
-                         "</script>\n";
-        return scripts;
-    }
-
 }
