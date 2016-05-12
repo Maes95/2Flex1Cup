@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>EjemploNotable2</title>
+<meta charset='UTF-8'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'><title>EjemploNotable2</title>
 
 <!-- Bootstrap -->
 <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7' crossorigin='anonymous'>
 <!-- Semantic UI -->
 <link rel='stylesheet' href='https://rawgit.com/Semantic-Org/Semantic-UI/next/dist/semantic.css'>
 
-<style id='style-light'>body {height: 100%;}.ui.segments .segment, .ui.segment {font-size: 15px;}.cte {color:rgb(19,189,72);}.ident {color:rgb(55,40,244);}.palres {color:rgb(0,0,0);font-weight:bold;}.error{color: #db2828 !important;background-color: #ffe8e6;padding: 0.2em;border-radius: .28571429rem;box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;}div.error * {color: #db2828;}span.error * {color: #db2828;}.ui.segments .segment, .ui.segment {padding-left: 2em;}a[name] {text-decoration: none !important;}</style>
+<!-- jQuery -->
+<script src='https://code.jquery.com/jquery-2.2.3.min.js' integrity='sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=' crossorigin='anonymous'></script>
+<style id='style-light'>body {height: 100%;}.ui.segments .segment, .ui.segment {font-size: 15px;}.cte {color:rgb(19,189,72);}.ident {color:rgb(55,40,244);}.palres {color:rgb(0,0,0);font-weight:bold;}.error {color: #db2828 !important;background-color: #ffe8e6;padding: 0.2em;border-radius: .28571429rem;box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;}div.error * {color: #db2828;}span.error * {color: #db2828;}.selected {color: #FFFFFF !important;background-color: #828282;padding: 0.2em;border-radius: .28571429rem;box-shadow: 0 0 0 1px #8C8C8C inset,0 0 0 0 transparent;}div.error * {color: #db2828;}span.error * {color: #db2828;} .tooltipSP {    position: relative;    cursor: pointer;}.noIndent{text-indent: 0cm !important;}.tooltipSP .tooltiptextSP {    visibility: hidden;    width: 120px;    background-color: black;    color: #fff;    text-align: center;    border-radius: 6px;    padding: 5px 0;    position: absolute;    z-index: 1;    bottom: 100%;    left: 50%;    margin-left: -60px;    opacity:0;    transition:opacity 0.3s ease-in;    -webkit-transition: opacity 0.3s ease-in;    -moz-transition: opacity 0.3s ease-in;;}.tooltipSP:hover .tooltiptextSP {    visibility: visible;    opacity: 0.9;}.ui.segments .segment, .ui.segment {padding-left: 2em;}a[name] {text-decoration: none !important;}.selected {background-color: gray;}.git-button {margin-left: 10px; margin-top: 3px;}</style>
 
-<script>var activeStyle=true;function changeActiveStyle(b){activeStyle = !activeStyle;var sL = document.getElementById('style-light');var sD = document.getElementById('style-dark');if (b) {sD.parentNode.removeChild(sD); var s = document.createElement('style'); s.id='style-light'; s.type = 'text/css'; s.appendChild(document.createTextNode('body {height: 100%;}.ui.segments .segment, .ui.segment {font-size: 15px;}.cte {color:rgb(19,189,72);}.ident {color:rgb(55,40,244);}.palres {color:rgb(0,0,0);font-weight:bold;}.error{color: #db2828 !important;background-color: #ffe8e6;padding: 0.2em;border-radius: .28571429rem;box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;}div.error * {color: #db2828;}span.error * {color: #db2828;}.ui.segments .segment, .ui.segment {padding-left: 2em;}a[name] {text-decoration: none !important;}')); document.head.appendChild(s);}else {sL.parentNode.removeChild(sL); var s = document.createElement('style'); s.id='style-dark'; s.type = 'text/css'; s.appendChild(document.createTextNode('body {height: 100%; color: white;}.ui.segments .segment, .ui.segment {font-size: 15px;}a {color:hsl(220, 14%, 71%);}a:hover {color:hsl(220, 14%, 71%);}.ui.segments > .segment {border-top: 1px solid hsla(220, 14%, 71%, 0.18);}.cte {color:hsl( 29, 54%, 61%);}.ident {color: hsl(207, 82%, 66%);}.palres {color:hsl(286, 60%, 67%);}.error{color: #db2828 !important;background-color: #ffe8e6;padding: 0.2em;border-radius: .28571429rem;box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;}div.error * {color: #db2828;}span.error * {color: #db2828;}body {background-color: hsl(222, 11%, 12%);}.ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}.ui.segment {background-color: hsl(222, 11%, 18%) !important;}.ui.segments .segment, .ui.segment {padding-left: 2em;}.ui.raised.segments {border: 1px solid rgb(54, 57, 65);}a[name] {text-decoration: none !important;}')); document.head.appendChild(s);}}</script>
+<script>var activeStyle=true;function changeActiveStyle(b){activeStyle = !activeStyle;var sL = document.getElementById('style-light');var sD = document.getElementById('style-dark');if (b) {sD.parentNode.removeChild(sD); var s = document.createElement('style'); s.id='style-light'; s.type = 'text/css'; s.appendChild(document.createTextNode('body {height: 100%;}.ui.segments .segment, .ui.segment {font-size: 15px;}.cte {color:rgb(19,189,72);}.ident {color:rgb(55,40,244);}.palres {color:rgb(0,0,0);font-weight:bold;}.error {color: #db2828 !important;background-color: #ffe8e6;padding: 0.2em;border-radius: .28571429rem;box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;}div.error * {color: #db2828;}span.error * {color: #db2828;}.selected {color: #FFFFFF !important;background-color: #828282;padding: 0.2em;border-radius: .28571429rem;box-shadow: 0 0 0 1px #8C8C8C inset,0 0 0 0 transparent;}div.error * {color: #db2828;}span.error * {color: #db2828;} .tooltipSP {    position: relative;    cursor: pointer;}.noIndent{text-indent: 0cm !important;}.tooltipSP .tooltiptextSP {    visibility: hidden;    width: 120px;    background-color: black;    color: #fff;    text-align: center;    border-radius: 6px;    padding: 5px 0;    position: absolute;    z-index: 1;    bottom: 100%;    left: 50%;    margin-left: -60px;    opacity:0;    transition:opacity 0.3s ease-in;    -webkit-transition: opacity 0.3s ease-in;    -moz-transition: opacity 0.3s ease-in;;}.tooltipSP:hover .tooltiptextSP {    visibility: visible;    opacity: 0.9;}.ui.segments .segment, .ui.segment {padding-left: 2em;}a[name] {text-decoration: none !important;}.selected {background-color: gray;}.git-button {margin-left: 10px; margin-top: 3px;}')); document.head.appendChild(s);}else {sL.parentNode.removeChild(sL); var s = document.createElement('style'); s.id='style-dark'; s.type = 'text/css'; s.appendChild(document.createTextNode('body {height: 100%; color: white;}.ui.segments .segment, .ui.segment {font-size: 15px;}a {color:hsl(220, 14%, 71%);}a:hover {color:hsl(220, 14%, 71%);}.ui.segments > .segment {border-top: 1px solid hsla(220, 14%, 71%, 0.18);}.cte {color:hsl( 29, 54%, 61%);}.ident {color: hsl(207, 82%, 66%);}.palres {color:hsl(286, 60%, 67%);}.error {color: #db2828 !important;background-color: #ffe8e6;padding: 0.2em;border-radius: .28571429rem;box-shadow: 0 0 0 1px #e0b4b4 inset,0 0 0 0 transparent;}div.error * {color: #db2828;}span.error * {color: #db2828;}.selected {color: #FFFFFF !important;background-color: #828282;padding: 0.2em;border-radius: .28571429rem;box-shadow: 0 0 0 1px #8C8C8C inset,0 0 0 0 transparent;}div.error * {color: #db2828;}span.error * {color: #db2828;} .tooltipSP {    position: relative;    cursor: pointer;}.noIndent{text-indent: 0cm !important;}.tooltipSP .tooltiptextSP {    visibility: hidden;    width: 120px;    background-color: black;    color: #fff;    text-align: center;    border-radius: 6px;    padding: 5px 0;    position: absolute;    z-index: 1;    bottom: 100%;    left: 50%;    margin-left: -60px;    opacity:0;    transition:opacity 0.3s ease-in;    -webkit-transition: opacity 0.3s ease-in;    -moz-transition: opacity 0.3s ease-in;;}.tooltipSP:hover .tooltiptextSP {    visibility: visible;    opacity: 0.9;}body {background-color: hsl(222, 11%, 12%);}.ui.center.aligned.segment.secondary {background-color: hsl(222, 11%, 15%);}.ui.segment {background-color: hsl(222, 11%, 18%) !important;}.ui.segments .segment, .ui.segment {padding-left: 2em;}.ui.raised.segments {border: 1px solid rgb(54, 57, 65);}a[name] {text-decoration: none !important;}.git-button {margin-left: 10px; margin-top: 3px;}#img-git {-webkit-filter: brightness(7); filter: brightness(7);}')); document.head.appendChild(s);}}</script>
 </head>
 
 <body>
@@ -20,7 +23,7 @@
 <div class='ui raised segments'>
 <div class='ui segment secondary row'><div class='col-md-9'><a name='inicio'>
 <h1>Programa: EjemploNotable</h1></div>
-<div class='col-md-3'><a class='mini ui secondary button pull-right' onclick='changeActiveStyle(!activeStyle)'>Cambiar tema</a></div>
+<div class='col-md-3'><a class='git-button pull-right' href='https://github.com/Maes95/2Flex1Cup.git'><img id='img-git' src='http://brandao.io/icon-github.png'></img></a><a class='mini ui secondary button pull-right' onclick='changeActiveStyle(!activeStyle)'>Cambiar tema</a></div>
 </div><div class='ui segment'><h2>Funciones y procedimientos</h2>
 <ul>
 <li><a href='#ProgPpal'>Programa principal</a></li>
@@ -64,14 +67,14 @@ lado: REAL): REAL</a></li>
 <div style='text-indent: 1cm'><span class='palres'>else </span></div>
 <div style='text-indent: 2cm'><a href='#valor1Principal'>valor1</a> := <span class='cte'>3</span>;</div>
 </div>
-<div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1Principal'>v1</a> <> <a href='#v2Principal'>v2</a>)<span class='palres'> then </span><div style='text-indent: 2cm'><a href='#intercambioPrincipal'>intercambio</a> (<a href='#valor1Principal'>valor1</a>,<a href='#valor2Principal'>valor2</a>) ;</div>
+<div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1Principal'>v1</a> <> <a href='#v2Principal'>v2</a>)<span class='palres'> then </span><div style='text-indent: 2cm'><a href='#intercambio'>intercambio</a> (<a href='#valor1Principal'>valor1</a>,<a href='#valor2Principal'>valor2</a>) ;</div>
 </div>
 <div style='text-indent: 1cm'><a href='#valor1Principal'>valor1</a> := <span class='cte'>-3</span>;</div>
 <div style='text-indent: 1cm'><a href='#valor2Principal'>valor2</a> := <span class='cte'>$F6</span>;</div>
-<div style='text-indent: 1cm'><span class='palres'>while </span><span class='error'><span class='cte'>1</span> + <span class='cte'>2</span></span><span class='palres'> do </span><div style='text-indent: 2cm'><a href='#medidaPrincipal'>medida</a> := <a href='#areaCuadradoPrincipal'>areaCuadrado</a> (<a href='#medidaPrincipal'>medida</a>) ;</div>
+<div style='text-indent: 1cm'><span class='palres'>while </span><span class='error tooltipSP noIndet'><span class='cte'>1</span> + <span class='cte'>2</span><span class='tooltiptextSP noIndent'>Se esperaba una expresion de tipo booleano</span></span><span class='palres'> do </span><div style='text-indent: 2cm'><a href='#medidaPrincipal'>medida</a> := <a href='#areaCuadrado'>areaCuadrado</a> (<a href='#medidaPrincipal'>medida</a>) ;</div>
 </div>
-<div style='text-indent: 1cm'><a href='#intercambioPrincipal'>intercambio</a> (<a href='#valor1Principal'>valor1</a>,<a href='#valor2Principal'>valor2</a>) ;</div>
-<div style='text-indent: 1cm'><span class='palres'>while </span><a href='#medidaPrincipal'>medida</a> < <a href='#valor1Principal'>valor1</a><span class='palres'> do </span><div style='text-indent: 1cm'><span class='palres'>if </span><span class='error'>(<span class='cte'>1</span> + <span class='cte'>2</span>)</span><span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
+<div style='text-indent: 1cm'><a href='#intercambio'>intercambio</a> (<a href='#valor1Principal'>valor1</a>,<a href='#valor2Principal'>valor2</a>) ;</div>
+<div style='text-indent: 1cm'><span class='palres'>while </span><a href='#medidaPrincipal'>medida</a> < <a href='#valor1Principal'>valor1</a><span class='palres'> do </span><div style='text-indent: 1cm'><span class='palres'>if </span><span class='error tooltipSP noIndet'>(<span class='cte'>1</span> + <span class='cte'>2</span>)<span class='tooltiptextSP noIndent'>Se esperaba una expresion de tipo booleano</span></span><span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
 <div style='text-indent: 2cm'><a href='#auxPrincipal'>aux</a> := <span class='cte'>0</span>;</div>
 <div style='text-indent: 2cm'><a href='#auxPrincipal'>aux</a> := <a href='#v1Principal'>v1</a>;</div>
 <div style='text-indent: 2cm'><a href='#v1Principal'>v1</a> := <a href='#v2Principal'>v2</a>;</div>
@@ -94,7 +97,7 @@ lado: REAL): REAL</a></li>
 <span class='ident'>aux</span> : <span class='palres'> INTEGER</span>; </div>
 <span class='palres'><div style='text-indent: 0cm'>begin</div>
 </span><div style='text-indent: 1cm'><span class='palres'>if </span>(<a href='#v1intercambio'>v1</a> <> <a href='#v2intercambio'>v2</a>)<span class='palres'> then </span><div style='text-indent: 1cm'><span class='palres'>begin</span></div>
-<div style='text-indent: 2cm'><span class='palres'>case </span><span class='error'><a href='#valor3intercambio'>valor3</a></span><span class='palres'> of </span><div style='text-indent: 3cm'><span class='cte'>1</span> : resultado := 1;
+<div style='text-indent: 2cm'><span class='palres'>case </span><span class='error tooltipSP noIndet'><a href='#valor3intercambio'>valor3</a><span class='tooltiptextSP noIndent'>Se esperaba una expresion de tipo entero</span></span><span class='palres'> of </span><div style='text-indent: 3cm'><span class='cte'>1</span> : resultado := 1;
 </div>
 <div style='text-indent: 3cm'><span class='cte'>2</span> : resultado := 2;
 </div>
@@ -146,12 +149,13 @@ lado: REAL): REAL</a></li>
 <div style='text-indent: 3cm'><a href='#valor4unaFuncion2'>valor4</a> := <a href='#valor4unaFuncion2'>valor4</a> + <span class='cte'>2</span>;</div>
 <div style='text-indent: 2cm'><span class='palres'>end</span></div>
 </div>
-<div style='text-indent: 2cm'><span class='palres'>for </span><span class='error'><a href='#bunaFuncion2'>b</a></span>:=<span class='cte'>1</span><span class='palres'> to </span><span class='cte'>10</span><span class='palres'> do </span><div style='text-indent: 2cm'><span class='palres'>begin</span></div>
+<div style='text-indent: 2cm'><span class='palres'>for </span><span class='error tooltipSP noIndet'><a href='#bunaFuncion2'>b</a><span class='tooltiptextSP noIndent'>b debe ser una variable entera</span></span>:=<span class='cte'>1</span><span class='palres'> to </span><span class='cte'>10</span><span class='palres'> do </span><div style='text-indent: 2cm'><span class='palres'>begin</span></div>
 <div style='text-indent: 3cm'><a href='#valor4unaFuncion2'>valor4</a> := <a href='#valor4unaFuncion2'>valor4</a> + <a href='#iunaFuncion2'>i</a>;</div>
 <div style='text-indent: 3cm'><a href='#valor4unaFuncion2'>valor4</a> := <a href='#valor4unaFuncion2'>valor4</a> + <span class='cte'>2</span>;</div>
 <div style='text-indent: 2cm'><span class='palres'>end</span></div>
 </div>
-<div style='text-indent: 2cm'><span class='error'>unaFuncion2 := ?</span></div><span class='palres'><div style='text-indent: 1cm'>end;</div>
+<div style='text-indent: 2cm'><span class='error tooltipSP noIndet'>unaFuncion2 := ?<span class='tooltiptextSP noIndent'>Falta valor de retorno para la función</span></span></div>
+<span class='palres'><div style='text-indent: 1cm'>end;</div>
 </span>
 <span class='palres'><div style='text-indent: 0cm'>var</div>
 </span><div style='text-indent: 1cm'><a name='resultadounaFuncion'>
@@ -159,7 +163,8 @@ lado: REAL): REAL</a></li>
 <span class='palres'><div style='text-indent: 0cm'>begin</div>
 </span><div style='text-indent: 1cm'><a href='#resultadounaFuncion'>resultado</a> := <span class='cte'>+0.0</span>;</div>
 <div style='text-indent: 1cm'><a href='#ladounaFuncion'>lado</a> := <span class='cte'>2</span>;</div>
-<div style='text-indent: 1cm'><span class='error'>unaFuncion := ?</span></div><span class='palres'><div style='text-indent: 0cm'>end;</div>
+<div style='text-indent: 1cm'><span class='error tooltipSP noIndet'>unaFuncion := ?<span class='tooltiptextSP noIndent'>Falta valor de retorno para la función</span></span></div>
+<span class='palres'><div style='text-indent: 0cm'>end;</div>
 </span>
 <br/>
 <div style='text-align: center;'>
@@ -171,7 +176,7 @@ lado: REAL): REAL</a></li>
 <span class='ident'>lado</span>:<span class='palres'> REAL</span>):<span class='palres'> REAL</span>;</div>
 <span class='palres'><div style='text-indent: 0cm'>type </div>
 </span><div style='text-indent: 1cm'><a name='miArrayareaCuadrado'>
-<span class='ident'>miArray</span> = <span class='palres'>array </span>[ <span class='error'><span class='cte'>10</span> .. <span class='cte'>5</span></span> ]<span class='palres'> of </span><span class='palres'> INTEGER</span>;</div>
+<span class='ident'>miArray</span> = <span class='palres'>array </span>[ <span class='error tooltipSP noIndet'><span class='cte'>10</span> .. <span class='cte'>5</span><span class='tooltiptextSP noIndent'>Declaracion inválida de array en el método areaCuadrado 5 debe ser mayor que 10</span></span> ]<span class='palres'> of </span><span class='palres'> INTEGER</span>;</div>
 <span class='palres'><div style='text-indent: 0cm'>var</div>
 </span><div style='text-indent: 1cm'><a name='resultadoareaCuadrado'>
 <span class='ident'>resultado</span> : <span class='palres'> REAL</span>; </div>
@@ -183,7 +188,7 @@ lado: REAL): REAL</a></li>
 </span><div style='text-indent: 1cm'><a href='#resultadoareaCuadrado'>resultado</a> := <span class='cte'>+0.0</span>;</div>
 <div style='text-indent: 1cm'><a href='#unArrayareaCuadrado'>unArray</a>[ <span class='cte'>1</span> ] := <span class='cte'>0</span>;</div>
 <div style='text-indent: 1cm'><a href='#resultadoareaCuadrado'>resultado</a> := <a href='#ladoareaCuadrado'>lado</a> * <a href='#ladoareaCuadrado'>lado</a> + <a href='#miArrayareaCuadrado'>miArray</a>[<span class='cte'>1</span> + <span class='cte'>2</span>];</div>
-<div style='text-indent: 1cm'><span class='error'><a href='#unArrayareaCuadrado'>unArray</a> := <a href='#otroArrayareaCuadrado'>otroArray</a></span>;</div>
+<div style='text-indent: 1cm'><span class='error tooltipSP noIndet'><a href='#unArrayareaCuadrado'>unArray</a> := <a href='#otroArrayareaCuadrado'>otroArray</a><span class='tooltiptextSP noIndent'>Asignación incorrecta de registro o matriz, deben asignarse elemento a elemento</span></span>;</div>
 <div style='text-indent: 1cm'><a href='#areaCuadradoareaCuadrado'>areaCuadrado</a> := <a href='#resultadoareaCuadrado'>resultado</a>;</div>
 <span class='palres'><div style='text-indent: 0cm'>end;</div>
 </span>
@@ -198,5 +203,9 @@ lado: REAL): REAL</a></li>
 </div>
 <div class='row' style='height: 5em;'></div>
 
-</body>
+<script>$('a[href^="#"]').click(function(e){ 
+   $('.selected').removeClass('selected');
+var name = e.target.getAttribute('href').substring(1);
+   $('a[name="' + name + '"]').find('span[class="ident"]').addClass('selected');
+$('html, body').animate({scrollTop: $('[name="' + name + '"]').offset().top}, 250);});</script></body>
 </html>
