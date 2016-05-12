@@ -249,28 +249,6 @@ public class HTMLGenerator {
         return s;
     }
 
-    /**
-     *  Obtiene el nombre de un método
-     * @param s
-     * @return
-     */
-    public String getMethodName (String s){
-        return s.split("\\s+")[1];
-    }
-    /**
-     *  Obtiene la cabecera de un método
-     */
-
-    /**
-     * Obtiene la cabecera de un método
-     * @param s
-     * @return
-     */
-    public String getMethodHeader (String s){
-        return s.split(";")[0];
-    }
-
-
     /*********************************************************************************************************
                                               METODOS DE COMPROBACIÓN
      *********************************************************************************************************/
